@@ -1,0 +1,16 @@
+{
+  "name": "pizza",
+  "version": "1.0.0",
+  "description": "pizza-app",
+  "main": "server.js",
+  "scripts": {
+    "server": "nodemon server.js"
+  },
+  "author": "AB",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "nodemon": "^2.0.7",
+    "yarn": "^1.22.10"
+  }
+}
