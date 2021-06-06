@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom'
 
 import './index.css'
-import logo from './logo.svg'
+import logo from '../../images/header-logo.svg'
 
-const Header = () => {
-  return (
-    <header className='header'>
+const Header = props => {
+  return props.locality ? (
+    <header>
       <div className='container'>
         <div className='header__items'>
           <div className='header__item_info'>
@@ -25,12 +25,28 @@ const Header = () => {
               </div>
               <div className='header_item-phone'>
                 <div className='contacts-phone__text'>Звонок по телефону</div>
-                <div className='contacts-phone__number'>+7-777-777-77-77</div>
+                <a className='contacts-phone__number' href='tel:+77777777777'>
+                  +7-777-777-77-77
+                </a>
               </div>
             </div>
           </div>
           <div className='header__item_profile'>
             <button className='header__user-profile-button'>Войти</button>
+          </div>
+        </div>
+      </div>
+    </header>
+  ) : (
+    <header className='header'>
+      <div className='container'>
+        <div className='header__items'>
+          <div className='header__item_info'>
+            <div className='header__item-logo'>
+              <Link to='/'>
+                <img src={logo} alt='logo-img' />
+              </Link>
+            </div>
           </div>
         </div>
       </div>
