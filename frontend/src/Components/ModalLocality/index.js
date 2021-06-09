@@ -5,17 +5,47 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { fetchCitiesAction } from '../../redux/actions/citiesActions'
 import Loading from '../Loading'
+import { Fragment } from 'react'
 
-const ModalLocality = () => {
+const ModalLocality = props => {
+  const locality = localStorage.getItem('locality')
+  if (locality) props.history.push(locality)
+
   const dispatch = useDispatch()
+
+  const { cities, loading, error } = useSelector(state => state.citiesList)
+  cities &&
+    cities.sort((a, b) => (a.name > b.name ? 1 : a.name < b.name ? -1 : 0))
 
   useEffect(() => {
     dispatch(fetchCitiesAction())
   }, [dispatch])
 
-  const { cities, loading, error } = useSelector(state => state.citiesList)
+  const onScroll = e => {
+    if (e.target.scrollTop > 10) {
+      document.querySelector('#scroll__gradient-top').style.display = 'block'
+    } else
+      document.querySelector('#scroll__gradient-top').style.display = 'none'
 
-  console.log({ cities, loading, error })
+    if (e.target.scrollHeight > e.target.scrollTop + e.target.offsetHeight) {
+      document.querySelector('#scroll__gradient-bottom').style.display = 'block'
+    } else
+      document.querySelector('#scroll__gradient-bottom').style.display = 'none'
+  }
+
+  const citiesGroup = {}
+  const arr = []
+  cities &&
+    cities.forEach((city, i) => {
+      citiesGroup[city.name[0]]
+        ? citiesGroup[city.name[0]].push(city)
+        : (citiesGroup[city.name[0]] = [city])
+
+      let num = Math.floor(i / Math.ceil(cities.length / 3))
+      arr[num] ? arr[num].push(city) : (arr[num] = [city])
+    })
+
+  const onClick = cityName => localStorage.setItem('locality', cityName)
 
   return (
     <div className='show-locality-selector'>
@@ -37,8 +67,7 @@ const ModalLocality = () => {
                     <Link
                       to={`/${city.link}`}
                       className='megacity'
-                      key={city._id}
-                    >
+                      key={city._id}>
                       {city.name}
                     </Link>
                   )
@@ -48,7 +77,38 @@ const ModalLocality = () => {
             )}
           </div>
         </div>
-        <div className='locality-selector__content'></div>
+        <div className='locality-selector__content' onScroll={onScroll}>
+          <div id='scroll__gradient-top' />
+
+          {arr.map((group, i) => (
+            <div className='locality-selector__group' key={i}>
+              {Object.keys(citiesGroup).map(letter => {
+                return (
+                  <div className='locality-selector__table__group' key={letter}>
+                    {group.map(
+                      city =>
+                        citiesGroup[letter].includes(city) && (
+                          <Fragment key={city._id}>
+                            <span className='locality-selector__group-letter'>
+                              {letter}
+                            </span>
+                            <Link
+                              to={`/${city.link}`}
+                              className='locality-selector__link'
+                              onClick={() => onClick(city.link)}>
+                              {city.name}
+                            </Link>
+                          </Fragment>
+                        )
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+          ))}
+
+          <div id='scroll__gradient-bottom' />
+        </div>
       </div>
     </div>
   )

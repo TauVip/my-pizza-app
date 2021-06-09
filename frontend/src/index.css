@@ -29,3 +29,16 @@ body {
   -webkit-font-smoothing: antialiased;
   font-variant-ligatures: no-common-ligatures;
 }
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(184, 182, 182);
+  border-radius: 10px;
+}

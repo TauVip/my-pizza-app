@@ -11,4 +11,4 @@ app.use(express.json())
 app.use('/cities', citiesRouter)
 
 const PORT = process.env.PORT || 5000
-app.listen(PORT, () => console.log(`Server is up and running ${PORT}`))
+app.listen(PORT, () => console.log(`Server is running on port ${PORT}`))
