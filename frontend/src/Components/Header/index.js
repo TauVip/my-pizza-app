@@ -2,9 +2,17 @@ import { Link } from 'react-router-dom'
 
 import './index.css'
 import logo from '../../images/header-logo.svg'
+import { useEffect } from 'react'
+import { useState } from 'react'
 
-const Header = props => {
-  return props.locality ? (
+const Header = () => {
+  const [locality, setLocality] = useState(false)
+
+  useEffect(() => {
+    if (localStorage.getItem('locality')) setLocality(true)
+  }, [])
+
+  return locality ? (
     <header>
       <div className='container'>
         <div className='header__items'>

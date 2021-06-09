@@ -8,18 +8,18 @@ import Loading from '../Loading'
 import { Fragment } from 'react'
 
 const ModalLocality = props => {
-  const locality = localStorage.getItem('locality')
-  if (locality) props.history.push(locality)
-
   const dispatch = useDispatch()
 
-  const { cities, loading, error } = useSelector(state => state.citiesList)
-  cities &&
-    cities.sort((a, b) => (a.name > b.name ? 1 : a.name < b.name ? -1 : 0))
+  const { cities, citiesGroup, columnsGroup, loading, error } = useSelector(
+    state => state.citiesList
+  )
 
   useEffect(() => {
     dispatch(fetchCitiesAction())
-  }, [dispatch])
+
+    const locality = localStorage.getItem('locality')
+    if (locality) props.history.push(locality)
+  }, [dispatch, props.history])
 
   const onScroll = e => {
     if (e.target.scrollTop > 10) {
@@ -33,19 +33,7 @@ const ModalLocality = props => {
       document.querySelector('#scroll__gradient-bottom').style.display = 'none'
   }
 
-  const citiesGroup = {}
-  const arr = []
-  cities &&
-    cities.forEach((city, i) => {
-      citiesGroup[city.name[0]]
-        ? citiesGroup[city.name[0]].push(city)
-        : (citiesGroup[city.name[0]] = [city])
-
-      let num = Math.floor(i / Math.ceil(cities.length / 3))
-      arr[num] ? arr[num].push(city) : (arr[num] = [city])
-    })
-
-  const onClick = cityName => localStorage.setItem('locality', cityName)
+  const onClick = cityLink => localStorage.setItem('locality', cityLink)
 
   return (
     <div className='show-locality-selector'>
@@ -67,7 +55,8 @@ const ModalLocality = props => {
                     <Link
                       to={`/${city.link}`}
                       className='megacity'
-                      key={city._id}>
+                      key={city._id}
+                    >
                       {city.name}
                     </Link>
                   )
@@ -79,34 +68,38 @@ const ModalLocality = props => {
         </div>
         <div className='locality-selector__content' onScroll={onScroll}>
           <div id='scroll__gradient-top' />
-
-          {arr.map((group, i) => (
-            <div className='locality-selector__group' key={i}>
-              {Object.keys(citiesGroup).map(letter => {
-                return (
-                  <div className='locality-selector__table__group' key={letter}>
-                    {group.map(
-                      city =>
-                        citiesGroup[letter].includes(city) && (
-                          <Fragment key={city._id}>
-                            <span className='locality-selector__group-letter'>
-                              {letter}
-                            </span>
-                            <Link
-                              to={`/${city.link}`}
-                              className='locality-selector__link'
-                              onClick={() => onClick(city.link)}>
-                              {city.name}
-                            </Link>
-                          </Fragment>
-                        )
-                    )}
-                  </div>
-                )
-              })}
-            </div>
-          ))}
-
+          {columnsGroup &&
+            columnsGroup.map((group, i) => (
+              <div className='locality-selector__group' key={i}>
+                {citiesGroup &&
+                  Object.keys(citiesGroup).map(letter => {
+                    return (
+                      <div
+                        className='locality-selector__table__group'
+                        key={letter}
+                      >
+                        {group.map(
+                          city =>
+                            citiesGroup[letter].includes(city) && (
+                              <Fragment key={city._id}>
+                                <span className='locality-selector__group-letter'>
+                                  {letter}
+                                </span>
+                                <Link
+                                  to={`/${city.link}`}
+                                  className='locality-selector__link'
+                                  onClick={() => onClick(city.link)}
+                                >
+                                  {city.name}
+                                </Link>
+                              </Fragment>
+                            )
+                        )}
+                      </div>
+                    )
+                  })}
+              </div>
+            ))}
           <div id='scroll__gradient-bottom' />
         </div>
       </div>
