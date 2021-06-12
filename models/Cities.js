@@ -13,6 +13,10 @@ const citiesSchema = new mongoose.Schema(
     link: {
       type: String,
       required: true
+    },
+    phoneNumber: {
+      type: String,
+      required: true
     }
   },
   { timestamps: true }

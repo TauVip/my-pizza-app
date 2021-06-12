@@ -1,9 +1,12 @@
 import { useEffect } from 'react'
+import { useSelector } from 'react-redux'
 
 const Home = props => {
+  const { city } = useSelector(state => state.getCity)
+
   useEffect(() => {
-    if (!localStorage.getItem('locality')) props.history.push('/')
-  }, [props.history])
+    if (!city) props.history.push('/')
+  }, [city, props.history])
 
   return <div>Home</div>
 }

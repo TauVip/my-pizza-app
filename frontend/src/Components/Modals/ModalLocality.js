@@ -2,24 +2,28 @@ import './index.css'
 import logo from '../../images/logo.svg'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { useEffect } from 'react'
-import { fetchCitiesAction } from '../../redux/actions/citiesActions'
+import { useEffect, Fragment } from 'react'
+import {
+  fetchCitiesAction,
+  getCityAction
+} from '../../redux/actions/citiesActions'
 import Loading from '../Loading'
-import { Fragment } from 'react'
+import closeIcon from '../../images/close-icon.svg'
 
 const ModalLocality = props => {
   const dispatch = useDispatch()
 
-  const { cities, citiesGroup, columnsGroup, loading, error } = useSelector(
+  const { megaCities, citiesGroup, columnsGroup, loading, error } = useSelector(
     state => state.citiesList
   )
+
+  const { city } = useSelector(state => state.getCity)
 
   useEffect(() => {
     dispatch(fetchCitiesAction())
 
-    const locality = localStorage.getItem('locality')
-    if (locality) props.history.push(locality)
-  }, [dispatch, props.history])
+    if (city && !props.changeCity) props.history.push(city.link)
+  }, [city, dispatch, props.changeCity, props.history])
 
   const onScroll = e => {
     if (e.target.scrollTop > 10) {
@@ -33,7 +37,16 @@ const ModalLocality = props => {
       document.querySelector('#scroll__gradient-bottom').style.display = 'none'
   }
 
-  const onClick = cityLink => localStorage.setItem('locality', cityLink)
+  const onInput = e => dispatch(fetchCitiesAction(e.target.value))
+
+  const onClick = cityId => {
+    if (props.changeCity) {
+      localStorage.removeItem('city')
+      props.setChangeCity(false)
+    }
+
+    dispatch(getCityAction(cityId))
+  }
 
   return (
     <div className='show-locality-selector'>
@@ -41,26 +54,32 @@ const ModalLocality = props => {
       <div className='locality-selector'>
         <div className='locality-selector__header'>
           <img className='logo-img' src={logo} alt='logo-img' />
+          {props.changeCity && (
+            <div className='locality-selector__title'>
+              705 пиццерий в 13 странах
+            </div>
+          )}
         </div>
         <div className='locality-selector__actions'>
-          <input className='locality-selector__input' placeholder='Поиск...' />
+          <input
+            className='locality-selector__input'
+            placeholder='Поиск...'
+            onInput={onInput}
+          />
           <span className='locality-selector__search-icon' />
           <div className='locality-selector__megacities'>
             {loading ? (
               <Loading />
-            ) : cities ? (
-              cities.map(
-                city =>
-                  city.status === 'megacity' && (
-                    <Link
-                      to={`/${city.link}`}
-                      className='megacity'
-                      key={city._id}
-                    >
-                      {city.name}
-                    </Link>
-                  )
-              )
+            ) : megaCities ? (
+              megaCities.map(city => (
+                <Link
+                  to={`/${city.link}`}
+                  className='megacity'
+                  key={city._id}
+                  onClick={() => onClick(city._id)}>
+                  {city.name}
+                </Link>
+              ))
             ) : (
               <h2>{error}</h2>
             )}
@@ -76,8 +95,7 @@ const ModalLocality = props => {
                     return (
                       <div
                         className='locality-selector__table__group'
-                        key={letter}
-                      >
+                        key={letter}>
                         {group.map(
                           city =>
                             citiesGroup[letter].includes(city) && (
@@ -88,8 +106,7 @@ const ModalLocality = props => {
                                 <Link
                                   to={`/${city.link}`}
                                   className='locality-selector__link'
-                                  onClick={() => onClick(city.link)}
-                                >
+                                  onClick={() => onClick(city._id)}>
                                   {city.name}
                                 </Link>
                               </Fragment>
@@ -101,6 +118,12 @@ const ModalLocality = props => {
               </div>
             ))}
           <div id='scroll__gradient-bottom' />
+          <img
+            src={closeIcon}
+            alt='Close Icon'
+            className='close-icon'
+            onClick={() => props.setChangeCity(false)}
+          />
         </div>
       </div>
     </div>

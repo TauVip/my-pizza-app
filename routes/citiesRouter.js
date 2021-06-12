@@ -28,4 +28,16 @@ citiesRouter.get(
   })
 )
 
+citiesRouter.get(
+  '/:cityId',
+  expressAsyncHandler(async (req, res) => {
+    try {
+      const city = await Cities.findById(req.params.cityId)
+      res.status(200).json(city)
+    } catch (e) {
+      res.status(500).send({ error: e.message })
+    }
+  })
+)
+
 module.exports = citiesRouter
