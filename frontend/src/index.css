@@ -42,3 +42,13 @@ body {
   background: rgb(184, 182, 182);
   border-radius: 10px;
 }
+
+@font-face {
+  font-family: 'Dodo';
+  src: url('./fonts/DodoRegular.eot');
+  src: url('./fonts/DodoRegular.eot?#iefix') format('embedded-opentype'),
+    url('./fonts/DodoRegular.woff') format('woff'),
+    url('./fonts/DodoRegular.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 400;
+}

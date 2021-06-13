@@ -5,6 +5,7 @@
   -webkit-box-pack: center;
   justify-content: center;
   align-items: center;
+  overflow: auto;
 }
 .show-locality-shadow {
   position: fixed;
@@ -54,8 +55,11 @@
   font-weight: 500;
   outline-width: 1px;
   outline: none;
+  transition: border-color 0.2s ease 0s;
 }
-.locality-selector__input:focus {
+.locality-selector__input:focus,
+.phone-input:focus,
+.code-input:focus {
   border-color: red;
 }
 .locality-selector__search-icon {
@@ -175,6 +179,13 @@
   margin: 0px 0px 35px;
   font-size: 36px;
   font-weight: 500;
+  font-family: Dodo, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+}
+
+.modal-login__phone {
+  margin-bottom: 35px;
 }
 .phone-text {
   width: 165px;
@@ -194,10 +205,68 @@
   font-weight: 500;
   outline: none;
   box-shadow: none;
+  transition: border-color 0.2s ease 0s;
 }
-.phone-input:focus {
-  border-color: red;
+
+.input-error_anchor {
+  position: absolute;
+  text-align: center;
+  width: 270px;
+  z-index: 5;
+  left: 213px;
+  cursor: default;
+  animation: show 0.2s 1;
 }
+@keyframes show {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+.tooltip__pointer_default {
+  fill: rgb(225, 43, 63);
+  left: 30px;
+  position: absolute;
+  margin-left: -11px;
+  width: 22px;
+  line-height: 0;
+}
+.input-error_content {
+  background-color: rgb(225, 43, 63);
+  margin-top: 9px;
+  padding: 14px;
+  border-radius: 10px;
+  color: rgb(255, 255, 255);
+  font-size: 14px;
+  line-height: 1.25;
+  font-weight: 500;
+}
+.tooltip__close-control {
+  padding: 0px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  top: calc(50% - 6px);
+  right: 12px;
+  width: 22px;
+  fill: rgb(255, 255, 255);
+  transition: transform 0.15s ease 0s;
+}
+.tooltip__close-control:hover {
+  transform: scale(1.1);
+}
+.error-tooltip-icon {
+  position: absolute;
+  left: 16px;
+  top: calc(50% - 6px);
+  margin-right: 10px;
+}
+
 .modal-login__button {
   padding: 12px 24px;
   font-size: 16px;
@@ -217,8 +286,74 @@
 }
 .modal-login__button:hover {
   background-color: rgb(232, 97, 0);
+  transition: background-color 0.2s ease-out;
 }
 .modal-login__button:active {
   background-color: rgb(255, 105, 0);
   color: rgb(255, 185, 135);
+  transition: background-color, color 0.2s ease-out;
+}
+
+.phone-input-wrapper {
+  display: inline;
+}
+.phone-input-send {
+  width: 245px;
+  color: rgb(170, 170, 170);
+  border: 1px solid rgb(243, 243, 247);
+  background-color: rgb(243, 243, 247);
+  cursor: not-allowed;
+  height: 40px;
+  border-radius: 8px;
+  padding: 0px 15px;
+  font-size: 16px;
+  line-height: 40px;
+  font-family: Dodo, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  font-weight: 500;
+}
+.phone-input-change {
+  position: relative;
+  right: 77px;
+  bottom: 1px;
+  font-size: 14px;
+  border-bottom: 1px dashed rgb(255, 105, 0);
+  text-decoration: none;
+  color: rgb(255, 105, 0);
+  cursor: pointer;
+}
+
+.code-input {
+  width: 100px;
+  margin-right: 15px;
+  height: 40px;
+  border-radius: 8px;
+  border: 1px solid rgba(92, 99, 112, 0.32);
+  padding: 0px 15px;
+  font-size: 16px;
+  line-height: 40px;
+  font-family: Dodo, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  font-weight: 500;
+  outline: none;
+  transition: border-color 0.2s ease 0s;
+}
+.code-text {
+  font-size: 14px;
+  border-bottom: 1px dashed rgb(255, 105, 0);
+  text-decoration: none;
+  color: rgb(255, 105, 0);
+  cursor: pointer;
+}
+
+.code-error-tooltip {
+  position: absolute;
+  text-align: center;
+  width: 185px;
+  z-index: 5;
+  left: 165px;
+  cursor: default;
+  animation: show 0.2s 1;
 }

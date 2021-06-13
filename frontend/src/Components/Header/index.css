@@ -21,6 +21,9 @@
 .header__about {
   display: inline-block;
   padding-left: 65px;
+  font-family: Dodo, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 }
 .header__about-slogan {
   font-size: 18px;
@@ -43,6 +46,9 @@
   display: inline-block;
   vertical-align: top;
   padding-left: 65px;
+  font-family: Dodo, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 }
 .contacts-phone__text {
   color: rgb(153, 153, 153);
