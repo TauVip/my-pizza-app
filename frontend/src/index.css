@@ -52,3 +52,19 @@ body {
   font-style: normal;
   font-weight: 400;
 }
+
+.container {
+  width: 1280px;
+  margin: 0px auto;
+}
+
+@keyframes show {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}

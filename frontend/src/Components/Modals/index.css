@@ -4,14 +4,22 @@
   display: flex;
   -webkit-box-pack: center;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   overflow: auto;
+  z-index: 1;
+  animation: show 0.2s 1;
 }
 .show-locality-shadow {
   position: fixed;
   inset: 0px;
   background: black;
   opacity: 0.55;
+}
+.locality-selector-wrapper {
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  min-height: 100%;
 }
 .locality-selector {
   position: relative;
@@ -217,16 +225,6 @@
   cursor: default;
   animation: show 0.2s 1;
 }
-@keyframes show {
-  0% {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0px);
-  }
-}
 .tooltip__pointer_default {
   fill: rgb(225, 43, 63);
   left: 30px;
@@ -244,6 +242,9 @@
   font-size: 14px;
   line-height: 1.25;
   font-weight: 500;
+  font-family: Dodo, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 }
 .tooltip__close-control {
   padding: 0px;
@@ -339,6 +340,10 @@
   font-weight: 500;
   outline: none;
   transition: border-color 0.2s ease 0s;
+}
+.code-text__timing {
+  font-size: 14px;
+  color: rgb(92, 99, 112);
 }
 .code-text {
   font-size: 14px;

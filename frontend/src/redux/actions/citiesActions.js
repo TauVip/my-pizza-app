@@ -40,13 +40,27 @@ export const getCityAction = cityId => async dispatch => {
     dispatch({ type: GET_CITY_REQUEST })
 
     const { data } = await axios.get(`/cities/${cityId}`)
-
     dispatch({
       type: GET_CITY_SUCCESS,
       payload: data
     })
-
     localStorage.setItem('city', JSON.stringify(data))
+  } catch (e) {
+    dispatch({
+      type: GET_CITY_FAIL,
+      payload: e.message
+    })
+  }
+}
+
+export const isCityGet = () => dispatch => {
+  try {
+    const city = JSON.parse(localStorage.getItem('city'))
+
+    dispatch({
+      type: GET_CITY_SUCCESS,
+      payload: city
+    })
   } catch (e) {
     dispatch({
       type: GET_CITY_FAIL,
