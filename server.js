@@ -18,5 +18,3 @@ app.use('/users', usersRouter)
 
 const PORT = process.env.PORT || 5000
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`))
-
-//Страница не найдена

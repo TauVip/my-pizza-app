@@ -45,10 +45,7 @@ body {
 
 @font-face {
   font-family: 'Dodo';
-  src: url('./fonts/DodoRegular.eot');
-  src: url('./fonts/DodoRegular.eot?#iefix') format('embedded-opentype'),
-    url('./fonts/DodoRegular.woff') format('woff'),
-    url('./fonts/DodoRegular.ttf') format('truetype');
+  src: url('./fonts/DodoRegular.woff2');
   font-style: normal;
   font-weight: 400;
 }
@@ -56,6 +53,7 @@ body {
 .container {
   width: 1280px;
   margin: 0px auto;
+  position: relative;
 }
 
 @keyframes show {

@@ -82,6 +82,11 @@
   border: none;
   cursor: pointer;
 }
+.header__user-profile-button:hover {
+  background-color: rgb(243, 243, 243);
+  color: rgb(67, 72, 82);
+  transition: background-color, color 0.2s ease-out;
+}
 
 .timing-description__wrapper {
   position: absolute;

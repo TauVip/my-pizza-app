@@ -1,5 +1,5 @@
 import './index.css'
-import logo from '../../images/logo.svg'
+import logo from '../../images/logo-locality.svg'
 import { Link, useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, Fragment } from 'react'
@@ -9,6 +9,7 @@ import {
 } from '../../redux/actions/citiesActions'
 import Loading from '../Loading'
 import closeIcon from '../../images/close-icon.svg'
+import Header from '../Header'
 
 const ModalLocality = props => {
   const history = useHistory()
@@ -17,7 +18,6 @@ const ModalLocality = props => {
   const { megaCities, citiesGroup, columnsGroup, loading, error } = useSelector(
     state => state.citiesList
   )
-
   const { city } = useSelector(state => state.getCity)
 
   useEffect(() => {
@@ -41,94 +41,103 @@ const ModalLocality = props => {
   const onInput = e => dispatch(fetchCitiesAction(e.target.value))
 
   const onClick = cityId => {
-    localStorage.removeItem('city')
+    if (props.changeCity) {
+      localStorage.removeItem('city')
+      props.setChangeCity(false)
+    }
+
     dispatch(getCityAction(cityId))
-    props.setChangeCity(false)
   }
 
   return (
-    <div className='show-locality-selector'>
-      <div className='show-locality-shadow' />
-      <div className='locality-selector-wrapper'>
-        <div className='locality-selector'>
-          <div className='locality-selector__header'>
-            <img className='logo-img' src={logo} alt='logo-img' />
-            {props.changeCity && (
-              <div className='locality-selector__title'>
-                705 пиццерий в 13 странах
+    <>
+      {!props.changeCity && <Header />}
+      <div className='show-locality-selector'>
+        <div className='show-locality-shadow' />
+        <div className='locality-selector-wrapper'>
+          <div className='locality-selector'>
+            <div className='locality-selector__header'>
+              <img className='logo-img' src={logo} alt='logo-img' />
+              {props.changeCity && (
+                <div className='locality-selector__title'>
+                  705 пиццерий в 13 странах
+                </div>
+              )}
+            </div>
+            <div className='locality-selector__actions'>
+              <input
+                className='locality-selector__input'
+                placeholder='Поиск...'
+                onInput={onInput}
+              />
+              <span className='locality-selector__search-icon' />
+              <div className='locality-selector__megacities'>
+                {loading ? (
+                  <Loading />
+                ) : megaCities ? (
+                  megaCities.map(city => (
+                    <Link
+                      to={`/${city.link}`}
+                      className='megacity'
+                      key={city._id}
+                      onClick={() => onClick(city._id)}
+                    >
+                      {city.name}
+                    </Link>
+                  ))
+                ) : (
+                  <h2>{error}</h2>
+                )}
               </div>
-            )}
-          </div>
-          <div className='locality-selector__actions'>
-            <input
-              className='locality-selector__input'
-              placeholder='Поиск...'
-              onInput={onInput}
-            />
-            <span className='locality-selector__search-icon' />
-            <div className='locality-selector__megacities'>
-              {loading ? (
-                <Loading />
-              ) : megaCities ? (
-                megaCities.map(city => (
-                  <Link
-                    to={`/${city.link}`}
-                    className='megacity'
-                    key={city._id}
-                    onClick={() => onClick(city._id)}>
-                    {city.name}
-                  </Link>
-                ))
-              ) : (
-                <h2>{error}</h2>
+            </div>
+            <div className='locality-selector__content' onScroll={onScroll}>
+              <div id='scroll__gradient-top' />
+              {columnsGroup &&
+                columnsGroup.map((group, i) => (
+                  <div className='locality-selector__group' key={i}>
+                    {citiesGroup &&
+                      Object.keys(citiesGroup).map(letter => {
+                        return (
+                          <div
+                            className='locality-selector__table__group'
+                            key={letter}
+                          >
+                            {group.map(
+                              city =>
+                                citiesGroup[letter].includes(city) && (
+                                  <Fragment key={city._id}>
+                                    <span className='locality-selector__group-letter'>
+                                      {letter}
+                                    </span>
+                                    <Link
+                                      to={`/${city.link}`}
+                                      className='locality-selector__link'
+                                      onClick={() => onClick(city._id)}
+                                    >
+                                      {city.name}
+                                    </Link>
+                                  </Fragment>
+                                )
+                            )}
+                          </div>
+                        )
+                      })}
+                  </div>
+                ))}
+              <div id='scroll__gradient-bottom' />
+              {props.changeCity && (
+                <img
+                  src={closeIcon}
+                  alt='Close Icon'
+                  className='close-icon'
+                  onClick={() => props.setChangeCity(false)}
+                />
               )}
             </div>
           </div>
-          <div className='locality-selector__content' onScroll={onScroll}>
-            <div id='scroll__gradient-top' />
-            {columnsGroup &&
-              columnsGroup.map((group, i) => (
-                <div className='locality-selector__group' key={i}>
-                  {citiesGroup &&
-                    Object.keys(citiesGroup).map(letter => {
-                      return (
-                        <div
-                          className='locality-selector__table__group'
-                          key={letter}>
-                          {group.map(
-                            city =>
-                              citiesGroup[letter].includes(city) && (
-                                <Fragment key={city._id}>
-                                  <span className='locality-selector__group-letter'>
-                                    {letter}
-                                  </span>
-                                  <Link
-                                    to={`/${city.link}`}
-                                    className='locality-selector__link'
-                                    onClick={() => onClick(city._id)}>
-                                    {city.name}
-                                  </Link>
-                                </Fragment>
-                              )
-                          )}
-                        </div>
-                      )
-                    })}
-                </div>
-              ))}
-            <div id='scroll__gradient-bottom' />
-            {props.changeCity && (
-              <img
-                src={closeIcon}
-                alt='Close Icon'
-                className='close-icon'
-                onClick={() => props.setChangeCity(false)}
-              />
-            )}
-          </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
 export default ModalLocality

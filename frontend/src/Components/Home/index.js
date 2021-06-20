@@ -1,5 +1,7 @@
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
+import Header from '../Header'
+import Navigation from '../Navigation'
 
 const Home = props => {
   const { city } = useSelector(state => state.getCity)
@@ -8,6 +10,12 @@ const Home = props => {
     if (!city) props.history.push('/')
   }, [city, props.history])
 
-  return <div>Home</div>
+  return (
+    <>
+      <Header />
+      <Navigation />
+      <div>Home</div>
+    </>
+  )
 }
 export default Home

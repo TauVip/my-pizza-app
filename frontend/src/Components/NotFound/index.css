@@ -1,0 +1,43 @@
+.header {
+  padding-top: 25vh;
+  text-align: center;
+}
+.logo-404-img {
+  width: 250px;
+  text-align: center;
+}
+.header__message {
+  font-size: 22px;
+  line-height: 1.4em;
+  text-align: center;
+  margin: 18px 0 32px 0;
+}
+.header__button:hover {
+  border-color: #d96334;
+  color: #d96334;
+}
+.header__button {
+  display: block;
+  margin: 0 auto;
+  max-width: 300px;
+  padding: 17px 45px;
+  line-height: 1.2;
+  color: #ff6900;
+  border-radius: 5px;
+  border: 1px solid #ff6900;
+  text-decoration: none;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.1s ease;
+}
+.footer {
+  color: #afafaf;
+  font-size: 18px;
+  text-align: center;
+  padding: 50px 0px;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  line-height: 1.3em;
+}

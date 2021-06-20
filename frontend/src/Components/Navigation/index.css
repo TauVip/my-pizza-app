@@ -1,0 +1,114 @@
+.products {
+  white-space: nowrap;
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+  display: inline-block;
+  vertical-align: middle;
+}
+.product {
+  display: inline-block;
+  vertical-align: middle;
+}
+.product:not(:first-child) {
+  margin-left: 20px;
+}
+.product-link {
+  display: inline-block;
+  font-family: Dodo, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  padding: 22px 0px;
+  color: black;
+  font-size: 14px;
+  line-height: 1;
+  transition: color 0.25s ease 0s, padding 0.25s ease 0s;
+  text-decoration: none;
+  cursor: pointer;
+  outline: none;
+}
+.camera-link {
+  display: inline-block;
+  font-family: Dodo, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  padding: 22px 0px;
+  font-size: 14px;
+  line-height: 1;
+  margin-left: 14px;
+  position: relative;
+  cursor: pointer;
+}
+.camera-link::before {
+  content: ' ';
+  background: red;
+  width: 9px;
+  height: 9px;
+  position: absolute;
+  left: -14px;
+  bottom: 25px;
+  border-radius: 50%;
+  animation: 2s infinite pulse;
+}
+@keyframes pulse {
+  0% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.2;
+  }
+}
+.nav__cart {
+  position: absolute;
+  top: 9px;
+  right: 0;
+  height: 100%;
+}
+.nav__cart-btn {
+  padding: 8px 20px;
+  font-size: 16px;
+  line-height: 24px;
+  background-color: rgb(255, 105, 0);
+  color: rgb(255, 255, 255);
+  border: none;
+  border-radius: 9999px;
+  font-family: Dodo, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  position: relative;
+  cursor: pointer;
+}
+.nav__cart-btn:hover {
+  background-color: rgb(232, 97, 0);
+  transition: background-color 0.2s ease-out;
+}
+.nav__cart-btn:active {
+  background-color: rgb(255, 105, 0);
+  color: rgb(255, 185, 135);
+  transition: background-color, color 0.2s ease-out;
+}
+.floating-cart-container {
+  position: absolute;
+  right: 0px;
+  top: 48px;
+  padding: 32px 0px;
+  box-shadow: rgb(0 0 0 / 12%) 0px 3px 25px;
+  border-radius: 8px;
+  transition: opacity 0.5s ease 0s;
+  width: 352px;
+  font-family: Dodo, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  font-weight: 500;
+}
+.pointer-icon__cart {
+  position: absolute;
+  top: -10px;
+  right: 38.9375px;
+  width: 22px;
+  height: 11px;
+  fill: white;
+}
