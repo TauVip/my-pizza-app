@@ -1,0 +1,79 @@
+.bonus-actions__content {
+  width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-wrap: wrap;
+  flex: 1 0 auto;
+}
+.title {
+  font-family: Dodo, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  font-weight: 500;
+  font-size: 36px;
+  line-height: 37px;
+  margin: 32px 0px;
+  width: 100%;
+}
+.article {
+  width: calc((100% - 64px) / 3);
+  box-shadow: rgb(0 0 0 / 20%) 0px 0px 12px -4px;
+  box-sizing: border-box;
+  border-radius: 12px;
+  margin-right: 32px;
+  margin-bottom: 32px;
+  display: flex;
+  flex-flow: column;
+  align-items: flex-start;
+  padding: 16px;
+}
+.article:nth-child(3n + 1) {
+  margin-right: 0;
+}
+.image {
+  width: calc(100% + 32px);
+  margin: -16px -16px 0px;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+.article-title {
+  margin: 12px 0px 8px;
+  font-family: Dodo, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 22px;
+}
+.description {
+  font-size: 15px;
+  line-height: 20px;
+  color: rgb(92, 99, 112);
+  margin: 0px;
+  flex: 1 0 auto;
+}
+.action-button {
+  margin-top: 16px;
+  padding: 12px 48px;
+  font-size: 16px;
+  line-height: 24px;
+  background-color: rgb(255, 240, 230);
+  color: rgb(209, 87, 0);
+  border: none;
+  border-radius: 9999px;
+  font-family: Dodo, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  cursor: pointer;
+  transition-property: background-color, color;
+  transition-duration: 200ms;
+  transition-timing-function: ease-out;
+}
+.action-button:hover {
+  background-color: rgb(255, 210, 177);
+}
+.action-button:active {
+  background-color: rgb(255, 240, 230);
+  color: rgb(255, 210, 180);
+}

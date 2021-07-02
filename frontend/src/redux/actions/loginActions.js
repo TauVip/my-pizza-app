@@ -3,10 +3,14 @@ import {
   LOGIN_FAIL,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
+  PAGE_NOT_FOUND,
   SMS_LOGIN_FAIL,
   SMS_LOGIN_REQUEST,
   SMS_LOGIN_SUCCESS
 } from './actionTypes'
+
+export const pageNotFoundAction = val => dispatch =>
+  dispatch({ type: PAGE_NOT_FOUND, payload: val })
 
 export const smsLoginAction = userPhone => async dispatch => {
   try {

@@ -12,15 +12,13 @@ smsLoginRouter.post(
       const code = Array.from({ length: 4 }, () =>
         Math.floor(Math.random() * 10)
       ).join('')
-      /*
-      sms.sms_send(
+      /*sms.sms_send(
         {
           to: req.body.userPhone.replace(/\D/g, ''),
           text: `${code} - код для входа на сайт dodopizza.kz. Никому не говорите код`
         },
         e => console.log(e.description)
-      )
-*/
+      )*/
       res.status(200).send({ code, userPhone: req.body.userPhone })
     } catch (e) {
       res.status(500).send({ error: e.message })

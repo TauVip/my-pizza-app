@@ -15,17 +15,13 @@ export const fetchCitiesAction =
       dispatch({ type: FETCH_CITIES_REQUEST })
 
       const { data } = await axios.get('/cities')
-      const cities = data.sort((a, b) =>
-        a.name > b.name ? 1 : a.name < b.name ? -1 : 0
-      )
-      const megaCities = cities.filter(city => city.status === 'megacity')
-      const filteredCities = cities.filter(city =>
+      const filteredCities = data.filter(city =>
         city.name.toLowerCase().includes(value)
       )
 
       dispatch({
         type: FETCH_CITIES_SUCCESS,
-        payload: { megaCities, filteredCities }
+        payload: filteredCities
       })
     } catch (e) {
       dispatch({
@@ -54,17 +50,16 @@ export const getCityAction = cityId => async dispatch => {
 }
 
 export const isCityGet = () => dispatch => {
-  try {
-    const city = JSON.parse(localStorage.getItem('city'))
+  const city = JSON.parse(localStorage.getItem('city'))
 
+  if (city)
     dispatch({
       type: GET_CITY_SUCCESS,
       payload: city
     })
-  } catch (e) {
+  else
     dispatch({
       type: GET_CITY_FAIL,
-      payload: e.message
+      payload: 'City is not get'
     })
-  }
 }

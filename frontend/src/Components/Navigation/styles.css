@@ -1,3 +1,30 @@
+.nav {
+  position: sticky;
+  top: 0;
+  background-color: #fff;
+  z-index: 1;
+}
+.nav[stick='true'] {
+  box-shadow: rgb(0 0 0 / 12%) 0px 3px 25px;
+}
+.sticky-logo {
+  vertical-align: middle;
+  font-size: 0px;
+  line-height: 0;
+  position: relative;
+  width: 52px;
+  padding-right: 16px;
+  height: 36px;
+  overflow: hidden;
+  display: inline-block;
+}
+.sticky-logo svg {
+  transform: translateX(-52px);
+  transition: transform 0.25s ease 0s;
+}
+.sticky-logo svg[stick='true'] {
+  transform: translateX(0px);
+}
 .products {
   white-space: nowrap;
   list-style: none;
@@ -5,6 +32,11 @@
   padding: 0px;
   display: inline-block;
   vertical-align: middle;
+  transform: translateX(-52px);
+  transition: transform 0.25s ease 0s;
+}
+.products[stick='true'] {
+  transform: translateX(0px);
 }
 .product {
   display: inline-block;
@@ -26,6 +58,11 @@
   text-decoration: none;
   cursor: pointer;
   outline: none;
+}
+.product-link:hover,
+.camera-link:hover {
+  color: rgb(255, 105, 0);
+  transition: color 0.2s;
 }
 .camera-link {
   display: inline-block;
@@ -99,10 +136,12 @@
   border-radius: 8px;
   transition: opacity 0.5s ease 0s;
   width: 352px;
+  background-color: #fff;
   font-family: Dodo, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
     Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif,
     'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
   font-weight: 500;
+  animation: show 0.2s;
 }
 .pointer-icon__cart {
   position: absolute;
@@ -111,4 +150,10 @@
   width: 22px;
   height: 11px;
   fill: white;
+}
+.floating-cart-content {
+  text-align: center;
+  padding: 32px;
+  white-space: pre-wrap;
+  font-size: 15px;
 }

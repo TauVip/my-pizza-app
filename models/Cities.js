@@ -8,10 +8,12 @@ const citiesSchema = new mongoose.Schema(
     },
     name: {
       type: String,
+      unique: true,
       required: [true, 'City name required']
     },
     link: {
       type: String,
+      unique: true,
       required: true
     },
     phoneNumber: {

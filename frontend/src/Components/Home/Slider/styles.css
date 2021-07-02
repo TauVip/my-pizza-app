@@ -1,0 +1,119 @@
+.products__slider-section {
+  padding: 0px calc((100% - 1280px) / 2);
+  overflow: hidden;
+}
+.products__slider-container {
+  width: 166%;
+  margin-left: -33%;
+  padding: 9px 33% 20px;
+  position: relative;
+}
+.products__slider {
+  transition-duration: 0ms;
+  transform: translate3d(-2608px, 0px, 0px);
+  display: flex;
+  align-items: flex-start;
+  transition: transform 300ms ease-out 0s;
+}
+.products__slider-img {
+  opacity: 0.4;
+  box-shadow: rgba(115, 121, 140, 0.5) 0px 2px 10px -2px;
+  height: 373.33px;
+  width: 1280px;
+  margin-right: 24px;
+  flex: 0 0 auto;
+  border-radius: 20px;
+  transition: opacity 450ms ease-out 0s, box-shadow, transform;
+}
+.products__slider .current {
+  opacity: 1;
+  box-shadow: rgb(115 121 140 / 50%) 0px 5px 15px -5px;
+}
+.counter {
+  position: absolute;
+  bottom: 32px;
+  width: calc(60.241%);
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  transition: opacity 150ms ease-out 0s;
+  opacity: 0;
+}
+.counter[show='true'],
+.prev-next-show[show='true'] {
+  opacity: 1;
+}
+.counter-inner {
+  width: 12px;
+  height: 12px;
+  background-color: rgb(84, 76, 72);
+  border-radius: 6px;
+  margin: 0px 5px;
+  cursor: pointer;
+  transition: background-color 300ms ease-out 0s;
+}
+.counter .current {
+  background-color: rgb(197, 202, 206);
+}
+.prev-next-show {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  width: 20.5%;
+  padding: 9px 53.3333px 20px;
+  cursor: pointer;
+  transition: opacity 300ms ease-out 0s;
+  opacity: 0;
+}
+.prev-next-show::before {
+  content: ' ';
+  position: absolute;
+  top: 9px;
+  bottom: 20px;
+  width: 100%;
+  opacity: 0;
+  transition: opacity 150ms ease-out 0s;
+  pointer-events: none;
+}
+.prev-show {
+  left: 0px;
+  justify-content: flex-end;
+  background-image: linear-gradient(
+    270deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgb(255, 255, 255) 100%
+  );
+}
+.prev-show::before {
+  left: 0px;
+  background-image: linear-gradient(
+    90deg,
+    rgb(255, 255, 255) 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
+}
+.prev-show svg {
+  transform: rotate(180deg);
+  transition: opacity 150ms ease-out 0s;
+}
+.next-show {
+  right: 0px;
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgb(255, 255, 255) 100%
+  );
+}
+.next-show::before {
+  right: 0px;
+  background-image: linear-gradient(
+    270deg,
+    rgb(255, 255, 255) 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
+}
+.next-show svg {
+  transition: opacity 150ms ease-out 0s;
+}

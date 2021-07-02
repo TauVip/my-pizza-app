@@ -12,9 +12,14 @@ export const citiesListReducer = (state = [], action) => {
     case FETCH_CITIES_REQUEST:
       return { loading: true }
     case FETCH_CITIES_SUCCESS: {
+      const cities = action.payload.sort((a, b) =>
+        a.name > b.name ? 1 : a.name < b.name ? -1 : 0
+      )
+      const megaCities = cities.filter(city => city.status === 'megacity')
+
       let citiesGroup = {},
         columnsGroup = []
-      action.payload.filteredCities.forEach((city, i) => {
+      cities.forEach((city, i) => {
         citiesGroup = {
           ...citiesGroup,
           [city.name[0]]: citiesGroup[city.name[0]]
@@ -22,9 +27,7 @@ export const citiesListReducer = (state = [], action) => {
             : [city]
         }
 
-        const num = Math.floor(
-          i / Math.ceil(action.payload.filteredCities.length / 3)
-        )
+        const num = Math.floor(i / Math.ceil(cities.length / 3))
         columnsGroup[num] = columnsGroup[num]
           ? [...columnsGroup[num], city]
           : [city]
@@ -32,13 +35,13 @@ export const citiesListReducer = (state = [], action) => {
 
       return {
         loading: false,
-        megaCities: action.payload.megaCities,
+        megaCities: megaCities,
         citiesGroup,
         columnsGroup
       }
     }
     case FETCH_CITIES_FAIL:
-      return { loading: false, error: action.payload }
+      return { loading: false, citiesListError: action.payload }
     default:
       return state
   }
@@ -51,7 +54,7 @@ export const getCityReducer = (state = [], action) => {
     case GET_CITY_SUCCESS:
       return { loading: false, city: action.payload }
     case GET_CITY_FAIL:
-      return { loading: false, error: action.payload }
+      return { loading: false, getCityError: action.payload }
     default:
       return state
   }
