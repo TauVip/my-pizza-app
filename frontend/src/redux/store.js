@@ -1,7 +1,11 @@
 import { applyMiddleware, combineReducers, createStore } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import thunk from 'redux-thunk'
-import { articlesListReducer } from './reducers/articlesReducer'
+import {
+  articlesListReducer,
+  bannersListReducer,
+  getArticleReducer
+} from './reducers/articlesReducer'
 import { citiesListReducer, getCityReducer } from './reducers/citiesReducer'
 import {
   loginReducer,
@@ -17,6 +21,8 @@ const reducer = combineReducers({
   smsLogin: smsLoginReducer,
   login: loginReducer,
   articlesList: articlesListReducer,
+  getArticle: getArticleReducer,
+  bannersList: bannersListReducer,
   fetchPizzerias: fetchPizzeriasReducer
 })
 

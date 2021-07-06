@@ -28,4 +28,28 @@ articlesRouter.get(
   })
 )
 
+articlesRouter.get(
+  '/',
+  expressAsyncHandler(async (req, res) => {
+    try {
+      const articles = await Articles.find()
+      res.status(200).json(articles)
+    } catch (e) {
+      res.status(500).send({ error: e.message })
+    }
+  })
+)
+
+articlesRouter.get(
+  '/getArticle/:articleId',
+  expressAsyncHandler(async (req, res) => {
+    try {
+      const article = await Articles.findById(req.params.articleId)
+      res.status(200).json(article)
+    } catch (e) {
+      res.status(500).send({ error: e.message })
+    }
+  })
+)
+
 module.exports = articlesRouter

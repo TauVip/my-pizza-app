@@ -54,7 +54,7 @@
   color: black;
   font-size: 14px;
   line-height: 1;
-  transition: color 0.25s ease 0s, padding 0.25s ease 0s;
+  transition: padding 0.25s ease 0s;
   text-decoration: none;
   cursor: pointer;
   outline: none;
@@ -62,7 +62,7 @@
 .product-link:hover,
 .camera-link:hover {
   color: rgb(255, 105, 0);
-  transition: color 0.2s;
+  transition: color 0.2s ease 0s;
 }
 .camera-link {
   display: inline-block;
@@ -103,6 +103,7 @@
   top: 9px;
   right: 0;
   height: 100%;
+  user-select: none;
 }
 .nav__cart-btn {
   padding: 8px 20px;
@@ -117,15 +118,16 @@
     'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
   position: relative;
   cursor: pointer;
+  transition-property: background-color, color;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-out;
 }
 .nav__cart-btn:hover {
   background-color: rgb(232, 97, 0);
-  transition: background-color 0.2s ease-out;
 }
 .nav__cart-btn:active {
   background-color: rgb(255, 105, 0);
   color: rgb(255, 185, 135);
-  transition: background-color, color 0.2s ease-out;
 }
 .floating-cart-container {
   position: absolute;

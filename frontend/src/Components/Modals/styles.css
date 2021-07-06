@@ -291,15 +291,16 @@
     Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif,
     'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
   cursor: pointer;
+  transition-property: background-color, color;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-out;
 }
 .modal-login__button:hover {
   background-color: rgb(232, 97, 0);
-  transition: background-color 0.2s ease-out;
 }
 .modal-login__button:active {
   background-color: rgb(255, 105, 0);
   color: rgb(255, 185, 135);
-  transition: background-color, color 0.2s ease-out;
 }
 
 .phone-input-wrapper {
@@ -368,4 +369,74 @@
   left: 165px;
   cursor: default;
   animation: show 0.2s;
+}
+
+.modal-article__wrapper {
+  opacity: 1;
+  transform: scale(1);
+  position: relative;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 30px 60px;
+  box-sizing: border-box;
+  background: rgb(255, 255, 255);
+  border-radius: 20px;
+  transition: opacity 150ms ease 0s, transform;
+  flex: 0 0 auto;
+}
+.modal-article {
+  box-sizing: border-box;
+  display: flex;
+  flex-flow: column;
+  align-items: flex-start;
+  padding: 32px;
+  width: 510px;
+}
+.modal-article img {
+  width: calc(100% + 64px);
+  min-height: 189px;
+  margin: -33px -32px 0px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+.modal-article__title {
+  margin: 24px 0px 12px;
+  font-family: Dodo, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  font-weight: 500;
+  font-size: 26px;
+  line-height: 26px;
+  color: rgb(0, 0, 0);
+}
+.modal-article__desc {
+  font-size: 14px;
+  line-height: 20px;
+  color: rgb(92, 99, 112);
+  margin: 0px;
+  flex: 1 0 auto;
+}
+.modal-article__button {
+  margin-top: 16px;
+  padding: 0px 24px;
+  height: 48px;
+  font-size: 16px;
+  background-color: rgb(255, 240, 230);
+  color: rgb(209, 87, 0);
+  border: none;
+  border-radius: 9999px;
+  font-family: Dodo, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  cursor: pointer;
+  user-select: none;
+  transition-property: background-color, color;
+  transition-duration: 200ms;
+  transition-timing-function: ease-out;
+}
+.modal-article__button:hover {
+  background-color: rgb(255, 210, 179);
+  color: rgb(209, 87, 0);
+}
+.modal-article__button:active {
+  background-color: rgb(255, 240, 230);
+  color: rgb(255, 210, 179);
 }

@@ -10,10 +10,10 @@
 }
 .products__slider {
   transition-duration: 0ms;
-  transform: translate3d(-2608px, 0px, 0px);
   display: flex;
   align-items: flex-start;
   transition: transform 300ms ease-out 0s;
+  user-select: none;
 }
 .products__slider-img {
   opacity: 0.4;

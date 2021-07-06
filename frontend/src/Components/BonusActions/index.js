@@ -21,7 +21,7 @@ const BonusActions = () => {
     <main className='bonus-actions__content'>
       {articles ? (
         <>
-          <h1 className='title'>Акции</h1>
+          <h1 className='actions-title'>Акции</h1>
           {articles.map(article => (
             <article className='article' key={article._id}>
               <img

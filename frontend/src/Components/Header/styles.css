@@ -10,6 +10,7 @@
 .header__item-logo {
   width: 250px;
   display: inline-block;
+  user-select: none;
 }
 .header__item-contacts {
   display: inline-block;
@@ -71,6 +72,7 @@
   vertical-align: top;
   padding-top: 25px;
   padding-bottom: 5px;
+  user-select: none;
 }
 .header__user-profile-button {
   font-size: 14px;
@@ -85,9 +87,11 @@
   color: rgb(92, 99, 112);
   border: none;
   cursor: pointer;
+  transition-property: background-color, color;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-out;
 }
 .header__user-profile-button:hover {
   background-color: rgb(243, 243, 243);
   color: rgb(67, 72, 82);
-  transition: background-color, color 0.2s ease-out;
 }
