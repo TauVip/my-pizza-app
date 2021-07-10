@@ -51,10 +51,14 @@
   width: 95%;
   margin-left: 5%;
   cursor: pointer;
+  position: relative;
   top: 0px;
   transition: top 150ms ease-out 0s;
   user-select: none;
   display: flex;
+}
+.menu__meta-img:hover {
+  top: 3px;
 }
 .menu__meta-title {
   margin: 8px 0px;

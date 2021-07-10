@@ -32,6 +32,9 @@
   color: rgb(255, 105, 0);
   cursor: pointer;
 }
+.city-name:hover {
+  color: rgb(232, 97, 0);
+}
 .header__about-timing {
   margin-top: 1px;
   font-size: 15px;
