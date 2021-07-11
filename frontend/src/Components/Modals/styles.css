@@ -533,6 +533,7 @@
     'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Arial,
     sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
   z-index: 1;
+  animation: show 0.2s;
 }
 .info-popup__pointer {
   right: 14px;
@@ -589,6 +590,12 @@
   left: 0px;
   right: 16px;
   border-bottom: 1px dashed rgb(92, 99, 112);
+}
+.product__option[data-removed='true'] {
+  text-decoration: line-through;
+}
+.product__option[data-removed='true']::before {
+  content: none;
 }
 .product-remove__icon {
   vertical-align: middle;
