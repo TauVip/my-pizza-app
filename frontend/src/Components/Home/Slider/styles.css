@@ -39,8 +39,8 @@
   transition: opacity 150ms ease-out 0s;
   opacity: 0;
 }
-.counter[show='true'],
-.prev-next-show[show='true'] {
+.counter[data-show='true'],
+.prev-next-show[data-show='true'] {
   opacity: 1;
 }
 .counter-inner {

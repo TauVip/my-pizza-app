@@ -109,7 +109,7 @@
 .working-now[data-checked='true']::after {
   opacity: 1;
 }
-.working-now[full-day='true']::before {
+.working-now[data-full-day='true']::before {
   border-color: rgb(226, 226, 233);
 }
 .label-text {

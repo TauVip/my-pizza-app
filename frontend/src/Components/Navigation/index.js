@@ -9,21 +9,24 @@ const Navigation = () => {
   const { city } = useSelector(state => state.getCity)
 
   const [cartDesc, setCartDesc] = useState(false)
-  const [stick, setStick] = useState(false)
+  const [stick, setStick] = useState(null)
 
   useEffect(() => {
-    return window.addEventListener('scroll', () =>
+    const onScroll = () =>
       window.pageYOffset > 80 ? setStick(true) : setStick(false)
-    )
+    window.addEventListener('scroll', onScroll)
+    onScroll()
+
+    return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
   return city ? (
-    <nav className='nav' stick={`${stick}`}>
+    <nav className='nav' data-stick={`${stick}`}>
       <div className='container'>
         <div className='header__items'>
           <div className='sticky-logo'>
             <svg
-              stick={`${stick}`}
+              data-stick={`${stick}`}
               id='logo_svg__Layer_1'
               x='0'
               y='0'
@@ -38,7 +41,7 @@ const Navigation = () => {
                 fill='#fff'></path>
             </svg>
           </div>
-          <ul className='products' stick={`${stick}`}>
+          <ul className='products' data-stick={`${stick}`}>
             <li className='product'>
               <NavLink
                 to={`/${city.link}#pizzas`}

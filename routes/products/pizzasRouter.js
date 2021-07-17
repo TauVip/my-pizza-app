@@ -31,7 +31,11 @@ pizzasRouter.get(
   '/:cityId',
   expressAsyncHandler(async (req, res) => {
     try {
-      const pizzas = await Pizzas.find({ citiesId: req.params.cityId })
+      const pizzas = await Pizzas.find(
+        { citiesId: req.params.cityId },
+        {},
+        { sort: { createdAt: -1 } }
+      )
       res.status(200).json(pizzas)
     } catch (e) {
       res.status(500).send({ error: e.message })
@@ -39,11 +43,12 @@ pizzasRouter.get(
   })
 )
 pizzasRouter.get(
-  '/pizza/:pizzaId',
+  '/item/:pizzaId',
   expressAsyncHandler(async (req, res) => {
     try {
       const pizza = await Pizzas.findById(req.params.pizzaId)
-      res.status(200).json(pizza)
+      const pizzaSnacks = await PizzaSnacks.find({ _id: pizza.snacksId })
+      res.status(200).json({ pizza, pizzaSnacks })
     } catch (e) {
       res.status(500).send({ error: e.message })
     }
@@ -62,7 +67,7 @@ pizzasRouter.post(
   })
 )
 pizzasRouter.get(
-  '/snacks',
+  '/snacks/all',
   expressAsyncHandler(async (req, res) => {
     try {
       const pizzaSnacks = await PizzaSnacks.find()

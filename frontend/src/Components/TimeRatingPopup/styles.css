@@ -8,7 +8,7 @@
   pointer-events: none;
   animation: show 0.2s;
 }
-.timing-description__wrapper[leavingleft='true'] {
+.timing-description__wrapper[data-leavingleft='true'] {
   margin-left: 0;
 }
 .timing-description {
@@ -30,7 +30,7 @@
   left: 50%;
   margin-left: -11px;
 }
-.pointer-icon[leavingleft='true'] {
+.pointer-icon[data-leavingleft='true'] {
   left: 50px;
 }
 .time-rate-desc {

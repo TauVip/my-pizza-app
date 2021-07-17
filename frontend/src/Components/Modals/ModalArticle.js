@@ -13,9 +13,9 @@ const ModalArticle = props => {
   }, [dispatch, props.articleId])
 
   return article ? (
-    <div className='show-locality-selector'>
-      <div className='show-locality-shadow' />
-      <div className='locality-selector-wrapper'>
+    <div className='show-locality__selector'>
+      <div className='show-locality__shadow' />
+      <div className='locality-selector__wrapper'>
         <div className='modal-article__wrapper'>
           <article className='modal-article'>
             <img src={article.image} alt='' />

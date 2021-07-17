@@ -91,7 +91,7 @@ const Contacts = () => {
                 className='pizzerias__filter-checkbox working-now'
                 onClick={() => !fullDay && setWorkingNow(!workingNow)}
                 data-checked={`${workingNow}`}
-                full-day={`${fullDay}`}>
+                data-full-day={`${fullDay}`}>
                 <span className='label-text'>Работает сейчас</span>
               </label>
             </div>

@@ -10,9 +10,11 @@ const TimeRatingPopup = () => {
   }, [])
 
   return (
-    <div className='timing-description__wrapper' leavingleft={`${leavingLeft}`}>
+    <div
+      className='timing-description__wrapper'
+      data-leavingleft={`${leavingLeft}`}>
       <div className='timing-description'>
-        <i className='pointer-icon' leavingleft={`${leavingLeft}`}>
+        <i className='pointer-icon' data-leavingleft={`${leavingLeft}`}>
           <svg
             viewBox='0 0 18 12'
             version='1.1'

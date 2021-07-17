@@ -27,18 +27,7 @@ const pizzasSchema = new mongoose.Schema(
       required: [true, 'Pizza name is required']
     },
     composition: {
-      type: [
-        {
-          name: {
-            type: String,
-            required: true
-          },
-          canRemove: {
-            type: Boolean,
-            required: true
-          }
-        }
-      ],
+      type: [Object],
       required: true,
       validate: [value => value.length > 0, 'No outputs']
     },
@@ -50,7 +39,7 @@ const pizzasSchema = new mongoose.Schema(
       },
       required: [true, 'Pizza price is required']
     },
-    thickness: {
+    weight: {
       type: {
         traditional: {
           type: {

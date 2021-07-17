@@ -25,8 +25,11 @@ const Slider = () => {
   const { banners } = useSelector(state => state.bannersList)
 
   useEffect(() => {
-    if (city && !banners) dispatch(fetchBannersAction(city._id))
+    if (city) dispatch(fetchBannersAction(city._id))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [city])
 
+  useEffect(() => {
     if (banners) {
       if (current < 0) {
         setCurrent(banners.length - 1)
@@ -36,14 +39,14 @@ const Slider = () => {
         setCurrent(0)
         setTranslate(x)
       }
+
+      document.querySelector(
+        '.products__slider'
+      ).style.transform = `translateX(${translate}px)`
     }
 
     if (!moveSlide && translate % x) setTranslate((current + 1) * x)
-
-    document.querySelector(
-      '.products__slider'
-    ).style.transform = `translateX(${translate}px)`
-  }, [banners, city, current, dispatch, moveSlide, translate, x])
+  }, [banners, current, moveSlide, translate, x])
 
   const onMouseMove = e => {
     if (!moveSlide) return
@@ -66,7 +69,7 @@ const Slider = () => {
     })
   }
 
-  return (
+  return banners && banners.length > 0 ? (
     <>
       <section
         className='products__slider-section'
@@ -82,95 +85,82 @@ const Slider = () => {
         }}
         onMouseMove={onMouseMove}
         onMouseUp={() => moveSlide && setMoveSlide(false)}
-        onDragStart={e => e.preventDefault()}
-      >
+        onDragStart={e => e.preventDefault()}>
         <div className='products__slider-container'>
           <div className='products__slider'>
-            {banners && (
-              <>
+            <>
+              <Banner banner={banners[banners.length - 1]} current={current} />
+              {banners.map((banner, i) => (
                 <Banner
-                  banner={banners[banners.length - 1]}
+                  banner={banner}
+                  i={i}
                   current={current}
-                />
-                {banners.map((banner, i) => (
-                  <Banner
-                    banner={banner}
-                    i={i}
-                    current={current}
-                    setShowModal={setShowModal}
-                    setArticleId={setArticleId}
-                    key={banner._id}
-                  />
-                ))}
-                <Banner banner={banners[0]} current={current} />
-              </>
-            )}
-          </div>
-          <div className='counter' show={`${counterShow}`}>
-            {banners &&
-              banners.map((banner, i) => (
-                <div
-                  className={`counter-inner${i === current ? ' current' : ''}`}
-                  onClick={() => {
-                    setCurrent(i)
-                    setTranslate((i + 1) * x)
-                  }}
+                  setShowModal={setShowModal}
+                  setArticleId={setArticleId}
                   key={banner._id}
                 />
               ))}
+              <Banner banner={banners[0]} current={current} />
+            </>
+          </div>
+          <div className='counter' data-show={`${counterShow}`}>
+            {banners.map((banner, i) => (
+              <div
+                className={`counter-inner${i === current ? ' current' : ''}`}
+                onClick={() => {
+                  setCurrent(i)
+                  setTranslate((i + 1) * x)
+                }}
+                key={banner._id}
+              />
+            ))}
           </div>
           <i
             className='prev-next-show prev-show'
-            show={`${prevIconShow}`}
+            data-show={`${prevIconShow}`}
             onMouseEnter={() => setPrevIconShow(true)}
             onMouseLeave={() => setPrevIconShow(false)}
             onClick={() => {
               setTranslate(translate - x)
               setCurrent(current - 1)
-            }}
-          >
+            }}>
             <svg
               width='34'
               height='34'
               viewBox='0 0 34 34'
               fill='none'
-              xmlns='http://www.w3.org/2000/svg'
-            >
+              xmlns='http://www.w3.org/2000/svg'>
               <circle cx='17' cy='17' r='17' fill='#373535'></circle>
               <path
                 d='M14.759 9.8418L20.9409 16.9997L14.759 24.1576'
                 stroke='white'
                 strokeWidth='3'
                 strokeLinecap='round'
-                strokeLinejoin='round'
-              ></path>
+                strokeLinejoin='round'></path>
             </svg>
           </i>
           <i
             className='prev-next-show next-show'
-            show={`${nextIconShow}`}
+            data-show={`${nextIconShow}`}
             onMouseEnter={() => setNextIconShow(true)}
             onMouseLeave={() => setNextIconShow(false)}
             onClick={() => {
               setTranslate(translate + x)
               setCurrent(current + 1)
-            }}
-          >
+            }}>
             <svg
               width='34'
               height='34'
               viewBox='0 0 34 34'
               fill='none'
-              xmlns='http://www.w3.org/2000/svg'
-            >
+              xmlns='http://www.w3.org/2000/svg'>
               <circle cx='17' cy='17' r='17' fill='#373535'></circle>
               <path
                 d='M14.759 9.8418L20.9409 16.9997L14.759 24.1576'
                 stroke='white'
                 strokeWidth='3'
                 strokeLinecap='round'
-                strokeLinejoin='round'
-              ></path>
+                strokeLinejoin='round'></path>
             </svg>
           </i>
         </div>
@@ -179,6 +169,14 @@ const Slider = () => {
         <ModalArticle setShowModal={setShowModal} articleId={articleId} />
       )}
     </>
+  ) : (
+    <section className='products__slider-section'>
+      <div className='products__slider-container'>
+        <div className='products__slider'>
+          <Banner />
+        </div>
+      </div>
+    </section>
   )
 }
 export default Slider

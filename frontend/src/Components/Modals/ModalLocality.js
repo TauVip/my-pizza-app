@@ -49,9 +49,9 @@ const ModalLocality = props => {
   }
 
   return (
-    <div className='show-locality-selector'>
-      <div className='show-locality-shadow' />
-      <div className='locality-selector-wrapper'>
+    <div className='show-locality__selector'>
+      <div className='show-locality__shadow' />
+      <div className='locality-selector__wrapper'>
         <div className='locality-selector'>
           <div className='locality-selector__header'>
             <img className='logo-img' src={logo} alt='logo-img' />
@@ -89,7 +89,7 @@ const ModalLocality = props => {
           <div className='locality-selector__content' onScroll={onScroll}>
             <div
               id='scroll__gradient-top'
-              show-gradient-top={`${showGradientTop}`}
+              data-gradient-top={`${showGradientTop}`}
             />
             {columnsGroup &&
               columnsGroup.map(column => (
@@ -115,7 +115,7 @@ const ModalLocality = props => {
               ))}
             <div
               id='scroll__gradient-bottom'
-              show-gradient-bottom={`${showGradientBottom}`}
+              data-gradient-bottom={`${showGradientBottom}`}
             />
             {props.changeCity && (
               <img

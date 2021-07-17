@@ -4,7 +4,7 @@
   background-color: #fff;
   z-index: 1;
 }
-.nav[stick='true'] {
+.nav[data-stick='true'] {
   box-shadow: rgb(0 0 0 / 12%) 0px 3px 25px;
 }
 .sticky-logo {
@@ -22,7 +22,7 @@
   transform: translateX(-52px);
   transition: transform 0.25s ease 0s;
 }
-.sticky-logo svg[stick='true'] {
+.sticky-logo svg[data-stick='true'] {
   transform: translateX(0px);
 }
 .products {
@@ -35,7 +35,7 @@
   transform: translateX(-52px);
   transition: transform 0.25s ease 0s;
 }
-.products[stick='true'] {
+.products[data-stick='true'] {
   transform: translateX(0px);
 }
 .product {
