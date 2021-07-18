@@ -6,6 +6,7 @@ import './styles.css'
 import ModalPizzaCard from '../Modals/ModalProductCard/ModalPizzaCard'
 import { fetchPizzasAction } from '../../redux/actions/pizzasAction'
 import ModalAssemblePizza from '../Modals/ModalProductCard/ModalAssemblePizza'
+import ModalProductCard from '../Modals/ModalProductCard'
 
 const Home = () => {
   const dispatch = useDispatch()
@@ -15,6 +16,7 @@ const Home = () => {
 
   const [pizzaId, setPizzaId] = useState(null)
   const [showAssemblePizza, setShowAssemblePizza] = useState(false)
+  const [showProductCard, setShowProductCard] = useState(false)
 
   useEffect(() => {
     if (city) {
@@ -23,6 +25,13 @@ const Home = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [city])
+
+  const assembleMinPrice = pizzas => {
+    const sortPizzas = pizzas
+      ?.slice()
+      .sort((a, b) => a.price.small - b.price.small)
+    return sortPizzas[0].price.small + sortPizzas[1].price.small
+  }
 
   return (
     <>
@@ -38,7 +47,7 @@ const Home = () => {
         </figure>
         <h1 className='product-title'>Пицца</h1>
         <section className='products-section'>
-          {pizzas && pizzas.length > 0 ? (
+          {pizzas?.length > 0 ? (
             <>
               <article className='menu__meta-product'>
                 <main className='menu__meta-main'>
@@ -53,11 +62,14 @@ const Home = () => {
                   Соберите свою пиццу 35 см с двумя разными вкусами
                 </main>
                 <footer className='product-footer'>
-                  <div className='product-control-price'>от 3 100 тг.</div>
+                  <div className='product-control-price'>
+                    от {assembleMinPrice(pizzas)} тг.
+                  </div>
                   <button
                     className='product-button collect-button'
-                    onClick={() => setShowAssemblePizza(true)}>
-                    Выбрать
+                    onClick={() => setShowAssemblePizza(true)}
+                  >
+                    Собрать
                   </button>
                 </footer>
               </article>
@@ -83,7 +95,8 @@ const Home = () => {
                     </div>
                     <button
                       className='product-button'
-                      onClick={() => setPizzaId(pizza._id)}>
+                      onClick={() => setPizzaId(pizza._id)}
+                    >
                       Выбрать
                     </button>
                   </footer>
@@ -98,7 +111,8 @@ const Home = () => {
                   style={{
                     height: 400,
                     boxShadow: 'rgb(115 121 140 / 50%) 0px 2px 10px -2px'
-                  }}>
+                  }}
+                >
                   <img alt='Some product' src='' className='menu__meta-img' />
                 </main>
               </article>
@@ -109,6 +123,34 @@ const Home = () => {
           )}
           {showAssemblePizza && (
             <ModalAssemblePizza setShowAssemblePizza={setShowAssemblePizza} />
+          )}
+        </section>
+        <h1 className='product-title'>Закуски</h1>
+        <section className='products-section'>
+          <article className='menu__meta-product'>
+            <main className='menu__meta-main'>
+              <img
+                alt='Томатный суп с гренками'
+                title='Томатный суп с гренками'
+                className='menu__meta-img'
+                src='https://dodopizza-a.akamaihd.net/static/Img/Products/bbe43b83a9f34ec3bbcdb2b7b67749bc_233x233.jpeg'
+                onClick={() => setShowProductCard(true)}
+              />
+              <div className='menu__meta-title'>Томатный суп с гренками 🌱</div>
+              Суп на основе натурального томатного соуса с хрустящими гренками.
+            </main>
+            <footer className='product-footer'>
+              <div className='product-control-price'>от 490 тг.</div>
+              <button
+                className='product-button'
+                onClick={() => setShowProductCard(true)}
+              >
+                В корзину
+              </button>
+            </footer>
+          </article>
+          {showProductCard && (
+            <ModalProductCard setShowProductCard={setShowProductCard} />
           )}
         </section>
       </main>

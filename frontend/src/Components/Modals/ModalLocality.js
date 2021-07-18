@@ -77,7 +77,8 @@ const ModalLocality = props => {
                     to={`/${city.link}`}
                     className='megacity'
                     key={city._id}
-                    onClick={() => onClick(city._id)}>
+                    onClick={() => onClick(city._id)}
+                  >
                     {city.name}
                   </Link>
                 ))
@@ -91,28 +92,29 @@ const ModalLocality = props => {
               id='scroll__gradient-top'
               data-gradient-top={`${showGradientTop}`}
             />
-            {columnsGroup &&
-              columnsGroup.map(column => (
-                <div className='locality-selector__group' key={column[0]._id}>
-                  {column.map(city => (
-                    <div
-                      style={{ position: 'relative', cursor: 'pointer' }}
-                      key={city._id}>
-                      {citiesGroup[city.name[0]][0] === city && (
-                        <span className='locality-selector__group-letter'>
-                          {city.name[0]}
-                        </span>
-                      )}
-                      <Link
-                        to={`/${city.link}`}
-                        className='locality-selector__link'
-                        onClick={() => onClick(city._id)}>
-                        {city.name}
-                      </Link>
-                    </div>
-                  ))}
-                </div>
-              ))}
+            {columnsGroup?.map(column => (
+              <div className='locality-selector__group' key={column[0]._id}>
+                {column.map(city => (
+                  <div
+                    style={{ position: 'relative', cursor: 'pointer' }}
+                    key={city._id}
+                  >
+                    {citiesGroup[city.name[0]][0] === city && (
+                      <span className='locality-selector__group-letter'>
+                        {city.name[0]}
+                      </span>
+                    )}
+                    <Link
+                      to={`/${city.link}`}
+                      className='locality-selector__link'
+                      onClick={() => onClick(city._id)}
+                    >
+                      {city.name}
+                    </Link>
+                  </div>
+                ))}
+              </div>
+            ))}
             <div
               id='scroll__gradient-bottom'
               data-gradient-bottom={`${showGradientBottom}`}

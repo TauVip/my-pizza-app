@@ -69,7 +69,7 @@ const Slider = () => {
     })
   }
 
-  return banners && banners.length > 0 ? (
+  return banners?.length > 0 ? (
     <>
       <section
         className='products__slider-section'
@@ -85,7 +85,8 @@ const Slider = () => {
         }}
         onMouseMove={onMouseMove}
         onMouseUp={() => moveSlide && setMoveSlide(false)}
-        onDragStart={e => e.preventDefault()}>
+        onDragStart={e => e.preventDefault()}
+      >
         <div className='products__slider-container'>
           <div className='products__slider'>
             <>
@@ -116,51 +117,59 @@ const Slider = () => {
             ))}
           </div>
           <i
-            className='prev-next-show prev-show'
+            className='prev-next__show prev-show'
             data-show={`${prevIconShow}`}
             onMouseEnter={() => setPrevIconShow(true)}
             onMouseLeave={() => setPrevIconShow(false)}
             onClick={() => {
               setTranslate(translate - x)
               setCurrent(current - 1)
-            }}>
+            }}
+          >
             <svg
+              data-show={`${prevIconShow}`}
               width='34'
               height='34'
               viewBox='0 0 34 34'
               fill='none'
-              xmlns='http://www.w3.org/2000/svg'>
+              xmlns='http://www.w3.org/2000/svg'
+            >
               <circle cx='17' cy='17' r='17' fill='#373535'></circle>
               <path
                 d='M14.759 9.8418L20.9409 16.9997L14.759 24.1576'
                 stroke='white'
                 strokeWidth='3'
                 strokeLinecap='round'
-                strokeLinejoin='round'></path>
+                strokeLinejoin='round'
+              ></path>
             </svg>
           </i>
           <i
-            className='prev-next-show next-show'
+            className='prev-next__show next-show'
             data-show={`${nextIconShow}`}
             onMouseEnter={() => setNextIconShow(true)}
             onMouseLeave={() => setNextIconShow(false)}
             onClick={() => {
               setTranslate(translate + x)
               setCurrent(current + 1)
-            }}>
+            }}
+          >
             <svg
+              data-show={`${nextIconShow}`}
               width='34'
               height='34'
               viewBox='0 0 34 34'
               fill='none'
-              xmlns='http://www.w3.org/2000/svg'>
+              xmlns='http://www.w3.org/2000/svg'
+            >
               <circle cx='17' cy='17' r='17' fill='#373535'></circle>
               <path
                 d='M14.759 9.8418L20.9409 16.9997L14.759 24.1576'
                 stroke='white'
                 strokeWidth='3'
                 strokeLinecap='round'
-                strokeLinejoin='round'></path>
+                strokeLinejoin='round'
+              ></path>
             </svg>
           </i>
         </div>

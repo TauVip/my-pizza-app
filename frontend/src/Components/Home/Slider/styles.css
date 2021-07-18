@@ -7,6 +7,7 @@
   margin-left: -33%;
   padding: 9px 33% 20px;
   position: relative;
+  overflow: hidden;
 }
 .products__slider {
   transition-duration: 0ms;
@@ -40,7 +41,8 @@
   opacity: 0;
 }
 .counter[data-show='true'],
-.prev-next-show[data-show='true'] {
+.prev-next__show svg[data-show='true'],
+.prev-next__show[data-show='true']::before {
   opacity: 1;
 }
 .counter-inner {
@@ -55,7 +57,7 @@
 .counter .current {
   background-color: rgb(197, 202, 206);
 }
-.prev-next-show {
+.prev-next__show {
   display: flex;
   align-items: center;
   position: absolute;
@@ -64,10 +66,10 @@
   width: 20.5%;
   padding: 9px 53.3333px 20px;
   cursor: pointer;
-  transition: opacity 300ms ease-out 0s;
   opacity: 0;
+  transition: opacity 300ms ease-out 0s;
 }
-.prev-next-show::before {
+.prev-next__show::before {
   content: ' ';
   position: absolute;
   top: 9px;
@@ -78,6 +80,7 @@
   pointer-events: none;
 }
 .prev-show {
+  opacity: 1;
   left: 0px;
   justify-content: flex-end;
   background-image: linear-gradient(
@@ -96,9 +99,12 @@
 }
 .prev-show svg {
   transform: rotate(180deg);
+  opacity: 0;
   transition: opacity 150ms ease-out 0s;
 }
+
 .next-show {
+  opacity: 1;
   right: 0px;
   background-image: linear-gradient(
     90deg,
@@ -115,5 +121,6 @@
   );
 }
 .next-show svg {
+  opacity: 0;
   transition: opacity 150ms ease-out 0s;
 }

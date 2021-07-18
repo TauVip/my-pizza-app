@@ -22,9 +22,7 @@ export const fetchPizzeriasAction =
 
       if (fullDay)
         filteredPizzerias = filteredPizzerias.filter(
-          pizzeria =>
-            pizzeria.delivery &&
-            pizzeria.delivery.deliverySchedule === 'Круглосуточно'
+          pizzeria => pizzeria.delivery?.deliverySchedule === 'Круглосуточно'
         )
 
       if (workingNow && !fullDay) {
