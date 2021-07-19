@@ -2,6 +2,11 @@ const mongoose = require('mongoose')
 
 const pizzasSchema = new mongoose.Schema(
   {
+    name: {
+      type: String,
+      unique: true,
+      required: [true, 'Pizza name is required']
+    },
     images: {
       type: {
         traditional: {
@@ -20,11 +25,6 @@ const pizzasSchema = new mongoose.Schema(
         }
       },
       required: [true, 'Pizza images is required']
-    },
-    name: {
-      type: String,
-      unique: true,
-      required: [true, 'Pizza name is required']
     },
     composition: {
       type: [Object],

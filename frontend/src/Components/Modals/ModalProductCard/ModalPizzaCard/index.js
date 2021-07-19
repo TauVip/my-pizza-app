@@ -5,7 +5,7 @@ import closeIcon from '../../../../images/close-icon.svg'
 import {
   clearGetPizza,
   getPizzaAction
-} from '../../../../redux/actions/pizzasAction'
+} from '../../../../redux/actions/pizzasActions'
 import InformationCircle from '../InformationCircle'
 import '../styles.css'
 import PizzaComposition from './PizzaComposition'
@@ -46,7 +46,7 @@ const ModalPizzaCard = props => {
       <div className='locality-selector__wrapper'>
         {pizza && (
           <div className='modal-product__card'>
-            <div className='product__card-image'>
+            <div className='pizza__card-image'>
               <div className='card-image__wrapper'>
                 <div className={`card-image ${sizeChosen}-pizza-img`}>
                   <img
@@ -65,8 +65,7 @@ const ModalPizzaCard = props => {
                           height='382'
                           viewBox='0 0 382 382'
                           fill='none'
-                          xmlns='http://www.w3.org/2000/svg'
-                        >
+                          xmlns='http://www.w3.org/2000/svg'>
                           <circle
                             cx='191'
                             cy='191'
@@ -75,8 +74,7 @@ const ModalPizzaCard = props => {
                             strokeWidth='0.6'
                             strokeLinecap='round'
                             strokeLinejoin='round'
-                            strokeDasharray='1 6.1'
-                          ></circle>
+                            strokeDasharray='1 6.1'></circle>
                         </svg>
                       </i>
                     )}
@@ -87,8 +85,7 @@ const ModalPizzaCard = props => {
                           height='450'
                           viewBox='0 0 450 450'
                           fill='none'
-                          xmlns='http://www.w3.org/2000/svg'
-                        >
+                          xmlns='http://www.w3.org/2000/svg'>
                           <ellipse
                             opacity='0.6'
                             cx='225'
@@ -99,8 +96,7 @@ const ModalPizzaCard = props => {
                             strokeWidth='0.8'
                             strokeLinecap='round'
                             strokeLinejoin='round'
-                            strokeDasharray='2 12.2'
-                          ></ellipse>
+                            strokeDasharray='2 12.2'></ellipse>
                         </svg>
                       </i>
                     )}
@@ -108,11 +104,11 @@ const ModalPizzaCard = props => {
                 )}
               </div>
             </div>
-            <div className='product__card-info'>
-              <div className='product-info'>
+            <div className='pizza__card-info'>
+              <div className='pizza-info'>
                 <div style={{ padding: '0px 30px' }}>
                   <div style={{ position: 'relative', paddingRight: 30 }}>
-                    <span className='product-info__title'>{pizza.name}</span>
+                    <span className='pizza-info__title'>{pizza.name}</span>
                     <InformationCircle
                       pizza={pizza}
                       thickness={thickness}
@@ -120,12 +116,12 @@ const ModalPizzaCard = props => {
                       sizeVars={sizeVars}
                     />
                   </div>
-                  <div className='product-info__chosen'>
+                  <div className='pizza-info__chosen'>
                     {sizeVars[sizeChosen]} см,{' '}
                     {thickness === 'traditional' ? 'традиционное' : 'тонкое'}{' '}
                     тесто, {pizza.weight[thickness][sizeChosen]} г
                   </div>
-                  <div className='product-info__composition'>
+                  <div className='pizza-info__composition'>
                     {pizza.composition.map((compose, i) => (
                       <Fragment key={compose.name}>
                         <PizzaComposition
@@ -136,7 +132,7 @@ const ModalPizzaCard = props => {
                       </Fragment>
                     ))}
                   </div>
-                  <div className='product-info__size'>
+                  <div className='pizza-info__size'>
                     <div
                       className={`product-chosen ${sizeChosen}-chosen`}
                       style={pizza.price.medium && { width: '33.33%' }}
@@ -154,8 +150,7 @@ const ModalPizzaCard = props => {
                     />
                     <label
                       htmlFor='small-pizza'
-                      className='product-size__label'
-                    >
+                      className='product-size__label'>
                       Маленькая
                     </label>
                     {pizza.price.medium && (
@@ -170,8 +165,7 @@ const ModalPizzaCard = props => {
                         />
                         <label
                           htmlFor='medium-pizza'
-                          className='product-size__label'
-                        >
+                          className='product-size__label'>
                           Средняя
                         </label>
                         <input
@@ -184,14 +178,13 @@ const ModalPizzaCard = props => {
                         />
                         <label
                           htmlFor='big-pizza'
-                          className='product-size__label'
-                        >
+                          className='product-size__label'>
                           Большая
                         </label>
                       </>
                     )}
                   </div>
-                  <div className='product-info__size'>
+                  <div className='pizza-info__size'>
                     <div
                       className={`product-chosen ${thickness}-chosen`}
                       style={{ width: pizza.price.medium ? '50%' : '100%' }}
@@ -208,8 +201,7 @@ const ModalPizzaCard = props => {
                     />
                     <label
                       htmlFor='thickness-traditional'
-                      className='product-size__label'
-                    >
+                      className='product-size__label'>
                       Традиционное
                     </label>
                     {pizza.price.medium && (
@@ -227,8 +219,7 @@ const ModalPizzaCard = props => {
                         <label
                           htmlFor='thickness-thin'
                           className='product-size__label'
-                          data-disabled={sizeChosen === 'small'}
-                        >
+                          data-disabled={sizeChosen === 'small'}>
                           Тонкое
                         </label>
                       </>

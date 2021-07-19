@@ -13,7 +13,8 @@ import {
   smsLoginReducer
 } from './reducers/loginReducer'
 import { getPizzaReducer, pizzasListReducer } from './reducers/pizzasReducer'
-import { fetchPizzeriasReducer } from './reducers/pizzeriasReducer'
+import { pizzeriasListReducer } from './reducers/pizzeriasReducer'
+import { productsListReducer } from './reducers/productsReducer'
 
 const reducer = combineReducers({
   pageNotFound: pageNotFoundReducer,
@@ -24,9 +25,10 @@ const reducer = combineReducers({
   articlesList: articlesListReducer,
   getArticle: getArticleReducer,
   bannersList: bannersListReducer,
-  fetchPizzerias: fetchPizzeriasReducer,
-  fetchPizzas: pizzasListReducer,
-  getPizza: getPizzaReducer
+  pizzeriasList: pizzeriasListReducer,
+  pizzasList: pizzasListReducer,
+  getPizza: getPizzaReducer,
+  productsList: productsListReducer
 })
 
 export const store = createStore(

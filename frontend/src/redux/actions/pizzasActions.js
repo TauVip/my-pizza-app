@@ -13,7 +13,7 @@ export const fetchPizzasAction = cityId => async dispatch => {
   try {
     dispatch({ type: FETCH_PIZZAS_REQUEST })
 
-    const { data } = await axios.get(`/products/pizzas/${cityId}`)
+    const { data } = await axios.get(`/pizzas/${cityId}`)
     dispatch({
       type: FETCH_PIZZAS_SUCCESS,
       payload: data
@@ -27,7 +27,7 @@ export const getPizzaAction = pizzaId => async dispatch => {
   try {
     dispatch({ type: GET_PIZZA_REQUEST })
 
-    const { data } = await axios.get(`/products/pizzas/item/${pizzaId}`)
+    const { data } = await axios.get(`/pizzas/item/${pizzaId}`)
     dispatch({
       type: GET_PIZZA_SUCCESS,
       payload: data
@@ -36,5 +36,6 @@ export const getPizzaAction = pizzaId => async dispatch => {
     dispatch({ type: GET_PIZZA_FAIL, payload: e.message })
   }
 }
+
 export const clearGetPizza = () => dispatch =>
   dispatch({ type: CLEAR_GET_PIZZA })

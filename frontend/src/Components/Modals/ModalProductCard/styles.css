@@ -4,7 +4,7 @@
   background: rgb(255, 255, 255);
   border-radius: 20px;
 }
-.product__card-image {
+.pizza__card-image {
   display: inline-block;
   width: 530px;
 }
@@ -49,7 +49,7 @@
   top: 113px;
   left: 73px;
 }
-.product__card-info {
+.pizza__card-info {
   position: relative;
   display: inline-block;
   vertical-align: top;
@@ -60,16 +60,16 @@
   border-top-right-radius: 20px;
   border-bottom-right-radius: 20px;
 }
-.product-info {
+.pizza-info {
   position: relative;
   height: 478px;
   overflow: auto;
 }
-.product-info__title {
+.pizza-info__title {
   font-size: 24px;
   line-height: 28px;
 }
-.product-info__additional {
+.pizza-info__additional {
   position: absolute;
   top: 3px;
   right: 0px;
@@ -123,13 +123,13 @@
 .info-popup__section:not(:last-child) {
   margin-bottom: 8px;
 }
-.product-info__chosen {
+.pizza-info__chosen {
   padding: 1px 0px 5px;
   color: rgb(92, 99, 112);
   font-size: 14px;
   line-height: 20px;
 }
-.product-info__composition {
+.pizza-info__composition {
   margin-bottom: 8px;
   font-size: 14px;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
@@ -164,7 +164,7 @@
   vertical-align: middle;
   line-height: 0;
 }
-.product-info__size {
+.pizza-info__size {
   border-radius: 9999px;
   background-color: rgb(243, 243, 247);
   height: 32px;
@@ -552,4 +552,22 @@
   position: absolute;
   width: 22px;
   fill: rgb(55, 53, 53);
+}
+
+.product__card-image {
+  width: 292px;
+  margin: 48px;
+  align-self: flex-start;
+  display: inline-block;
+}
+.product__card-info {
+  width: 324px;
+  margin: 32px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  font-size: 14px;
+  line-height: 20px;
+  display: flex;
+  flex-flow: column;
 }
