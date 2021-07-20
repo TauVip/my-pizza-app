@@ -571,3 +571,80 @@
   display: flex;
   flex-flow: column;
 }
+
+.combo-info__wrapper {
+  height: 610px;
+  width: 350px;
+  position: relative;
+  display: flex;
+  flex-flow: column;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+.combo-info__section {
+  height: 485px;
+  padding: 30px;
+  overflow: scroll;
+  margin-right: -26px;
+  margin-bottom: -26px;
+}
+.combo-info__title {
+  position: relative;
+  padding-right: 30px;
+  margin-bottom: 8px;
+}
+.combo-info__desc {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  font-size: 14px;
+  line-height: 20px;
+  color: rgb(0, 0, 0);
+  padding-right: 30px;
+  width: 100%;
+  margin-bottom: 12px;
+}
+.combo-product__section {
+  width: 100%;
+  min-height: 94px;
+  position: relative;
+  margin-bottom: 8px;
+  cursor: pointer;
+  padding: 12px;
+  background: rgb(255, 255, 255);
+  border-radius: 16px;
+  transition: box-shadow 0.15s ease-in-out 0s, border-color;
+  border-width: 1px;
+  border-style: solid;
+  border-image: initial;
+  overflow: hidden;
+  border-color: rgb(255, 105, 0);
+}
+.combo-product__img {
+  width: 68px;
+  height: 68px;
+  position: absolute;
+  top: 12px;
+  left: 12px;
+}
+.combo-product__title {
+  line-height: 18px;
+  margin-bottom: 4px;
+  padding-right: 38px;
+}
+.combo-product__size {
+  font-size: 12px;
+  line-height: 16px;
+  margin-top: 4px;
+  color: 'rgb(92, 99, 112)';
+}
+
+.combo-choose__wrapper {
+  width: 530px;
+  left: 350px;
+  top: 0px;
+  bottom: 0px;
+  border-bottom-right-radius: 20px;
+  border-top-right-radius: 20px;
+  overflow: hidden;
+}

@@ -17,8 +17,7 @@ const productsSchema = new mongoose.Schema(
       required: [true, 'Product image is required']
     },
     info: {
-      type: String,
-      unique: true
+      type: String
     },
     defaultCount: {
       type: String,

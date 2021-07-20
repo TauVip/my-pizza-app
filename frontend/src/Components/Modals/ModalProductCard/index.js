@@ -1,28 +1,21 @@
 import InformationCircle from './InformationCircle'
 import closeIcon from '../../../images/close-icon.svg'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { getProductAction } from '../../../redux/actions/productsActions'
+import { clearGetPizza } from '../../../redux/actions/pizzasActions'
 
 const ModalProductCard = props => {
-  const product = {
-    name: 'Томатный суп с гренками',
-    image:
-      'https://dodopizza-a.akamaihd.net/static/Img/Products/bbe43b83a9f34ec3bbcdb2b7b67749bc_1875x1875.jpeg',
-    info: 'Суп на основе натурального томатного соуса с хрустящими гренками.',
-    defaultCount: '10 шт',
-    weight: 1,
-    price: 100,
-    description: {
-      energyValue: 2,
-      proteins: 3,
-      fats: 4,
-      carbohydrates: 5,
-      addInfo: [
-        'Содержит аллергены: молоко, орехи',
-        'Может содержать аллергены: аспартам, горчица, диоксид серы и сульфиты, кунжут, моллюски, орехи, ракообразные, рыба, сельдерей, соя, яйца'
-      ]
-    }
-  }
+  const dispatch = useDispatch()
 
-  return (
+  const { product } = useSelector(state => state.getProduct)
+
+  useEffect(() => {
+    dispatch(getProductAction(props.productCardId))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  return product ? (
     <div className='show-locality__selector'>
       <div className='show-locality__shadow' />
       <div className='locality-selector__wrapper'>
@@ -39,7 +32,7 @@ const ModalProductCard = props => {
             <main className='product__card-info'>
               <div style={{ position: 'relative', paddingRight: 30 }}>
                 <span className='pizza-info__title'>{product.name}</span>
-                <InformationCircle product={product} />
+                {product.description && <InformationCircle product={product} />}
               </div>
               <span style={{ margin: '4px 0', color: 'rgb(92, 99, 112)' }}>
                 {product.defaultCount}
@@ -56,11 +49,14 @@ const ModalProductCard = props => {
             src={closeIcon}
             alt='Close Icon'
             className='close-icon'
-            onClick={() => props.setProductCard(false)}
+            onClick={() => {
+              dispatch(clearGetPizza())
+              props.setProductCardId(null)
+            }}
           />
         </div>
       </div>
     </div>
-  )
+  ) : null
 }
 export default ModalProductCard
