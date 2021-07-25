@@ -15,13 +15,12 @@ const ModalPizzaCard = props => {
   const dispatch = useDispatch()
 
   const { pizza, pizzaSnacks } = useSelector(state => state.getPizza)
+  const { sizeVars } = useSelector(state => state.pizzasList)
 
   const [sizeChosen, setSizeChosen] = useState(null)
   const [thickness, setThickness] = useState('traditional')
   const [checkedSnacks, setCheckedSnacks] = useState([])
   const [price, setPrice] = useState(0)
-
-  const sizeVars = { small: 25, medium: 30, big: 35 }
 
   useEffect(() => {
     if (!pizza) dispatch(getPizzaAction(props.pizzaId))
@@ -65,7 +64,8 @@ const ModalPizzaCard = props => {
                           height='382'
                           viewBox='0 0 382 382'
                           fill='none'
-                          xmlns='http://www.w3.org/2000/svg'>
+                          xmlns='http://www.w3.org/2000/svg'
+                        >
                           <circle
                             cx='191'
                             cy='191'
@@ -74,7 +74,8 @@ const ModalPizzaCard = props => {
                             strokeWidth='0.6'
                             strokeLinecap='round'
                             strokeLinejoin='round'
-                            strokeDasharray='1 6.1'></circle>
+                            strokeDasharray='1 6.1'
+                          ></circle>
                         </svg>
                       </i>
                     )}
@@ -85,7 +86,8 @@ const ModalPizzaCard = props => {
                           height='450'
                           viewBox='0 0 450 450'
                           fill='none'
-                          xmlns='http://www.w3.org/2000/svg'>
+                          xmlns='http://www.w3.org/2000/svg'
+                        >
                           <ellipse
                             opacity='0.6'
                             cx='225'
@@ -96,7 +98,8 @@ const ModalPizzaCard = props => {
                             strokeWidth='0.8'
                             strokeLinecap='round'
                             strokeLinejoin='round'
-                            strokeDasharray='2 12.2'></ellipse>
+                            strokeDasharray='2 12.2'
+                          ></ellipse>
                         </svg>
                       </i>
                     )}
@@ -150,7 +153,8 @@ const ModalPizzaCard = props => {
                     />
                     <label
                       htmlFor='small-pizza'
-                      className='product-size__label'>
+                      className='product-size__label'
+                    >
                       Маленькая
                     </label>
                     {pizza.price.medium && (
@@ -165,7 +169,8 @@ const ModalPizzaCard = props => {
                         />
                         <label
                           htmlFor='medium-pizza'
-                          className='product-size__label'>
+                          className='product-size__label'
+                        >
                           Средняя
                         </label>
                         <input
@@ -178,7 +183,8 @@ const ModalPizzaCard = props => {
                         />
                         <label
                           htmlFor='big-pizza'
-                          className='product-size__label'>
+                          className='product-size__label'
+                        >
                           Большая
                         </label>
                       </>
@@ -201,7 +207,8 @@ const ModalPizzaCard = props => {
                     />
                     <label
                       htmlFor='thickness-traditional'
-                      className='product-size__label'>
+                      className='product-size__label'
+                    >
                       Традиционное
                     </label>
                     {pizza.price.medium && (
@@ -219,7 +226,8 @@ const ModalPizzaCard = props => {
                         <label
                           htmlFor='thickness-thin'
                           className='product-size__label'
-                          data-disabled={sizeChosen === 'small'}>
+                          data-disabled={sizeChosen === 'small'}
+                        >
                           Тонкое
                         </label>
                       </>

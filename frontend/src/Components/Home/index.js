@@ -139,13 +139,13 @@ const Home = () => {
           <article className='menu__meta-product'>
             <main className='menu__meta-main'>
               <img
-                alt='Комбо за 2650 тг.'
-                title='Комбо за 2650 тг.'
+                alt='Комбо за 2 650 тг.'
+                title='Комбо за 2 650 тг.'
                 className='menu__meta-img'
                 src='https://dodopizza-a.akamaihd.net/static/Img/ComboTemplates/e4aecdc6e454411b912eb335be5249de_233x233.webp'
                 onClick={() => setShowComboCard(true)}
               />
-              <div className='menu__meta-title'>Комбо за 2650 тг.</div>
+              <div className='menu__meta-title'>Комбо за 2 650 тг.</div>
               Наш хит «Аррива!» или другая пицца 25 см, Додстер, напиток и соус.
               Выбор пицц ограничен
             </main>

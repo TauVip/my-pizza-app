@@ -13,7 +13,8 @@ export const pizzasListReducer = (state = [], action) => {
     case FETCH_PIZZAS_REQUEST:
       return { loading: true }
     case FETCH_PIZZAS_SUCCESS:
-      return { loading: false, pizzas: action.payload }
+      const sizeVars = { small: 25, medium: 30, big: 35 }
+      return { loading: false, pizzas: action.payload, sizeVars }
     case FETCH_PIZZAS_FAIL:
       return { loading: false, pizzasListError: action.payload }
     default:

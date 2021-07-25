@@ -71,7 +71,7 @@
 }
 .pizza-info__additional {
   position: absolute;
-  top: 3px;
+  top: 0px;
   right: 0px;
 }
 .additional__info-icon {
@@ -80,14 +80,13 @@
   cursor: pointer;
 }
 .additional__info-popup {
+  padding: 12px;
   position: absolute;
   width: 250px;
   margin-top: 0px;
   top: 36px;
   right: -12px;
   left: initial;
-  min-height: 45px;
-  padding: 12px;
   border-radius: 10px;
   background-color: rgb(55, 53, 53);
   color: rgb(255, 255, 255);
@@ -98,11 +97,14 @@
   animation: show 0.2s;
 }
 .info-popup__pointer {
-  right: 14px;
+  right: 12px;
   position: absolute;
   width: 22px;
   top: -9px;
   fill: rgb(55, 53, 53);
+}
+.info-popup__wrapper:not(:last-child) {
+  margin-bottom: 20px;
 }
 .info-popup__title {
   font: 500 12px / 14px Dodo, system-ui, -apple-system, BlinkMacSystemFont,
@@ -178,7 +180,9 @@
   top: 0px;
   left: 0px;
   bottom: 0px;
-  transition: transform 200ms ease-out 0s, width;
+  transition-property: transform, width;
+  transition-duration: 200ms;
+  transition-timing-function: ease-out;
   padding: 2px;
 }
 .small-chosen {
@@ -584,9 +588,7 @@
 .combo-info__section {
   height: 485px;
   padding: 30px;
-  overflow: scroll;
-  margin-right: -26px;
-  margin-bottom: -26px;
+  overflow: auto;
 }
 .combo-info__title {
   position: relative;
@@ -599,13 +601,10 @@
     'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
   font-size: 14px;
   line-height: 20px;
-  color: rgb(0, 0, 0);
   padding-right: 30px;
-  width: 100%;
   margin-bottom: 12px;
 }
 .combo-product__section {
-  width: 100%;
   min-height: 94px;
   position: relative;
   margin-bottom: 8px;
@@ -613,12 +612,21 @@
   padding: 12px;
   background: rgb(255, 255, 255);
   border-radius: 16px;
-  transition: box-shadow 0.15s ease-in-out 0s, border-color;
-  border-width: 1px;
-  border-style: solid;
-  border-image: initial;
-  overflow: hidden;
+  box-shadow: rgba(6, 5, 50, 0.1) 0px 8px 24px;
+  transition-property: box-shadow, border-color;
+  transition-duration: 0.15s;
+  transition-timing-function: ease-in-out;
+  border: 1px solid white;
+  display: flex;
+  justify-content: center;
+  flex-flow: column;
+}
+.combo-product__section:hover {
+  box-shadow: rgba(6, 5, 50, 0.1) 0px 3px 10px;
+}
+.combo-product__section[data-active='true'] {
   border-color: rgb(255, 105, 0);
+  box-shadow: none;
 }
 .combo-product__img {
   width: 68px;
@@ -636,7 +644,14 @@
   font-size: 12px;
   line-height: 16px;
   margin-top: 4px;
-  color: 'rgb(92, 99, 112)';
+  color: rgb(92, 99, 112);
+}
+.combo-full-price {
+  font-size: 14px;
+  color: rgb(92, 99, 112);
+  text-decoration: line-through;
+  float: right;
+  margin-right: 8px;
 }
 
 .combo-choose__wrapper {
