@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getProductAction } from '../../../redux/actions/productsActions'
 import { clearGetPizza } from '../../../redux/actions/pizzasActions'
+import { modalOpenAction } from '../../../redux/actions/loginActions'
 
 const ModalProductCard = props => {
   const dispatch = useDispatch()
@@ -12,12 +13,21 @@ const ModalProductCard = props => {
 
   useEffect(() => {
     dispatch(getProductAction(props.productCardId))
+    dispatch(modalOpenAction(true))
+
+    return () => {
+      dispatch(clearGetPizza())
+      dispatch(modalOpenAction(false))
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return product ? (
     <div className='show-locality__selector'>
-      <div className='show-locality__shadow' />
+      <div
+        className='show-locality__shadow'
+        onClick={() => props.setProductCardId(null)}
+      />
       <div className='locality-selector__wrapper'>
         <div className='modal-product__card'>
           <section style={{ display: 'flex' }}>
@@ -49,10 +59,7 @@ const ModalProductCard = props => {
             src={closeIcon}
             alt='Close Icon'
             className='close-icon'
-            onClick={() => {
-              dispatch(clearGetPizza())
-              props.setProductCardId(null)
-            }}
+            onClick={() => props.setProductCardId(null)}
           />
         </div>
       </div>

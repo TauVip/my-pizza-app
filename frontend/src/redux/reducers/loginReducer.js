@@ -2,6 +2,7 @@ import {
   LOGIN_FAIL,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
+  MODAL_OPEN,
   PAGE_NOT_FOUND,
   SMS_LOGIN_FAIL,
   SMS_LOGIN_REQUEST,
@@ -10,6 +11,9 @@ import {
 
 export const pageNotFoundReducer = (state = [], action) =>
   action.type === PAGE_NOT_FOUND ? { pageNotFound: action.payload } : state
+
+export const modalOpenReducer = (state = [], action) =>
+  action.type === MODAL_OPEN ? { modalOpen: action.payload } : state
 
 export const smsLoginReducer = (state = [], action) => {
   switch (action.type) {

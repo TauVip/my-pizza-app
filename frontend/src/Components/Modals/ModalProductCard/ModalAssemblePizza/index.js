@@ -1,16 +1,26 @@
-import { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import closeIcon from '../../../../images/close-icon.svg'
+import { modalOpenAction } from '../../../../redux/actions/loginActions'
 import ChooseHalvePizza from './ChooseHalvePizza'
 import SelectedHalveSection from './SelectedHalveSection'
 
 const ModalAssemblePizza = props => {
+  const dispatch = useDispatch()
+
   const { pizzas } = useSelector(state => state.pizzasList)
 
   const [thickness, setThickness] = useState('traditional')
   const [leftHalveSelected, setLeftHalveSelected] = useState(null)
   const [rightHalveSelected, setRightHalveSelected] = useState(null)
   const [addCartError, setAddCartError] = useState(false)
+
+  useEffect(() => {
+    dispatch(modalOpenAction(true))
+
+    return () => dispatch(modalOpenAction(false))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const onAddCart = () => {
     if (!leftHalveSelected || !rightHalveSelected) {
@@ -21,7 +31,10 @@ const ModalAssemblePizza = props => {
 
   return (
     <div className='show-locality__selector'>
-      <div className='show-locality__shadow' />
+      <div
+        className='show-locality__shadow'
+        onClick={() => props.setShowAssemblePizza(false)}
+      />
       <div className='locality-selector__wrapper'>
         <div className='modal-product__card'>
           <div className='choose-halves__wrapper'>

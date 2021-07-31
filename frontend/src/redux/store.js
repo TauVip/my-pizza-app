@@ -9,6 +9,7 @@ import {
 import { citiesListReducer, getCityReducer } from './reducers/citiesReducer'
 import {
   loginReducer,
+  modalOpenReducer,
   pageNotFoundReducer,
   smsLoginReducer
 } from './reducers/loginReducer'
@@ -21,6 +22,7 @@ import {
 
 const reducer = combineReducers({
   pageNotFound: pageNotFoundReducer,
+  modalOpen: modalOpenReducer,
   citiesList: citiesListReducer,
   getCity: getCityReducer,
   smsLogin: smsLoginReducer,

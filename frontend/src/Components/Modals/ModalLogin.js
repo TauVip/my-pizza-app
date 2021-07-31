@@ -2,7 +2,11 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import closeIcon from '../../images/close-icon.svg'
-import { loginAction, smsLoginAction } from '../../redux/actions/loginActions'
+import {
+  loginAction,
+  modalOpenAction,
+  smsLoginAction
+} from '../../redux/actions/loginActions'
 import Loading from '../Loading'
 
 const ModalLogin = props => {
@@ -21,6 +25,13 @@ const ModalLogin = props => {
   console.log(code)
   const { city } = useSelector(state => state.getCity)
   const { userInfo } = useSelector(state => state.login)
+
+  useEffect(() => {
+    dispatch(modalOpenAction(true))
+
+    return () => dispatch(modalOpenAction(false))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     time === 0 && setCodeTiming(false)
@@ -91,7 +102,10 @@ const ModalLogin = props => {
 
   return (
     <div className='show-locality__selector'>
-      <div className='show-locality__shadow' />
+      <div
+        className='show-locality__shadow'
+        onClick={() => props.setLogin(false)}
+      />
       <div className='locality-selector__wrapper'>
         <div className='modal-login__form'>
           <h1 className='modal-login__title'>Вход на сайт</h1>

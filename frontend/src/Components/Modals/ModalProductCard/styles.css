@@ -175,6 +175,21 @@
   overflow: hidden;
   margin: 8px 0px;
 }
+.pizza-info__size[data-active] {
+  transition-property: opacity, margin-bottom;
+  transition-duration: 150ms;
+  transition-timing-function: ease-in-out;
+}
+.pizza-info__size[data-active='false'] {
+  margin-bottom: -44px;
+  opacity: 0;
+  pointer-events: none;
+}
+.pizza-info__size[data-active='true'] {
+  opacity: 1;
+  margin-bottom: 0px;
+  pointer-events: auto;
+}
 .product-chosen {
   position: absolute;
   top: 0px;
@@ -640,11 +655,21 @@
   margin-bottom: 4px;
   padding-right: 38px;
 }
+.combo-product__info {
+  font-size: 12px;
+  line-height: 16px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+}
 .combo-product__size {
   font-size: 12px;
   line-height: 16px;
   margin-top: 4px;
   color: rgb(92, 99, 112);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 }
 .combo-full-price {
   font-size: 14px;

@@ -20,6 +20,7 @@ const App = () => {
   const { city, getCityError } = useSelector(state => state.getCity)
   const { userInfo } = useSelector(state => state.login)
   const { pageNotFound } = useSelector(state => state.pageNotFound)
+  const { modalOpen } = useSelector(state => state.modalOpen)
 
   useEffect(() => {
     if (!city) dispatch(isCityGet())
@@ -29,7 +30,10 @@ const App = () => {
 
     if (city)
       document.title = `🍕 Додо Пицца ${city.name} | Доставка пиццы №1 в Казахстане`
-  }, [city, dispatch, getCityError, history, userInfo])
+
+    if (modalOpen) document.body.style.overflow = 'hidden'
+    else document.body.style.overflow = 'auto'
+  }, [city, dispatch, getCityError, history, modalOpen, userInfo])
 
   return (
     <>

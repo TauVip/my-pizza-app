@@ -2,6 +2,7 @@ import { Fragment } from 'react'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import closeIcon from '../../../../images/close-icon.svg'
+import { modalOpenAction } from '../../../../redux/actions/loginActions'
 import {
   clearGetPizza,
   getPizzaAction
@@ -23,6 +24,16 @@ const ModalPizzaCard = props => {
   const [price, setPrice] = useState(0)
 
   useEffect(() => {
+    dispatch(modalOpenAction(true))
+
+    return () => {
+      dispatch(clearGetPizza())
+      dispatch(modalOpenAction(false))
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  useEffect(() => {
     if (!pizza) dispatch(getPizzaAction(props.pizzaId))
     else {
       if (!sizeChosen) setSizeChosen(pizza.price.medium ? 'medium' : 'small')
@@ -41,7 +52,10 @@ const ModalPizzaCard = props => {
 
   return (
     <div className='show-locality__selector'>
-      <div className='show-locality__shadow' />
+      <div
+        className='show-locality__shadow'
+        onClick={() => props.setPizzaId(null)}
+      />
       <div className='locality-selector__wrapper'>
         {pizza && (
           <div className='modal-product__card'>
@@ -64,8 +78,7 @@ const ModalPizzaCard = props => {
                           height='382'
                           viewBox='0 0 382 382'
                           fill='none'
-                          xmlns='http://www.w3.org/2000/svg'
-                        >
+                          xmlns='http://www.w3.org/2000/svg'>
                           <circle
                             cx='191'
                             cy='191'
@@ -74,8 +87,7 @@ const ModalPizzaCard = props => {
                             strokeWidth='0.6'
                             strokeLinecap='round'
                             strokeLinejoin='round'
-                            strokeDasharray='1 6.1'
-                          ></circle>
+                            strokeDasharray='1 6.1'></circle>
                         </svg>
                       </i>
                     )}
@@ -86,8 +98,7 @@ const ModalPizzaCard = props => {
                           height='450'
                           viewBox='0 0 450 450'
                           fill='none'
-                          xmlns='http://www.w3.org/2000/svg'
-                        >
+                          xmlns='http://www.w3.org/2000/svg'>
                           <ellipse
                             opacity='0.6'
                             cx='225'
@@ -98,8 +109,7 @@ const ModalPizzaCard = props => {
                             strokeWidth='0.8'
                             strokeLinecap='round'
                             strokeLinejoin='round'
-                            strokeDasharray='2 12.2'
-                          ></ellipse>
+                            strokeDasharray='2 12.2'></ellipse>
                         </svg>
                       </i>
                     )}
@@ -153,8 +163,7 @@ const ModalPizzaCard = props => {
                     />
                     <label
                       htmlFor='small-pizza'
-                      className='product-size__label'
-                    >
+                      className='product-size__label'>
                       Маленькая
                     </label>
                     {pizza.price.medium && (
@@ -169,8 +178,7 @@ const ModalPizzaCard = props => {
                         />
                         <label
                           htmlFor='medium-pizza'
-                          className='product-size__label'
-                        >
+                          className='product-size__label'>
                           Средняя
                         </label>
                         <input
@@ -183,8 +191,7 @@ const ModalPizzaCard = props => {
                         />
                         <label
                           htmlFor='big-pizza'
-                          className='product-size__label'
-                        >
+                          className='product-size__label'>
                           Большая
                         </label>
                       </>
@@ -207,8 +214,7 @@ const ModalPizzaCard = props => {
                     />
                     <label
                       htmlFor='thickness-traditional'
-                      className='product-size__label'
-                    >
+                      className='product-size__label'>
                       Традиционное
                     </label>
                     {pizza.price.medium && (
@@ -226,8 +232,7 @@ const ModalPizzaCard = props => {
                         <label
                           htmlFor='thickness-thin'
                           className='product-size__label'
-                          data-disabled={sizeChosen === 'small'}
-                        >
+                          data-disabled={sizeChosen === 'small'}>
                           Тонкое
                         </label>
                       </>
@@ -262,10 +267,7 @@ const ModalPizzaCard = props => {
               src={closeIcon}
               alt='Close Icon'
               className='close-icon'
-              onClick={() => {
-                dispatch(clearGetPizza())
-                props.setPizzaId(null)
-              }}
+              onClick={() => props.setPizzaId(null)}
             />
           </div>
         )}

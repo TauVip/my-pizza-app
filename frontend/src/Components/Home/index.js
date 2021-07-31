@@ -31,6 +31,7 @@ const Home = () => {
       dispatch(fetchProductsAction(city._id, 'desserts'))
       dispatch(fetchProductsAction(city._id, 'drinks'))
       dispatch(fetchProductsAction(city._id, 'others'))
+      dispatch(fetchProductsAction(city._id, 'sauces'))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [city])
@@ -76,8 +77,7 @@ const Home = () => {
                   </div>
                   <button
                     className='product-button collect-button'
-                    onClick={() => setShowAssemblePizza(true)}
-                  >
+                    onClick={() => setShowAssemblePizza(true)}>
                     Собрать
                   </button>
                 </footer>
@@ -104,8 +104,7 @@ const Home = () => {
                     </div>
                     <button
                       className='product-button'
-                      onClick={() => setPizzaId(pizza._id)}
-                    >
+                      onClick={() => setPizzaId(pizza._id)}>
                       Выбрать
                     </button>
                   </footer>
@@ -120,8 +119,7 @@ const Home = () => {
                   style={{
                     height: 400,
                     boxShadow: 'rgb(115 121 140 / 50%) 0px 2px 10px -2px'
-                  }}
-                >
+                  }}>
                   <img alt='Some product' src='' className='menu__meta-img' />
                 </main>
               </article>
@@ -142,7 +140,7 @@ const Home = () => {
                 alt='Комбо за 2 650 тг.'
                 title='Комбо за 2 650 тг.'
                 className='menu__meta-img'
-                src='https://dodopizza-a.akamaihd.net/static/Img/ComboTemplates/e4aecdc6e454411b912eb335be5249de_233x233.webp'
+                src='https://dodopizza-a.akamaihd.net/static/Img/ComboTemplates/e4aecdc6e454411b912eb335be5249de_292x292.webp'
                 onClick={() => setShowComboCard(true)}
               />
               <div className='menu__meta-title'>Комбо за 2 650 тг.</div>
@@ -153,8 +151,7 @@ const Home = () => {
               <div className='product-control-price'>от 2 650 тг.</div>
               <button
                 className='product-button'
-                onClick={() => setShowComboCard(true)}
-              >
+                onClick={() => setShowComboCard(true)}>
                 Выбрать
               </button>
             </footer>

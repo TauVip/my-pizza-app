@@ -3,6 +3,7 @@ import {
   LOGIN_FAIL,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
+  MODAL_OPEN,
   PAGE_NOT_FOUND,
   SMS_LOGIN_FAIL,
   SMS_LOGIN_REQUEST,
@@ -11,6 +12,9 @@ import {
 
 export const pageNotFoundAction = val => dispatch =>
   dispatch({ type: PAGE_NOT_FOUND, payload: val })
+
+export const modalOpenAction = val => dispatch =>
+  dispatch({ type: MODAL_OPEN, payload: val })
 
 export const smsLoginAction = userPhone => async dispatch => {
   try {

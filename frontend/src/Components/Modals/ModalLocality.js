@@ -10,6 +10,7 @@ import {
 import Loading from '../Loading'
 import closeIcon from '../../images/close-icon.svg'
 import { useState } from 'react'
+import { modalOpenAction } from '../../redux/actions/loginActions'
 
 const ModalLocality = props => {
   const history = useHistory()
@@ -20,10 +21,16 @@ const ModalLocality = props => {
   const { city } = useSelector(state => state.getCity)
 
   useEffect(() => {
+    dispatch(modalOpenAction(true))
     dispatch(fetchCitiesAction())
 
+    return () => dispatch(modalOpenAction(false))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  useEffect(() => {
     if (city && !props.changeCity) history.push(city.link)
-  }, [city, dispatch, props.changeCity, history])
+  }, [city, props.changeCity, history])
 
   const [showGradientTop, setShowGradientTop] = useState(false)
   const [showGradientBottom, setShowGradientBottom] = useState(false)
@@ -50,7 +57,10 @@ const ModalLocality = props => {
 
   return (
     <div className='show-locality__selector'>
-      <div className='show-locality__shadow' />
+      <div
+        className='show-locality__shadow'
+        onClick={() => props.setChangeCity(false)}
+      />
       <div className='locality-selector__wrapper'>
         <div className='locality-selector'>
           <div className='locality-selector__header'>
@@ -77,8 +87,7 @@ const ModalLocality = props => {
                     to={`/${city.link}`}
                     className='megacity'
                     key={city._id}
-                    onClick={() => onClick(city._id)}
-                  >
+                    onClick={() => onClick(city._id)}>
                     {city.name}
                   </Link>
                 ))
@@ -97,8 +106,7 @@ const ModalLocality = props => {
                 {column.map(city => (
                   <div
                     style={{ position: 'relative', cursor: 'pointer' }}
-                    key={city._id}
-                  >
+                    key={city._id}>
                     {citiesGroup[city.name[0]][0] === city && (
                       <span className='locality-selector__group-letter'>
                         {city.name[0]}
@@ -107,8 +115,7 @@ const ModalLocality = props => {
                     <Link
                       to={`/${city.link}`}
                       className='locality-selector__link'
-                      onClick={() => onClick(city._id)}
-                    >
+                      onClick={() => onClick(city._id)}>
                       {city.name}
                     </Link>
                   </div>
