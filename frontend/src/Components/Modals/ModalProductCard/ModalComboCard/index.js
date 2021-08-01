@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import closeIcon from '../../../../images/close-icon.svg'
 import { modalOpenAction } from '../../../../redux/actions/loginActions'
 import InformationCircle from '../InformationCircle'
+import ComboProductChoose from './ComboProductChoose'
 import ComboProductSection from './ComboProductSection'
 
 const ModalComboCard = props => {
@@ -62,22 +63,9 @@ const ModalComboCard = props => {
 
   const dispatch = useDispatch()
 
-  const { sizeVars } = useSelector(state => state.pizzasList)
-
-  const { pizzas } = useSelector(state => state.pizzasList)
-  const { products } = useSelector(state => state.productsList)
-
-  const findItems = products =>
-    combo.items
-      .map(item => products.find(product => product._id === item.default))
-      .filter(Boolean)
-  const comboProducts = {
-    pizzas: findItems(pizzas),
-    products: findItems(products.snacks)
-  }
-  console.log(comboProducts)
-
+  const [comboProducts, setComboProducts] = useState([])
   const [checkedItem, setCheckedItem] = useState(null)
+  const [comboProductSelected, setComboProductSelected] = useState(null)
 
   useEffect(() => {
     dispatch(modalOpenAction(true))
@@ -105,7 +93,6 @@ const ModalComboCard = props => {
                     comboProducts={comboProducts}
                     thickness='traditional'
                     sizeChosen='small'
-                    sizeVars={sizeVars}
                   />
                 </div>
                 <div className='combo-info__desc'>
@@ -121,6 +108,10 @@ const ModalComboCard = props => {
                     }
                     setCheckedItem={setCheckedItem}
                     index={i}
+                    comboProducts={comboProducts}
+                    setComboProducts={setComboProducts}
+                    comboProductSelected={comboProductSelected}
+                    setComboProductSelected={setComboProductSelected}
                   />
                 ))}
               </div>
@@ -134,11 +125,25 @@ const ModalComboCard = props => {
               </div>
             </div>
             <div className='combo-choose__wrapper'>
-              <img
-                src='https://dodopizza-a.akamaihd.net/static/Img/ComboTemplates/e4aecdc6e454411b912eb335be5249de_1875x1875.webp'
-                alt=''
-                style={{ width: '100%', userSelect: 'none' }}
-              />
+              {checkedItem ? (
+                <div className='combo-choose__product'>
+                  {checkedItem.productsId.map(productId => (
+                    <ComboProductChoose
+                      productId={productId}
+                      category={checkedItem.category}
+                      selected={comboProductSelected === productId}
+                      setSelected={setComboProductSelected}
+                      key={productId}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <img
+                  src='https://dodopizza-a.akamaihd.net/static/Img/ComboTemplates/e4aecdc6e454411b912eb335be5249de_1875x1875.webp'
+                  alt=''
+                  style={{ width: '100%', userSelect: 'none' }}
+                />
+              )}
             </div>
           </div>
           <img
