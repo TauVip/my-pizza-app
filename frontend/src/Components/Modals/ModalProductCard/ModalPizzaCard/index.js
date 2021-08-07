@@ -48,7 +48,8 @@ const ModalPizzaCard = props => {
           )
         )
     }
-  }, [checkedSnacks, dispatch, pizza, pizzaSnacks, props.pizzaId, sizeChosen])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [checkedSnacks, pizza, sizeChosen])
 
   return (
     <div className='show-locality__selector'>
@@ -126,7 +127,7 @@ const ModalPizzaCard = props => {
                       pizza={pizza}
                       thickness={thickness}
                       sizeChosen={sizeChosen}
-                      sizeVars={sizeVars}
+                      diameter={sizeVars[sizeChosen]}
                     />
                   </div>
                   <div className='pizza-info__chosen'>

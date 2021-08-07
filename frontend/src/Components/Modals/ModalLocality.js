@@ -30,7 +30,8 @@ const ModalLocality = props => {
 
   useEffect(() => {
     if (city && !props.changeCity) history.push(city.link)
-  }, [city, props.changeCity, history])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [city, props.changeCity])
 
   const [showGradientTop, setShowGradientTop] = useState(false)
   const [showGradientBottom, setShowGradientBottom] = useState(false)
@@ -87,8 +88,7 @@ const ModalLocality = props => {
                     to={`/${city.link}`}
                     className='megacity'
                     key={city._id}
-                    onClick={() => onClick(city._id)}
-                  >
+                    onClick={() => onClick(city._id)}>
                     {city.name}
                   </Link>
                 ))
@@ -107,8 +107,7 @@ const ModalLocality = props => {
                 {column.map(city => (
                   <div
                     style={{ position: 'relative', cursor: 'pointer' }}
-                    key={city._id}
-                  >
+                    key={city._id}>
                     {citiesGroup[city.name[0]][0] === city && (
                       <span className='locality-selector__group-letter'>
                         {city.name[0]}
@@ -117,8 +116,7 @@ const ModalLocality = props => {
                     <Link
                       to={`/${city.link}`}
                       className='locality-selector__link'
-                      onClick={() => onClick(city._id)}
-                    >
+                      onClick={() => onClick(city._id)}>
                       {city.name}
                     </Link>
                   </div>

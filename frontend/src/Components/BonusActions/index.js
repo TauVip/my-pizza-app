@@ -15,7 +15,8 @@ const BonusActions = () => {
       document.title = `🍕 Акции и скидки | Додо Пицца ${city.name} | Доставка пиццы №1 в Казахстане`
       dispatch(fetchArticlesAction(city._id))
     }
-  }, [city, dispatch])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [city])
 
   return (
     <main className='bonus-actions__content'>

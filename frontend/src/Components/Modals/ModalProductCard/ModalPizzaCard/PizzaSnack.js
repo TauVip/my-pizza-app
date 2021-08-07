@@ -14,7 +14,8 @@ const PizzaSnack = props => {
         props.checkedSnacks.filter(id => id !== props.pizzaSnack._id)
       )
     }
-  }, [disabled, props, selected])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [disabled, selected])
 
   return (
     <button

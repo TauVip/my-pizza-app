@@ -48,7 +48,8 @@ const ModalLogin = props => {
       }, 1000)
       return () => clearInterval(timer)
     }
-  }, [city.link, codeTiming, history, props, time, userInfo])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [codeTiming, time, userInfo])
 
   const onChangePhone = e => {
     const target = e.target.value

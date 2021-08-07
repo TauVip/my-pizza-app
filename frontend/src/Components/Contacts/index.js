@@ -26,7 +26,8 @@ const Contacts = () => {
       dispatch(fetchPizzeriasAction(city._id, fullDay, workingNow, value))
 
     if (fullDay) setWorkingNow(true)
-  }, [city, dispatch, fullDay, value, workingNow])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [city, fullDay, value, workingNow])
 
   return city ? (
     <div className='contacts-page__content'>

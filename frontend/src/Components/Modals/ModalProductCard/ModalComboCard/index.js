@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import closeIcon from '../../../../images/close-icon.svg'
 import { modalOpenAction } from '../../../../redux/actions/loginActions'
 import InformationCircle from '../InformationCircle'
@@ -24,7 +24,35 @@ const ModalComboCard = props => {
         ],
         default: '60efb7e16fe49c2f24bcf5fb',
         category: 'pizzas',
-        size: 'small',
+        size: 'medium',
+        thickness: 'traditional'
+      },
+      {
+        productsId: [
+          '60efb7e16fe49c2f24bcf5fb',
+          '60efd0346fe49c2f24bcf601',
+          '60efcb026fe49c2f24bcf600',
+          '60eeacd02c89e728981370fb',
+          '60ee84ce1fecbc14c4e6b5f3',
+          '60eea79b2c89e728981370fa'
+        ],
+        default: '60efb7e16fe49c2f24bcf5fb',
+        category: 'pizzas',
+        size: 'medium',
+        thickness: 'thin'
+      },
+      {
+        productsId: [
+          '60efb7e16fe49c2f24bcf5fb',
+          '60efd0346fe49c2f24bcf601',
+          '60efcb026fe49c2f24bcf600',
+          '60eeacd02c89e728981370fb',
+          '60ee84ce1fecbc14c4e6b5f3',
+          '60eea79b2c89e728981370fa'
+        ],
+        default: '60efb7e16fe49c2f24bcf5fb',
+        category: 'pizzas',
+        size: 'medium',
         thickness: 'traditional'
       },
       {
@@ -63,9 +91,16 @@ const ModalComboCard = props => {
 
   const dispatch = useDispatch()
 
-  const [comboProducts, setComboProducts] = useState([])
+  const { pizzas, sizeVars } = useSelector(state => state.pizzasList)
+  const { products } = useSelector(state => state.productsList)
+
+  const [comboProducts, setComboProducts] = useState({})
+  const [fullPrice, setFullPrice] = useState(0)
   const [checkedItem, setCheckedItem] = useState(null)
+  const [checkedItemIndex, setCheckedItemIndex] = useState(null)
   const [comboProductSelected, setComboProductSelected] = useState(null)
+  const [size, setSize] = useState(null)
+  const [thicknessObj, setThicknessObj] = useState({})
 
   useEffect(() => {
     dispatch(modalOpenAction(true))
@@ -73,6 +108,27 @@ const ModalComboCard = props => {
     return () => dispatch(modalOpenAction(false))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  useEffect(() => {
+    comboProducts &&
+      setFullPrice(
+        Object.values(comboProducts).reduce(
+          (count, product) =>
+            product?.category
+              ? product.price + count
+              : product?.price[size] + count,
+          0
+        )
+      )
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [comboProducts])
+
+  const findItemFunc = (category, id) => {
+    const findItem = item => item._id === id
+    return category === 'pizzas'
+      ? pizzas.find(findItem)
+      : products[category].find(findItem)
+  }
 
   return (
     <div className='show-locality__selector'>
@@ -87,39 +143,49 @@ const ModalComboCard = props => {
               <div className='combo-info__section'>
                 <div className='combo-info__title'>
                   <span style={{ fontSize: 24, lineHeight: '28px' }}>
-                    Комбо за 2 650 тг.
+                    {combo.name}
                   </span>
                   <InformationCircle
                     comboProducts={comboProducts}
-                    thickness='traditional'
-                    sizeChosen='small'
+                    thicknessObj={thicknessObj}
+                    sizeChosen={size}
+                    diameter={sizeVars[size]}
                   />
                 </div>
-                <div className='combo-info__desc'>
-                  Наш хит «Аррива!» или другая пицца 25 см, Додстер, напиток и
-                  соус. Выбор пицц ограничен
-                </div>
+                <div className='combo-info__desc'>{combo.description}</div>
                 {combo.items.map((item, i) => (
                   <ComboProductSection
                     key={i}
+                    //product={comboProducts[i]}
                     item={item}
-                    checked={
-                      JSON.stringify(checkedItem) === JSON.stringify(item)
-                    }
+                    //checked={checkedItemIndex === i}
+                    setCheckedItemIndex={setCheckedItemIndex}
+                    checkedItemIndex={checkedItemIndex}
                     setCheckedItem={setCheckedItem}
                     index={i}
                     comboProducts={comboProducts}
                     setComboProducts={setComboProducts}
                     comboProductSelected={comboProductSelected}
                     setComboProductSelected={setComboProductSelected}
+                    size={size}
+                    setSize={setSize}
+                    thickness={thicknessObj[i]}
+                    thicknessObj={thicknessObj}
+                    setThicknessObj={setThicknessObj}
+                    findItemFunc={findItemFunc}
+                    diameter={sizeVars[size]}
                   />
                 ))}
               </div>
               <div style={{ flex: '0 0 auto', padding: '16px 30px 30px' }}>
                 <div style={{ lineHeight: '16px', marginBottom: 16 }}>
                   Стоимость
-                  <div style={{ float: 'right' }}>2 650 тг.</div>
-                  <div className='combo-full-price'>3 150 тг.</div>
+                  <div style={{ float: 'right' }}>
+                    {combo.price.toLocaleString()} тг.
+                  </div>
+                  <div className='combo-full-price'>
+                    {fullPrice.toLocaleString()} тг.
+                  </div>
                 </div>
                 <button className='add-cart__button'>В корзину</button>
               </div>
@@ -129,10 +195,12 @@ const ModalComboCard = props => {
                 <div className='combo-choose__product'>
                   {checkedItem.productsId.map(productId => (
                     <ComboProductChoose
-                      productId={productId}
-                      category={checkedItem.category}
+                      product={findItemFunc(checkedItem.category, productId)}
                       selected={comboProductSelected === productId}
                       setSelected={setComboProductSelected}
+                      thickness={thicknessObj[checkedItemIndex]}
+                      size={checkedItem.size}
+                      diameter={sizeVars[size]}
                       key={productId}
                     />
                   ))}

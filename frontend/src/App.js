@@ -33,7 +33,8 @@ const App = () => {
 
     if (modalOpen) document.body.style.overflow = 'hidden'
     else document.body.style.overflow = 'auto'
-  }, [city, dispatch, getCityError, history, modalOpen, userInfo])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [city, getCityError, history, modalOpen, userInfo])
 
   return (
     <>
