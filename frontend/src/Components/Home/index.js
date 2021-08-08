@@ -10,6 +10,7 @@ import ModalProductCard from '../Modals/ModalProductCard'
 import { fetchProductsAction } from '../../redux/actions/productsActions'
 import ProductsShow from './ProductsShow'
 import ModalComboCard from '../Modals/ModalProductCard/ModalComboCard'
+import { fetchCombosAction } from '../../redux/actions/comboProductsActions'
 
 const Home = () => {
   const dispatch = useDispatch()
@@ -17,11 +18,12 @@ const Home = () => {
   const { city } = useSelector(state => state.getCity)
   const { pizzas } = useSelector(state => state.pizzasList)
   const { products } = useSelector(state => state.productsList)
+  const { combos } = useSelector(state => state.combosList)
 
   const [pizzaId, setPizzaId] = useState(null)
   const [showAssemblePizza, setShowAssemblePizza] = useState(false)
-  const [showComboCard, setShowComboCard] = useState(false)
   const [productCardId, setProductCardId] = useState(null)
+  const [comboCard, setComboCard] = useState(null)
 
   useEffect(() => {
     if (city) {
@@ -32,6 +34,7 @@ const Home = () => {
       dispatch(fetchProductsAction(city._id, 'drinks'))
       dispatch(fetchProductsAction(city._id, 'others'))
       dispatch(fetchProductsAction(city._id, 'sauces'))
+      dispatch(fetchCombosAction())
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [city])
@@ -77,7 +80,8 @@ const Home = () => {
                   </div>
                   <button
                     className='product-button collect-button'
-                    onClick={() => setShowAssemblePizza(true)}>
+                    onClick={() => setShowAssemblePizza(true)}
+                  >
                     Собрать
                   </button>
                 </footer>
@@ -104,7 +108,8 @@ const Home = () => {
                     </div>
                     <button
                       className='product-button'
-                      onClick={() => setPizzaId(pizza._id)}>
+                      onClick={() => setPizzaId(pizza._id)}
+                    >
                       Выбрать
                     </button>
                   </footer>
@@ -119,7 +124,8 @@ const Home = () => {
                   style={{
                     height: 400,
                     boxShadow: 'rgb(115 121 140 / 50%) 0px 2px 10px -2px'
-                  }}>
+                  }}
+                >
                   <img alt='Some product' src='' className='menu__meta-img' />
                 </main>
               </article>
@@ -133,33 +139,34 @@ const Home = () => {
           )}
         </section>
         <h1 className='product-title'>Комбо</h1>
-        <section className='products-section'>
-          <article className='menu__meta-product'>
-            <main className='menu__meta-main'>
-              <img
-                alt='Комбо за 2 650 тг.'
-                title='Комбо за 2 650 тг.'
-                className='menu__meta-img'
-                src='https://dodopizza-a.akamaihd.net/static/Img/ComboTemplates/e4aecdc6e454411b912eb335be5249de_292x292.webp'
-                onClick={() => setShowComboCard(true)}
-              />
-              <div className='menu__meta-title'>Комбо за 2 650 тг.</div>
-              Наш хит «Аррива!» или другая пицца 25 см, Додстер, напиток и соус.
-              Выбор пицц ограничен
-            </main>
-            <footer className='product-footer'>
-              <div className='product-control-price'>от 2 650 тг.</div>
-              <button
-                className='product-button'
-                onClick={() => setShowComboCard(true)}>
-                Выбрать
-              </button>
-            </footer>
-          </article>
-        </section>
-        {showComboCard && (
-          <ModalComboCard setShowComboCard={setShowComboCard} />
-        )}
+        {combos?.map(combo => (
+          <section className='products-section'>
+            <article className='menu__meta-product'>
+              <main className='menu__meta-main'>
+                <img
+                  alt='Комбо за 2 650 тг.'
+                  title='Комбо за 2 650 тг.'
+                  className='menu__meta-img'
+                  src='https://dodopizza-a.akamaihd.net/static/Img/ComboTemplates/e4aecdc6e454411b912eb335be5249de_292x292.webp'
+                  onClick={() => setComboCard(combo._id)}
+                />
+                <div className='menu__meta-title'>Комбо за 2 650 тг.</div>
+                Наш хит «Аррива!» или другая пицца 25 см, Додстер, напиток и
+                соус. Выбор пицц ограничен
+              </main>
+              <footer className='product-footer'>
+                <div className='product-control-price'>от 2 650 тг.</div>
+                <button
+                  className='product-button'
+                  onClick={() => setComboCard(combo._id)}
+                >
+                  Выбрать
+                </button>
+              </footer>
+            </article>
+          </section>
+        ))}
+        {comboCard && <ModalComboCard setComboCard={setComboCard} />}
         <h1 className='product-title'>Закуски</h1>
         <section className='products-section'>
           {products?.snacks?.map(snack => (

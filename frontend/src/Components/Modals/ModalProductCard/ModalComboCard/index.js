@@ -24,35 +24,7 @@ const ModalComboCard = props => {
         ],
         default: '60efb7e16fe49c2f24bcf5fb',
         category: 'pizzas',
-        size: 'medium',
-        thickness: 'traditional'
-      },
-      {
-        productsId: [
-          '60efb7e16fe49c2f24bcf5fb',
-          '60efd0346fe49c2f24bcf601',
-          '60efcb026fe49c2f24bcf600',
-          '60eeacd02c89e728981370fb',
-          '60ee84ce1fecbc14c4e6b5f3',
-          '60eea79b2c89e728981370fa'
-        ],
-        default: '60efb7e16fe49c2f24bcf5fb',
-        category: 'pizzas',
-        size: 'medium',
-        thickness: 'thin'
-      },
-      {
-        productsId: [
-          '60efb7e16fe49c2f24bcf5fb',
-          '60efd0346fe49c2f24bcf601',
-          '60efcb026fe49c2f24bcf600',
-          '60eeacd02c89e728981370fb',
-          '60ee84ce1fecbc14c4e6b5f3',
-          '60eea79b2c89e728981370fa'
-        ],
-        default: '60efb7e16fe49c2f24bcf5fb',
-        category: 'pizzas',
-        size: 'medium',
+        size: 'small',
         thickness: 'traditional'
       },
       {
@@ -94,13 +66,13 @@ const ModalComboCard = props => {
   const { pizzas, sizeVars } = useSelector(state => state.pizzasList)
   const { products } = useSelector(state => state.productsList)
 
-  const [comboProducts, setComboProducts] = useState({})
+  const [comboProducts, setComboProducts] = useState([])
   const [fullPrice, setFullPrice] = useState(0)
   const [checkedItem, setCheckedItem] = useState(null)
   const [checkedItemIndex, setCheckedItemIndex] = useState(null)
   const [comboProductSelected, setComboProductSelected] = useState(null)
   const [size, setSize] = useState(null)
-  const [thicknessObj, setThicknessObj] = useState({})
+  const [thicknessObj, setThicknessObj] = useState([])
 
   useEffect(() => {
     dispatch(modalOpenAction(true))
@@ -110,16 +82,15 @@ const ModalComboCard = props => {
   }, [])
 
   useEffect(() => {
-    comboProducts &&
-      setFullPrice(
-        Object.values(comboProducts).reduce(
-          (count, product) =>
-            product?.category
-              ? product.price + count
-              : product?.price[size] + count,
-          0
-        )
+    setFullPrice(
+      comboProducts.reduce(
+        (count, product) =>
+          product?.category
+            ? product.price + count
+            : product?.price[size] + count,
+        0
       )
+    )
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [comboProducts])
 
@@ -134,7 +105,7 @@ const ModalComboCard = props => {
     <div className='show-locality__selector'>
       <div
         className='show-locality__shadow'
-        onClick={() => props.setShowComboCard(false)}
+        onClick={() => props.setComboCard(null)}
       />
       <div className='locality-selector__wrapper'>
         <div className='modal-product__card'>
@@ -156,9 +127,7 @@ const ModalComboCard = props => {
                 {combo.items.map((item, i) => (
                   <ComboProductSection
                     key={i}
-                    //product={comboProducts[i]}
                     item={item}
-                    //checked={checkedItemIndex === i}
                     setCheckedItemIndex={setCheckedItemIndex}
                     checkedItemIndex={checkedItemIndex}
                     setCheckedItem={setCheckedItem}
@@ -169,11 +138,9 @@ const ModalComboCard = props => {
                     setComboProductSelected={setComboProductSelected}
                     size={size}
                     setSize={setSize}
-                    thickness={thicknessObj[i]}
                     thicknessObj={thicknessObj}
                     setThicknessObj={setThicknessObj}
                     findItemFunc={findItemFunc}
-                    diameter={sizeVars[size]}
                   />
                 ))}
               </div>
@@ -218,7 +185,7 @@ const ModalComboCard = props => {
             src={closeIcon}
             alt='Close Icon'
             className='close-icon'
-            onClick={() => props.setShowComboCard(false)}
+            onClick={() => props.setComboCard(null)}
           />
         </div>
       </div>

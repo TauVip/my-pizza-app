@@ -1,23 +1,32 @@
-import { useState } from 'react'
-import { Fragment, useEffect } from 'react'
+import { Fragment, useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import Loading from '../../../Loading'
 
 const ComboProductSection = props => {
+  const { sizeVars } = useSelector(state => state.pizzasList)
+
   const [product, setProduct] = useState(null)
+  const [thickness, setThickness] = useState(null)
 
   useEffect(() => {
-    props.comboProducts[props.index] = props.findItemFunc(
-      props.item.category,
-      props.item.default
-    )
-    props.setComboProducts({ ...props.comboProducts })
+    if (!product) {
+      props.comboProducts[props.index] = props.findItemFunc(
+        props.item.category,
+        props.item.default
+      )
+      if (props.item.category === 'pizzas') {
+        props.thicknessObj[props.index] = props.item.thickness
+        props.setThicknessObj([...props.thicknessObj])
+        setThickness(props.item.thickness)
+        if (!props.size) props.setSize(props.item.size)
+      }
+    } else if (props.index === props.checkedItemIndex)
+      props.comboProducts[props.index] = props.findItemFunc(
+        props.item.category,
+        props.comboProductSelected
+      )
+    props.setComboProducts([...props.comboProducts])
     setProduct(props.comboProducts[props.index])
-
-    if (props.item.category === 'pizzas') {
-      props.thicknessObj[props.index] = props.item.thickness
-      props.setThicknessObj({ ...props.thicknessObj })
-      if (!props.size) props.setSize(props.item.size)
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.comboProductSelected, props.setCheckedItemIndex])
 
@@ -29,13 +38,6 @@ const ComboProductSection = props => {
       props.setCheckedItem(props.item)
       props.setCheckedItemIndex(props.index)
       props.setComboProductSelected(product._id)
-
-      props.comboProducts[props.index] = props.findItemFunc(
-        props.item.category,
-        product._id
-      )
-      props.setComboProducts({ ...props.comboProducts })
-      setProduct(props.comboProducts[props.index])
     }
   }
 
@@ -43,11 +45,12 @@ const ComboProductSection = props => {
     <div
       className='combo-product__section'
       data-active={props.index === props.checkedItemIndex}
-      onClick={onClick}>
+      onClick={onClick}
+    >
       <img
         src={
-          props.item.size
-            ? product.images[props.thickness][props.item.size]
+          props.item.category === 'pizzas'
+            ? product.images[thickness][props.size]
             : product.image
         }
         alt='Product'
@@ -59,10 +62,12 @@ const ComboProductSection = props => {
           height='13'
           viewBox='0 0 8 13'
           fill='none'
-          xmlns='http://www.w3.org/2000/svg'>
+          xmlns='http://www.w3.org/2000/svg'
+        >
           <path
             d='M7.26544 5.78418C7.66806 6.17666 7.66806 6.82382 7.26544 7.21631L6.72208 7.74599L1.90072 12.3992C1.55373 12.7341 1.00345 12.7327 0.65814 12.3961C0.297847 12.0448 0.299019 11.4654 0.66073 11.1156L5.06205 6.85969C5.26529 6.66315 5.26529 6.33733 5.06204 6.1408L0.66073 1.8849C0.299019 1.53513 0.297847 0.955646 0.658139 0.604424C1.00345 0.267805 1.55373 0.266429 1.90072 0.601317L6.72208 5.2545L7.26544 5.78418Z'
-            fill='#D8D8D8'></path>
+            fill='#D8D8D8'
+          ></path>
         </svg>
       </i>
       <div style={{ marginLeft: 76 }}>
@@ -81,21 +86,22 @@ const ComboProductSection = props => {
         </div>
         {props.item.category === 'pizzas' && (
           <div className='combo-product__size'>
-            {props.item.size === 'small' ? 'Маленькая' : 'Средняя'}{' '}
-            {props.diameter} см,{' '}
-            {props.thickness === 'thin' ? 'тонкое' : 'традиционное'} тесто
+            {props.size === 'small' ? 'Маленькая' : 'Средняя'}{' '}
+            {sizeVars[props.size]} см,{' '}
+            {thickness === 'thin' ? 'тонкое' : 'традиционное'} тесто
           </div>
         )}
       </div>
       {props.item.category === 'pizzas' &&
-        props.item.size === 'medium' &&
+        props.size === 'medium' &&
         props.item.thickness !== 'thin' && (
           <div
             className='pizza-info__size'
             onClick={e => e.stopPropagation()}
-            data-active={props.index === props.checkedItemIndex}>
+            data-active={props.index === props.checkedItemIndex}
+          >
             <div
-              className={`product-chosen ${props.thickness}-chosen`}
+              className={`product-chosen ${thickness}-chosen`}
               style={{ width: '50%' }}
             />
             <input
@@ -104,14 +110,16 @@ const ComboProductSection = props => {
               className='product-size__input'
               name={`product-thickness-${props.index}`}
               onChange={() => {
+                setThickness('traditional')
                 props.thicknessObj[props.index] = 'traditional'
-                props.setThicknessObj({ ...props.thicknessObj })
+                props.setThicknessObj([...props.thicknessObj])
               }}
-              checked={props.thickness === 'traditional'}
+              checked={props.thicknessObj[props.index] === 'traditional'}
             />
             <label
               htmlFor={`thickness-traditional-${props.index}`}
-              className='product-size__label'>
+              className='product-size__label'
+            >
               Традиционное
             </label>
             <input
@@ -120,14 +128,16 @@ const ComboProductSection = props => {
               className='product-size__input'
               name={`product-thickness-${props.index}`}
               onChange={() => {
+                setThickness('thin')
                 props.thicknessObj[props.index] = 'thin'
-                props.setThicknessObj({ ...props.thicknessObj })
+                props.setThicknessObj([...props.thicknessObj])
               }}
-              checked={props.thickness === 'thin'}
+              checked={thickness === 'thin'}
             />
             <label
               htmlFor={`thickness-thin-${props.index}`}
-              className='product-size__label'>
+              className='product-size__label'
+            >
               Тонкое
             </label>
           </div>

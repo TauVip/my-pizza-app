@@ -5,8 +5,13 @@ const InfoCirclePopup = props => (
         style={{
           font: '500 15px / 17px Dodo, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
           margin: '0px 0px 4px'
-        }}>
-        {(props.pizza || props.product).name}
+        }}
+      >
+        {props.pizza
+          ? `${props.pizza.name} - ${
+              props.thickness === 'thin' ? 'тонкое тесто' : 'традиционное тесто'
+            }`
+          : props.product.name}
       </h1>
     )}
     <h2 className='info-popup__title'>Пищевая ценность на 100 г</h2>

@@ -7,6 +7,7 @@ const pizzeriasRouter = require('./routes/pizzeriasRouter')
 const bannersRouter = require('./routes/bannersRouter')
 const pizzasRouter = require('./routes/products/pizzasRouter')
 const productsRouter = require('./routes/products/productsRouter')
+const combosRouter = require('./routes/products/combosRouter')
 
 require('dotenv').config()
 require('./dbConnect')()
@@ -23,6 +24,7 @@ app.use('/pizzerias', pizzeriasRouter)
 app.use('/banners', bannersRouter)
 app.use('/pizzas', pizzasRouter)
 app.use('/products', productsRouter)
+app.use('/combos', combosRouter)
 
 const PORT = process.env.PORT || 5000
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`))
