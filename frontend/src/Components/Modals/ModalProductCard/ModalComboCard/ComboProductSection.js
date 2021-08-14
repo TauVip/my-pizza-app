@@ -10,43 +10,40 @@ const ComboProductSection = props => {
 
   useEffect(() => {
     if (!product) {
-      props.comboProducts[props.index] = props.findItemFunc(
+      props.comboProducts[props.item._id] = props.findItemFunc(
         props.item.category,
         props.item.default
       )
       if (props.item.category === 'pizzas') {
-        props.thicknessObj[props.index] = props.item.thickness
-        props.setThicknessObj([...props.thicknessObj])
+        props.thicknessObj[props.item._id] = props.item.thickness
+        props.setThicknessObj({ ...props.thicknessObj })
         setThickness(props.item.thickness)
         if (!props.size) props.setSize(props.item.size)
       }
-    } else if (props.index === props.checkedItemIndex)
-      props.comboProducts[props.index] = props.findItemFunc(
+    } else if (props.item._id === props.checkedItem?._id)
+      props.comboProducts[props.item._id] = props.findItemFunc(
         props.item.category,
         props.comboProductSelected
       )
-    props.setComboProducts([...props.comboProducts])
-    setProduct(props.comboProducts[props.index])
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.comboProductSelected, props.setCheckedItemIndex])
+    props.setComboProducts({ ...props.comboProducts })
+    setProduct(props.comboProducts[props.item._id])
 
-  const onClick = () => {
-    if (props.index === props.checkedItemIndex) {
-      props.setCheckedItem(null)
-      props.setCheckedItemIndex(null)
-    } else {
-      props.setCheckedItem(props.item)
-      props.setCheckedItemIndex(props.index)
-      props.setComboProductSelected(product._id)
-    }
-  }
+    return () => props.setComboProducts({})
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.comboProductSelected, props.checkedItem?._id])
 
   return product ? (
     <div
       className='combo-product__section'
-      data-active={props.index === props.checkedItemIndex}
-      onClick={onClick}
-    >
+      data-active={props.item._id === props.checkedItem?._id}
+      onClick={() => {
+        if (props.item._id === props.checkedItem?._id)
+          props.setCheckedItem(null)
+        else {
+          props.setCheckedItem(props.item)
+          props.setComboProductSelected(product._id)
+        }
+      }}>
       <img
         src={
           props.item.category === 'pizzas'
@@ -62,12 +59,10 @@ const ComboProductSection = props => {
           height='13'
           viewBox='0 0 8 13'
           fill='none'
-          xmlns='http://www.w3.org/2000/svg'
-        >
+          xmlns='http://www.w3.org/2000/svg'>
           <path
             d='M7.26544 5.78418C7.66806 6.17666 7.66806 6.82382 7.26544 7.21631L6.72208 7.74599L1.90072 12.3992C1.55373 12.7341 1.00345 12.7327 0.65814 12.3961C0.297847 12.0448 0.299019 11.4654 0.66073 11.1156L5.06205 6.85969C5.26529 6.66315 5.26529 6.33733 5.06204 6.1408L0.66073 1.8849C0.299019 1.53513 0.297847 0.955646 0.658139 0.604424C1.00345 0.267805 1.55373 0.266429 1.90072 0.601317L6.72208 5.2545L7.26544 5.78418Z'
-            fill='#D8D8D8'
-          ></path>
+            fill='#D8D8D8'></path>
         </svg>
       </i>
       <div style={{ marginLeft: 76 }}>
@@ -98,46 +93,43 @@ const ComboProductSection = props => {
           <div
             className='pizza-info__size'
             onClick={e => e.stopPropagation()}
-            data-active={props.index === props.checkedItemIndex}
-          >
+            data-active={props.item._id === props.checkedItem?._id}>
             <div
               className={`product-chosen ${thickness}-chosen`}
               style={{ width: '50%' }}
             />
             <input
               type='radio'
-              id={`thickness-traditional-${props.index}`}
+              id={`thickness-traditional-${props.item._id}`}
               className='product-size__input'
-              name={`product-thickness-${props.index}`}
+              name={`product-thickness-${props.item._id}`}
               onChange={() => {
                 setThickness('traditional')
-                props.thicknessObj[props.index] = 'traditional'
-                props.setThicknessObj([...props.thicknessObj])
+                props.thicknessObj[props.item._id] = 'traditional'
+                props.setThicknessObj({ ...props.thicknessObj })
               }}
-              checked={props.thicknessObj[props.index] === 'traditional'}
+              checked={props.thicknessObj[props.item._id] === 'traditional'}
             />
             <label
-              htmlFor={`thickness-traditional-${props.index}`}
-              className='product-size__label'
-            >
+              htmlFor={`thickness-traditional-${props.item._id}`}
+              className='product-size__label'>
               Традиционное
             </label>
             <input
               type='radio'
-              id={`thickness-thin-${props.index}`}
+              id={`thickness-thin-${props.item._id}`}
               className='product-size__input'
-              name={`product-thickness-${props.index}`}
+              name={`product-thickness-${props.item._id}`}
               onChange={() => {
                 setThickness('thin')
-                props.thicknessObj[props.index] = 'thin'
-                props.setThicknessObj([...props.thicknessObj])
+                props.thicknessObj[props.item._id] = 'thin'
+                props.setThicknessObj({ ...props.thicknessObj })
               }}
               checked={thickness === 'thin'}
             />
             <label
-              htmlFor={`thickness-thin-${props.index}`}
-              className='product-size__label'
-            >
+              htmlFor={`thickness-thin-${props.item._id}`}
+              className='product-size__label'>
               Тонкое
             </label>
           </div>

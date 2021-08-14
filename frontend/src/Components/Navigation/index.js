@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { NavLink, withRouter } from 'react-router-dom'
+import { Link, NavLink, withRouter } from 'react-router-dom'
 import Loading from '../Loading'
 import cartEmpty from '../../images/cart-empty.svg'
 import './styles.css'
@@ -24,7 +24,7 @@ const Navigation = () => {
     <nav className='nav' data-stick={`${stick}`}>
       <div className='container'>
         <div className='header__items'>
-          <div className='sticky-logo'>
+          <Link className='sticky-logo' to={`/${city.link}`}>
             <svg
               data-stick={`${stick}`}
               id='logo_svg__Layer_1'
@@ -40,7 +40,7 @@ const Navigation = () => {
                 d='M33.7 27.5c-3.5-.8-7.4-1.8-9.4-4.8 0-.1-.1-.1-.2-.1s-.1.1-.1.1c0 .2 0 .3.1.5l-.3.1c-.5-.8-.7-1.7-.1-2.4.8-1 2.3-.9 3.3-.3l-.1.3c-.5-.1-1-.1-1.4.1-.3.2-.4.5-.2.8C27 25 32 25.7 37.9 25.2c.6 0 .7-.3.8-.6.5-2 1.4-3.9 2.8-5.3-1.1.2-2.1.2-2.9.2-3 .2-4.8-.2-5.3-.6l.1-.3c.3.1.7.1.7 0 .1-.1 0-.2-.1-.3-.6-.5-3.2-3.2-3.2-3.2-.3-2.3-3.6-2.3-4.9-.1l-.4-.1c.1-.5.3-.9.5-1.2-2.7.6-4.3 3.1-4.6 5.4-1.2 10.2 14.3 7.8 18.7 11.9.1.1.3.4.4.2.2-.2-1.8-2.6-6.8-3.7m-5.4-12.2c.7-.2 1.8.5 2.3 1.6.6 1.1.4 2.2-.3 2.5s-1.8-.5-2.3-1.6c-.1-.2-.1-.3-.2-.5h.1c.2.2.5.3.7.2.3-.2.2-.6 0-1-.2-.3-.5-.6-.8-.6l-.1-.1c.2-.3.4-.4.6-.5M51.3 42.8c-2.5 1.6-7 3.8-12.9 4.2-3.4.2-7.4-.2-10.4-1 0 1-.1 2-.3 3 1.7.4 4.6 1 8.9 1.1-.2 1.1-1.4 5.1-4.3 7.6 5.4.2 10.3-1.9 11.8-4.7-1.5.5-4.1 1-6.7.9.1-.3.3-.5.4-.8 4.6-.2 9.6-1.7 10.6-5.5-1.8 1.2-5.7 2.6-9.8 2.8 0-.3.1-.5.1-.8 5.4-.7 11.1-3 12.6-6.8'
                 fill='#fff'></path>
             </svg>
-          </div>
+          </Link>
           <ul className='products' data-stick={`${stick}`}>
             <li className='product'>
               <NavLink
@@ -94,10 +94,10 @@ const Navigation = () => {
             </li>
             <li className='product'>
               <NavLink
-                to={`/${city.link}#other`}
+                to={`/${city.link}#others`}
                 className='product-link'
                 exact
-                isActive={() => window.location.hash === '#other'}
+                isActive={() => window.location.hash === '#others'}
                 activeStyle={{ color: 'rgb(255, 105, 0)' }}>
                 Другие товары
               </NavLink>

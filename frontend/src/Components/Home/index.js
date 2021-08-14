@@ -23,7 +23,7 @@ const Home = () => {
   const [pizzaId, setPizzaId] = useState(null)
   const [showAssemblePizza, setShowAssemblePizza] = useState(false)
   const [productCardId, setProductCardId] = useState(null)
-  const [comboCard, setComboCard] = useState(null)
+  const [comboCardId, setComboCardId] = useState(null)
 
   useEffect(() => {
     if (city) {
@@ -34,7 +34,7 @@ const Home = () => {
       dispatch(fetchProductsAction(city._id, 'drinks'))
       dispatch(fetchProductsAction(city._id, 'others'))
       dispatch(fetchProductsAction(city._id, 'sauces'))
-      dispatch(fetchCombosAction())
+      dispatch(fetchCombosAction(city._id))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [city])
@@ -45,6 +45,24 @@ const Home = () => {
       .sort((a, b) => a.price.small - b.price.small)
     return sortPizzas[0].price.small + sortPizzas[1].price.small
   }
+
+  const emptyProducts = () =>
+    Array.from({ length: 4 }).map((_, i) => (
+      <article className='menu__meta-product' key={i}>
+        <main
+          className='menu__meta-main'
+          style={{
+            height: 400,
+            boxShadow: 'rgb(115 121 140 / 50%) 0px 2px 10px -2px'
+          }}>
+          <img
+            alt='Some product'
+            src='https://dodopizza-a.akamaihd.net/site-static/dist/611f501db3a3369fac31.svg'
+            className='menu__meta-img'
+          />
+        </main>
+      </article>
+    ))
 
   return (
     <>
@@ -58,7 +76,9 @@ const Home = () => {
             Мы готовим из цыпленка и говядины
           </figcaption>
         </figure>
-        <h1 className='product-title'>Пицца</h1>
+        <h1 className='product-title' id='pizzas'>
+          Пицца
+        </h1>
         <section className='products-section'>
           {pizzas?.length > 0 ? (
             <>
@@ -80,8 +100,7 @@ const Home = () => {
                   </div>
                   <button
                     className='product-button collect-button'
-                    onClick={() => setShowAssemblePizza(true)}
-                  >
+                    onClick={() => setShowAssemblePizza(true)}>
                     Собрать
                   </button>
                 </footer>
@@ -108,8 +127,7 @@ const Home = () => {
                     </div>
                     <button
                       className='product-button'
-                      onClick={() => setPizzaId(pizza._id)}
-                    >
+                      onClick={() => setPizzaId(pizza._id)}>
                       Выбрать
                     </button>
                   </footer>
@@ -117,19 +135,7 @@ const Home = () => {
               ))}
             </>
           ) : (
-            Array.from({ length: 4 }).map((_, i) => (
-              <article className='menu__meta-product' key={i}>
-                <main
-                  className='menu__meta-main'
-                  style={{
-                    height: 400,
-                    boxShadow: 'rgb(115 121 140 / 50%) 0px 2px 10px -2px'
-                  }}
-                >
-                  <img alt='Some product' src='' className='menu__meta-img' />
-                </main>
-              </article>
-            ))
+            emptyProducts()
           )}
           {pizzaId && (
             <ModalPizzaCard pizzaId={pizzaId} setPizzaId={setPizzaId} />
@@ -138,74 +144,99 @@ const Home = () => {
             <ModalAssemblePizza setShowAssemblePizza={setShowAssemblePizza} />
           )}
         </section>
-        <h1 className='product-title'>Комбо</h1>
-        {combos?.map(combo => (
-          <section className='products-section'>
-            <article className='menu__meta-product'>
-              <main className='menu__meta-main'>
-                <img
-                  alt='Комбо за 2 650 тг.'
-                  title='Комбо за 2 650 тг.'
-                  className='menu__meta-img'
-                  src='https://dodopizza-a.akamaihd.net/static/Img/ComboTemplates/e4aecdc6e454411b912eb335be5249de_292x292.webp'
-                  onClick={() => setComboCard(combo._id)}
+        <h1 className='product-title' id='combos'>
+          Комбо
+        </h1>
+        <section className='products-section'>
+          {combos
+            ? combos.map(combo => (
+                <article className='menu__meta-product' key={combo._id}>
+                  <main className='menu__meta-main'>
+                    <img
+                      alt={combo.name}
+                      title={combo.name}
+                      className='menu__meta-img'
+                      src={combo.image}
+                      onClick={() => setComboCardId(combo._id)}
+                    />
+                    <div className='menu__meta-title'>{combo.name}</div>
+                    {combo.description}
+                  </main>
+                  <footer className='product-footer'>
+                    <div className='product-control-price'>
+                      от {combo.price.toLocaleString()} тг.
+                    </div>
+                    <button
+                      className='product-button'
+                      onClick={() => setComboCardId(combo._id)}>
+                      Выбрать
+                    </button>
+                  </footer>
+                </article>
+              ))
+            : emptyProducts()}
+        </section>
+        {comboCardId && (
+          <ModalComboCard
+            setComboCardId={setComboCardId}
+            comboCardId={comboCardId}
+          />
+        )}
+        <h1 className='product-title' id='snacks'>
+          Закуски
+        </h1>
+        <section className='products-section'>
+          {products && products.snacks
+            ? products.snacks.map(snack => (
+                <ProductsShow
+                  product={snack}
+                  setProductCardId={setProductCardId}
+                  key={snack._id}
                 />
-                <div className='menu__meta-title'>Комбо за 2 650 тг.</div>
-                Наш хит «Аррива!» или другая пицца 25 см, Додстер, напиток и
-                соус. Выбор пицц ограничен
-              </main>
-              <footer className='product-footer'>
-                <div className='product-control-price'>от 2 650 тг.</div>
-                <button
-                  className='product-button'
-                  onClick={() => setComboCard(combo._id)}
-                >
-                  Выбрать
-                </button>
-              </footer>
-            </article>
-          </section>
-        ))}
-        {comboCard && <ModalComboCard setComboCard={setComboCard} />}
-        <h1 className='product-title'>Закуски</h1>
-        <section className='products-section'>
-          {products?.snacks?.map(snack => (
-            <ProductsShow
-              product={snack}
-              setProductCardId={setProductCardId}
-              key={snack._id}
-            />
-          ))}
+              ))
+            : emptyProducts()}
         </section>
-        <h1 className='product-title'>Десерты</h1>
+        <h1 className='product-title' id='desserts'>
+          Десерты
+        </h1>
         <section className='products-section'>
-          {products?.desserts?.map(dessert => (
-            <ProductsShow
-              product={dessert}
-              setProductCardId={setProductCardId}
-              key={dessert._id}
-            />
-          ))}
+          {products && products.desserts
+            ? products.desserts.map(dessert => (
+                <ProductsShow
+                  product={dessert}
+                  setProductCardId={setProductCardId}
+                  key={dessert._id}
+                />
+              ))
+            : emptyProducts()}
         </section>
-        <h1 className='product-title'>Напитки</h1>
+        <h1 className='product-title' id='drinks'>
+          Напитки
+        </h1>
         <section className='products-section'>
-          {products?.drinks?.map(drink => (
-            <ProductsShow
-              product={drink}
-              setProductCardId={setProductCardId}
-              key={drink._id}
-            />
-          ))}
+          {products && products.drinks
+            ? products.drinks.map(drink => (
+                <ProductsShow
+                  product={drink}
+                  setProductCardId={setProductCardId}
+                  key={drink._id}
+                />
+              ))
+            : emptyProducts()}
         </section>
-        <h1 className='product-title'>Другие товары</h1>
+        <h1 className='product-title' id='others'>
+          Другие товары
+        </h1>
         <section className='products-section'>
-          {products?.others?.map(other => (
-            <ProductsShow
-              product={other}
-              setProductCardId={setProductCardId}
-              key={other._id}
-            />
-          ))}
+          {products && products.others
+            ? products.others.map(other => (
+                <ProductsShow
+                  product={other}
+                  setProductCardId={setProductCardId}
+                  key={other._id}
+                />
+              ))
+            : emptyProducts()}
         </section>
         {productCardId && (
           <ModalProductCard

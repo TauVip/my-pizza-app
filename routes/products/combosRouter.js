@@ -29,7 +29,19 @@ combosRouter.get(
 )
 
 combosRouter.get(
-  '/:comboId',
+  '/:cityId',
+  expressAsyncHandler(async (req, res) => {
+    try {
+      const combos = await Combos.find({ citiesId: req.params.cityId })
+      res.status(200).json(combos)
+    } catch (e) {
+      res.status(500).send({ error: e.message })
+    }
+  })
+)
+
+combosRouter.get(
+  '/combo/:comboId',
   expressAsyncHandler(async (req, res) => {
     try {
       const combo = await Combos.findById(req.params.comboId)

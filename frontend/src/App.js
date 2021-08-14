@@ -36,6 +36,14 @@ const App = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [city, getCityError, history, modalOpen, userInfo])
 
+  useEffect(() => {
+    const title = document
+      .querySelector(history.location.hash)
+      ?.getBoundingClientRect().y
+    if (title) window.scrollBy(0, title)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [history.location.hash, window.scrollHeight])
+
   return (
     <>
       {!pageNotFound && <Header />}

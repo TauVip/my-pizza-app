@@ -1,81 +1,29 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import closeIcon from '../../../../images/close-icon.svg'
+import { getComboAction } from '../../../../redux/actions/comboProductsActions'
 import { modalOpenAction } from '../../../../redux/actions/loginActions'
 import InformationCircle from '../InformationCircle'
 import ComboProductChoose from './ComboProductChoose'
 import ComboProductSection from './ComboProductSection'
 
 const ModalComboCard = props => {
-  const combo = {
-    name: 'Комбо за 2 650 тг.',
-    description:
-      'Наш хит «Аррива!» или другая пицца 25 см, Додстер, напиток и соус. Выбор пицц ограничен',
-    price: 2650,
-    items: [
-      {
-        productsId: [
-          '60efb7e16fe49c2f24bcf5fb',
-          '60efd0346fe49c2f24bcf601',
-          '60efcb026fe49c2f24bcf600',
-          '60eeacd02c89e728981370fb',
-          '60ee84ce1fecbc14c4e6b5f3',
-          '60eea79b2c89e728981370fa'
-        ],
-        default: '60efb7e16fe49c2f24bcf5fb',
-        category: 'pizzas',
-        size: 'small',
-        thickness: 'traditional'
-      },
-      {
-        productsId: ['60f649607b9ed7012cf01b52', '60f6485d7b9ed7012cf01b50'],
-        default: '60f649607b9ed7012cf01b52',
-        category: 'snacks'
-      },
-      {
-        productsId: [
-          '60f69af630d3c2052c49c37f',
-          '60f69cae30d3c2052c49c383',
-          '60f69de930d3c2052c49c386',
-          '60f691e1f4c44505209148f3',
-          '60f694155078231b8c133e20',
-          '60f694a15078231b8c133e23',
-          '60f695665078231b8c133e26',
-          '60f695205078231b8c133e25',
-          '60f697755078231b8c133e2d',
-          '60f6a25e3a91d90fec508663'
-        ],
-        default: '60f691e1f4c44505209148f3',
-        category: 'drinks'
-      },
-      {
-        productsId: [
-          '60ffaa15996e2228f0aff0ed',
-          '60ffaa55996e2228f0aff0ef',
-          '60ffaa64996e2228f0aff0f0',
-          '60ffaa41996e2228f0aff0ee'
-        ],
-        default: '60ffaa15996e2228f0aff0ed',
-        category: 'sauces'
-      }
-    ]
-  }
-
   const dispatch = useDispatch()
 
+  const { combo } = useSelector(state => state.getCombo)
   const { pizzas, sizeVars } = useSelector(state => state.pizzasList)
   const { products } = useSelector(state => state.productsList)
 
-  const [comboProducts, setComboProducts] = useState([])
+  const [comboProducts, setComboProducts] = useState({})
   const [fullPrice, setFullPrice] = useState(0)
   const [checkedItem, setCheckedItem] = useState(null)
-  const [checkedItemIndex, setCheckedItemIndex] = useState(null)
   const [comboProductSelected, setComboProductSelected] = useState(null)
   const [size, setSize] = useState(null)
-  const [thicknessObj, setThicknessObj] = useState([])
+  const [thicknessObj, setThicknessObj] = useState({})
 
   useEffect(() => {
     dispatch(modalOpenAction(true))
+    dispatch(getComboAction(props.comboCardId))
 
     return () => dispatch(modalOpenAction(false))
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -83,7 +31,7 @@ const ModalComboCard = props => {
 
   useEffect(() => {
     setFullPrice(
-      comboProducts.reduce(
+      Object.values(comboProducts).reduce(
         (count, product) =>
           product?.category
             ? product.price + count
@@ -101,11 +49,11 @@ const ModalComboCard = props => {
       : products[category].find(findItem)
   }
 
-  return (
+  return combo ? (
     <div className='show-locality__selector'>
       <div
         className='show-locality__shadow'
-        onClick={() => props.setComboCard(null)}
+        onClick={() => props.setComboCardId(null)}
       />
       <div className='locality-selector__wrapper'>
         <div className='modal-product__card'>
@@ -124,14 +72,12 @@ const ModalComboCard = props => {
                   />
                 </div>
                 <div className='combo-info__desc'>{combo.description}</div>
-                {combo.items.map((item, i) => (
+                {combo?.items.map(item => (
                   <ComboProductSection
-                    key={i}
+                    key={item._id}
                     item={item}
-                    setCheckedItemIndex={setCheckedItemIndex}
-                    checkedItemIndex={checkedItemIndex}
+                    checkedItem={checkedItem}
                     setCheckedItem={setCheckedItem}
-                    index={i}
                     comboProducts={comboProducts}
                     setComboProducts={setComboProducts}
                     comboProductSelected={comboProductSelected}
@@ -165,8 +111,8 @@ const ModalComboCard = props => {
                       product={findItemFunc(checkedItem.category, productId)}
                       selected={comboProductSelected === productId}
                       setSelected={setComboProductSelected}
-                      thickness={thicknessObj[checkedItemIndex]}
-                      size={checkedItem.size}
+                      thickness={thicknessObj[checkedItem._id]}
+                      size={size}
                       diameter={sizeVars[size]}
                       key={productId}
                     />
@@ -174,8 +120,8 @@ const ModalComboCard = props => {
                 </div>
               ) : (
                 <img
-                  src='https://dodopizza-a.akamaihd.net/static/Img/ComboTemplates/e4aecdc6e454411b912eb335be5249de_1875x1875.webp'
-                  alt=''
+                  src={combo.image}
+                  alt='Combo-card'
                   style={{ width: '100%', userSelect: 'none' }}
                 />
               )}
@@ -185,11 +131,11 @@ const ModalComboCard = props => {
             src={closeIcon}
             alt='Close Icon'
             className='close-icon'
-            onClick={() => props.setComboCard(null)}
+            onClick={() => props.setComboCardId(null)}
           />
         </div>
       </div>
     </div>
-  )
+  ) : null
 }
 export default ModalComboCard
