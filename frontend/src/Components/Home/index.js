@@ -1,8 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 import Slider from './Slider'
 import figureImg from '../../images/home-figure.svg'
-import './styles.css'
 import ModalPizzaCard from '../Modals/ModalProductCard/ModalPizzaCard'
 import { fetchPizzasAction } from '../../redux/actions/pizzasActions'
 import ModalAssemblePizza from '../Modals/ModalProductCard/ModalAssemblePizza'
@@ -11,8 +12,10 @@ import { fetchProductsAction } from '../../redux/actions/productsActions'
 import ProductsShow from './ProductsShow'
 import ModalComboCard from '../Modals/ModalProductCard/ModalComboCard'
 import { fetchCombosAction } from '../../redux/actions/comboProductsActions'
+import './styles.css'
 
 const Home = () => {
+  const history = useHistory()
   const dispatch = useDispatch()
 
   const { city } = useSelector(state => state.getCity)
@@ -36,8 +39,19 @@ const Home = () => {
       dispatch(fetchProductsAction(city._id, 'sauces'))
       dispatch(fetchCombosAction(city._id))
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [city])
+
+  useEffect(() => {
+    setTimeout(
+      () =>
+        history.location.hash
+          ? document
+              .getElementById(history.location.hash.slice(1))
+              ?.scrollIntoView()
+          : window.scrollTo(0, 0),
+      500
+    )
+  }, [document.body.scrollHeight])
 
   const assembleMinPrice = pizzas => {
     const sortPizzas = pizzas
@@ -54,7 +68,8 @@ const Home = () => {
           style={{
             height: 400,
             boxShadow: 'rgb(115 121 140 / 50%) 0px 2px 10px -2px'
-          }}>
+          }}
+        >
           <img
             alt='Some product'
             src='https://dodopizza-a.akamaihd.net/site-static/dist/611f501db3a3369fac31.svg'
@@ -80,7 +95,7 @@ const Home = () => {
           Пицца
         </h1>
         <section className='products-section'>
-          {pizzas?.length > 0 ? (
+          {pizzas?.length ? (
             <>
               <article className='menu__meta-product'>
                 <main className='menu__meta-main'>
@@ -100,7 +115,8 @@ const Home = () => {
                   </div>
                   <button
                     className='product-button collect-button'
-                    onClick={() => setShowAssemblePizza(true)}>
+                    onClick={() => setShowAssemblePizza(true)}
+                  >
                     Собрать
                   </button>
                 </footer>
@@ -127,7 +143,8 @@ const Home = () => {
                     </div>
                     <button
                       className='product-button'
-                      onClick={() => setPizzaId(pizza._id)}>
+                      onClick={() => setPizzaId(pizza._id)}
+                    >
                       Выбрать
                     </button>
                   </footer>
@@ -148,7 +165,7 @@ const Home = () => {
           Комбо
         </h1>
         <section className='products-section'>
-          {combos
+          {combos?.length
             ? combos.map(combo => (
                 <article className='menu__meta-product' key={combo._id}>
                   <main className='menu__meta-main'>
@@ -168,7 +185,8 @@ const Home = () => {
                     </div>
                     <button
                       className='product-button'
-                      onClick={() => setComboCardId(combo._id)}>
+                      onClick={() => setComboCardId(combo._id)}
+                    >
                       Выбрать
                     </button>
                   </footer>
@@ -186,7 +204,7 @@ const Home = () => {
           Закуски
         </h1>
         <section className='products-section'>
-          {products && products.snacks
+          {products?.snacks?.length
             ? products.snacks.map(snack => (
                 <ProductsShow
                   product={snack}
@@ -200,7 +218,7 @@ const Home = () => {
           Десерты
         </h1>
         <section className='products-section'>
-          {products && products.desserts
+          {products?.desserts?.length
             ? products.desserts.map(dessert => (
                 <ProductsShow
                   product={dessert}
@@ -214,7 +232,7 @@ const Home = () => {
           Напитки
         </h1>
         <section className='products-section'>
-          {products && products.drinks
+          {products?.drinks?.length
             ? products.drinks.map(drink => (
                 <ProductsShow
                   product={drink}
@@ -228,7 +246,7 @@ const Home = () => {
           Другие товары
         </h1>
         <section className='products-section'>
-          {products && products.others
+          {products?.others?.length
             ? products.others.map(other => (
                 <ProductsShow
                   product={other}
@@ -244,6 +262,29 @@ const Home = () => {
             productCardId={productCardId}
           />
         )}
+        <h1 className='product-title' id='others'>
+          Доставка и оплата
+        </h1>
+        <section className='products-section'>
+          <article className='footer__article'>
+            <h1 className='footer__article-title'>
+              60 МИНУТ ИЛИ ПИЦЦА БЕСПЛАТНО
+            </h1>
+            Если мы не успеем доставить любые продукты, кроме сувенирной
+            продукции и соусов, в течение 60 минут, курьер подарит вам
+            сертификат на большую пиццу.
+          </article>
+          <article className='footer__article'>
+            <h1 className='footer__article-title'>2 500 ТГ.</h1>
+            <p style={{ marginBottom: 20 }}>
+              Минимальная сумма доставки без учета товаров из категории «Другие
+              товары»
+            </p>
+            <h1 className='footer__article-title'>25 000 ТГ.</h1>
+            <p>Максимальная сумма при оплате наличными</p>
+            Изображения продуктов могут отличаться от продуктов в заказе.
+          </article>
+        </section>
       </main>
     </>
   )

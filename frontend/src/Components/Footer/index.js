@@ -24,7 +24,8 @@ const Footer = () => {
           <Link
             to={{ pathname: 'https://dodocontrol.ru' }}
             target='_blank'
-            className='secret-buyer__button'>
+            className='secret-buyer__button'
+          >
             Заполнить анкету
           </Link>
         </div>
@@ -39,19 +40,22 @@ const Footer = () => {
             <Link
               to={{ pathname: 'http://book.dodopizza.info' }}
               target='_blank'
-              className='links-section__link'>
+              className='links-section__link'
+            >
               Додо-книга
             </Link>
             <Link
               to={{ pathname: 'http://sila-uma.ru/aboutdodo' }}
               target='_blank'
-              className='links-section__link'>
+              className='links-section__link'
+            >
               Блог «Сила ума»
             </Link>
             <Link
               to={{ pathname: 'http://dodois.com' }}
               target='_blank'
-              className='links-section__link'>
+              className='links-section__link'
+            >
               Додо ИС
             </Link>
           </div>
@@ -60,13 +64,15 @@ const Footer = () => {
             <Link
               to={{ pathname: 'http://rabotavdodo.kz' }}
               target='_blank'
-              className='links-section__link'>
+              className='links-section__link'
+            >
               В пиццерии
             </Link>
             <Link
               to={{ pathname: 'http://www.dodocc.kz' }}
               target='_blank'
-              className='links-section__link'>
+              className='links-section__link'
+            >
               В контакт центре
             </Link>
           </div>
@@ -75,13 +81,15 @@ const Footer = () => {
             <Link
               to={{ pathname: 'http://www.dodofranchise.ru' }}
               target='_blank'
-              className='links-section__link'>
+              className='links-section__link'
+            >
               Франшиза
             </Link>
             <Link
               to={{ pathname: 'http://dodoinvest.com' }}
               target='_blank'
-              className='links-section__link'>
+              className='links-section__link'
+            >
               Инвестиции
             </Link>
             <Link
@@ -90,13 +98,15 @@ const Footer = () => {
                   'https://www.b2b-center.ru/firms/ooo-dodo-franchaizing/350318'
               }}
               target='_blank'
-              className='links-section__link'>
+              className='links-section__link'
+            >
               Поставщикам
             </Link>
             <Link
               to={{ pathname: 'http://www.dodoarenda.ru' }}
               target='_blank'
-              className='links-section__link'>
+              className='links-section__link'
+            >
               Предложить помещение
             </Link>
           </div>
@@ -105,13 +115,15 @@ const Footer = () => {
             <Link
               to={{ pathname: 'http://www.bezperchatok.ru' }}
               target='_blank'
-              className='links-section__link'>
+              className='links-section__link'
+            >
               Почему мы готовим без перчаток?
             </Link>
             <Link
               to={{ pathname: 'http://www.dodofriendly.ru' }}
               target='_blank'
-              className='links-section__link'>
+              className='links-section__link'
+            >
               Экскурсии и мастер-классы
             </Link>
           </div>
@@ -124,7 +136,8 @@ const Footer = () => {
                   'https://app.appsflyer.com/ru.dodopizza.app?af_ad=icon&pid=dodopizza.site&af_click_lookback=7d&c=web'
               }}
               target='_blank'
-              className='app-link'>
+              className='app-link'
+            >
               <img src={linkAndroidImg} alt='App Link Android' />
             </Link>
             <Link
@@ -133,7 +146,8 @@ const Footer = () => {
                   'https://app.appsflyer.com/id894649641?af_ad=icon&pid=dodopizza.site&af_click_lookback=7d&c=web'
               }}
               target='_blank'
-              className='app-link'>
+              className='app-link'
+            >
               <img src={linkIosImg} alt='App Link Android' />
             </Link>
           </div>
@@ -142,7 +156,8 @@ const Footer = () => {
               <div className='contacts-phone__desc'>Звонок по телефону</div>
               <a
                 href={`tel:+${city.phoneNumber.match(/\d/g).join('')}`}
-                className='contacts-phone__num'>
+                className='contacts-phone__num'
+              >
                 {city.phoneNumber}
               </a>
             </div>
@@ -171,7 +186,8 @@ const Footer = () => {
                 'https://drive.google.com/file/d/1GWaKPdU7t5URgMkh_X4pJqmyZuGr9FdQ'
             }}
             target='_blank'
-            className='bottom-link'>
+            className='bottom-link'
+          >
             Калорийность и состав
           </Link>
           <Link to={`/${city.link}/faq`} className='bottom-link'>
@@ -183,7 +199,8 @@ const Footer = () => {
             href='https://www.facebook.com/dodopizza'
             target='_blank'
             rel='noreferrer'
-            className='social-link'>
+            className='social-link'
+          >
             <i className='social-link-svg'>
               <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 140'>
                 <path d='M29.56,24.55a5,5,0,0,0-5,5v80.88a5,5,0,0,0,5,5H73.1V80.26H61.25V66.53H73.1V56.41c0-11.74,7.17-18.13,17.65-18.13a97.08,97.08,0,0,1,10.58.54V51.09H94.07c-5.7,0-6.8,2.71-6.8,6.68v8.76h13.59L99.08,80.26H87.27v35.2h23.17a5,5,0,0,0,5-5V29.56a5,5,0,0,0-5-5H29.56Z'></path>
@@ -194,7 +211,8 @@ const Footer = () => {
             href='http://instagram.com/dodopizzakz'
             target='_blank'
             rel='noreferrer'
-            className='social-link'>
+            className='social-link'
+          >
             <i className='social-link-svg'>
               <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 140'>
                 <path d='M49.91,22.28A27.69,27.69,0,0,0,22.28,50V90a27.68,27.68,0,0,0,27.62,27.69H90.09A27.68,27.68,0,0,0,117.72,90V50a27.69,27.69,0,0,0-27.62-27.7H49.91Zm0,8.2H90.09A19.34,19.34,0,0,1,109.54,50V90a19.33,19.33,0,0,1-19.44,19.49H49.91A19.33,19.33,0,0,1,30.47,90V50A19.33,19.33,0,0,1,49.91,30.49Zm45.71,8.2a5.74,5.74,0,1,0,5.72,5.74A5.73,5.73,0,0,0,95.61,38.69ZM70,45.43A24.57,24.57,0,1,0,94.52,70,24.6,24.6,0,0,0,70,45.43Zm0,8.2A16.37,16.37,0,1,1,53.67,70,16.29,16.29,0,0,1,70,53.63Z'></path>
@@ -205,7 +223,8 @@ const Footer = () => {
             href='https://vk.com/dodopizzakz'
             target='_blank'
             rel='noreferrer'
-            className='social-link'>
+            className='social-link'
+          >
             <i className='social-link-svg'>
               <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 140'>
                 <path d='M127.62,39c0.84-2.8,0-4.86-4-4.86H110.41a5.71,5.71,0,0,0-5.75,3.74s-6.72,16.38-16.24,27c-3.08,3.08-4.48,4.06-6.16,4.06-0.84,0-2.1-1-2.1-3.78V39c0-3.36-.93-4.86-3.73-4.86H55.67a3.19,3.19,0,0,0-3.36,3c0,3.19,4.76,3.92,5.25,12.88V69.51c0,4.27-.77,5-2.45,5-4.48,0-15.38-16.45-21.84-35.28-1.27-3.66-2.54-5.14-5.91-5.14H14.14c-3.78,0-4.53,1.78-4.53,3.74,0,3.5,4.48,20.86,20.86,43.82,10.92,15.68,26.3,24.18,40.3,24.18,8.4,0,9.44-1.89,9.44-5.14V88.88c0-3.78.8-4.53,3.46-4.53,2,0,5.32,1,13.16,8.54,9,9,10.44,13,15.48,13h13.21c3.78,0,5.66-1.89,4.57-5.61s-5.47-9.1-11.15-15.48c-3.08-3.64-7.7-7.56-9.1-9.52-2-2.52-1.4-3.64,0-5.88C109.84,69.37,125.94,46.69,127.62,39Z'></path>
@@ -216,7 +235,8 @@ const Footer = () => {
             href='https://www.youtube.com/user/dodomovie'
             target='_blank'
             rel='noreferrer'
-            className='social-link'>
+            className='social-link'
+          >
             <i className='social-link-svg'>
               <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 140'>
                 <path d='M70,30.36c-22.31,0-44.61,1.71-49.51,5.12-9.8,6.83-9.8,62.19,0,69s89.22,6.83,99,0,9.8-62.19,0-69c-4.9-3.42-27.21-5.12-49.51-5.12h0ZM58.69,53.43L87.39,70,58.69,86.57V53.43Z'></path>

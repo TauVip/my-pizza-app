@@ -32,14 +32,16 @@ const Header = () => {
                   Доставка пиццы{' '}
                   <span
                     className='city-name'
-                    onClick={() => setChangeCity(true)}>
+                    onClick={() => setChangeCity(true)}
+                  >
                     {city.name}
                   </span>
                 </div>
                 <div
                   className='header__about-timing'
                   onMouseEnter={() => setTimingDesc(true)}
-                  onMouseLeave={() => setTimingDesc(false)}>
+                  onMouseLeave={() => setTimingDesc(false)}
+                >
                   26 мин - 4,81 <span className='rating'>&#9733;</span>
                 </div>
                 {timingDesc && <TimeRatingPopup />}
@@ -48,7 +50,8 @@ const Header = () => {
                 <div className='contacts-phone__text'>Звонок по телефону</div>
                 <a
                   className='contacts-phone__number'
-                  href={`tel:+${city.phoneNumber.match(/\d/g).join('')}`}>
+                  href={`tel:+${city.phoneNumber.match(/\d/g).join('')}`}
+                >
                   {city.phoneNumber}
                 </a>
               </div>
@@ -61,7 +64,8 @@ const Header = () => {
                 !userInfo
                   ? setLogin(true)
                   : history.push(`/${city.link}/profile#personal-data`)
-              }>
+              }
+            >
               {!userInfo ? 'Войти' : 'Кабинет'}
             </button>
           </div>

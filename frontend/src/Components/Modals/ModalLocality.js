@@ -88,7 +88,8 @@ const ModalLocality = props => {
                     to={`/${city.link}`}
                     className='megacity'
                     key={city._id}
-                    onClick={() => onClick(city._id)}>
+                    onClick={() => onClick(city._id)}
+                  >
                     {city.name}
                   </Link>
                 ))
@@ -107,7 +108,8 @@ const ModalLocality = props => {
                 {column.map(city => (
                   <div
                     style={{ position: 'relative', cursor: 'pointer' }}
-                    key={city._id}>
+                    key={city._id}
+                  >
                     {citiesGroup[city.name[0]][0] === city && (
                       <span className='locality-selector__group-letter'>
                         {city.name[0]}
@@ -116,7 +118,8 @@ const ModalLocality = props => {
                     <Link
                       to={`/${city.link}`}
                       className='locality-selector__link'
-                      onClick={() => onClick(city._id)}>
+                      onClick={() => onClick(city._id)}
+                    >
                       {city.name}
                     </Link>
                   </div>
