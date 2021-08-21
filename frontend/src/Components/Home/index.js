@@ -1,7 +1,6 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import Slider from './Slider'
 import figureImg from '../../images/home-figure.svg'
 import ModalPizzaCard from '../Modals/ModalProductCard/ModalPizzaCard'
@@ -15,8 +14,8 @@ import { fetchCombosAction } from '../../redux/actions/comboProductsActions'
 import './styles.css'
 
 const Home = () => {
-  const history = useHistory()
   const dispatch = useDispatch()
+  const history = useHistory()
 
   const { city } = useSelector(state => state.getCity)
   const { pizzas } = useSelector(state => state.pizzasList)
@@ -27,6 +26,8 @@ const Home = () => {
   const [showAssemblePizza, setShowAssemblePizza] = useState(false)
   const [productCardId, setProductCardId] = useState(null)
   const [comboCardId, setComboCardId] = useState(null)
+  const [title, setTitle] = useState(null)
+  const [pageLoading, setPageLoading] = useState(true)
 
   useEffect(() => {
     if (city) {
@@ -39,19 +40,62 @@ const Home = () => {
       dispatch(fetchProductsAction(city._id, 'sauces'))
       dispatch(fetchCombosAction(city._id))
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [city])
 
+  const setTitleFunc = () =>
+    setTitle(document.getElementById(history.location.hash.slice(1)))
   useEffect(() => {
-    setTimeout(
-      () =>
-        history.location.hash
-          ? document
-              .getElementById(history.location.hash.slice(1))
-              ?.scrollIntoView()
-          : window.scrollTo(0, 0),
-      500
-    )
-  }, [document.body.scrollHeight])
+    if (pageLoading) {
+      setTitleFunc()
+      if (title) {
+        window.scrollBy(0, title.getBoundingClientRect().y)
+        if (
+          title.getBoundingClientRect().y < 2 &&
+          title.getBoundingClientRect().y > -2
+        )
+          setPageLoading(false)
+      } else window.scroll(0, 0)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [title?.getBoundingClientRect().y, pageLoading, pizzas, products, combos])
+
+  useEffect(() => {
+    if (!pageLoading) {
+      let mark = null
+      const titles = document.querySelectorAll('.product-title')
+      const title = document.getElementById(history.location.hash.slice(1))
+
+      const onScroll = () => {
+        if (mark && mark > window.scrollY)
+          title?.getBoundingClientRect().y > 500 &&
+            titles.forEach((elem, i) => {
+              elem === title &&
+                history.replace({
+                  hash: titles[i - 1]?.id
+                })
+            })
+        else if (mark && mark < window.scrollY)
+          title?.getBoundingClientRect().y < 300
+            ? titles.forEach(
+                (elem, i) =>
+                  elem === title &&
+                  titles[i + 1]?.id &&
+                  titles[i + 1].getBoundingClientRect().y < 300 &&
+                  history.replace({ hash: titles[i + 1].id })
+              )
+            : !history.location.hash &&
+              titles[0].getBoundingClientRect().y < 300 &&
+              history.replace({ hash: titles[0].id })
+
+        mark = window.scrollY
+      }
+      document.addEventListener('scroll', onScroll)
+
+      return () => document.removeEventListener('scroll', onScroll)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [history.location.hash])
 
   const assembleMinPrice = pizzas => {
     const sortPizzas = pizzas
@@ -262,9 +306,7 @@ const Home = () => {
             productCardId={productCardId}
           />
         )}
-        <h1 className='product-title' id='others'>
-          Доставка и оплата
-        </h1>
+        <h1 className='product-title'>Доставка и оплата</h1>
         <section className='products-section'>
           <article className='footer__article'>
             <h1 className='footer__article-title'>
@@ -276,13 +318,34 @@ const Home = () => {
           </article>
           <article className='footer__article'>
             <h1 className='footer__article-title'>2 500 ТГ.</h1>
-            <p style={{ marginBottom: 20 }}>
+            <p style={{ margin: '0px 0px 20px' }}>
               Минимальная сумма доставки без учета товаров из категории «Другие
               товары»
             </p>
             <h1 className='footer__article-title'>25 000 ТГ.</h1>
             <p>Максимальная сумма при оплате наличными</p>
             Изображения продуктов могут отличаться от продуктов в заказе.
+          </article>
+          <article
+            className='footer__article'
+            style={{ marginRight: 0, width: '22%' }}
+          >
+            <h1 className='footer__article-title'>ЗОНА ДОСТАВКИ ОГРАНИЧЕНА</h1>
+            <Link
+              to={{
+                pathname:
+                  'https://yandex.ru/maps/221/chimkent/?ll=69.623142%2C42.329382&mode=usermaps&source=constructorLink&um=constructor%3A6bc8c368e470b4267cda9c7853ff6aed74d68c564eb3c31d3b584066d77a7df5&z=12.4'
+              }}
+              target='_blank'
+              className='delivery__zone-menu'
+            >
+              <img
+                src='https://dodopizza-a.akamaihd.net/site-static/dist/afdce5bbb5d38204b6c6.jpg'
+                alt='map'
+                style={{ width: '100%' }}
+              />
+              <span className='delivery__zone-text'>Зона доставки</span>
+            </Link>
           </article>
         </section>
       </main>
