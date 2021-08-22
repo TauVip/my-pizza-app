@@ -1,18 +1,14 @@
-import { useHistory } from 'react-router-dom'
 import './styles.css'
 
 const Banner = props => {
-  const history = useHistory()
-
   const onClick = () => {
-    if (!props.banner.addInfo) return
-
-    if (props.banner.addInfo.articleId) {
+    if (props.banner.addInfo?.articleId) {
       props.setArticleId(props.banner.addInfo.articleId)
       props.setShowModal(true)
-    }
-
-    if (props.banner.addInfo.link) history.push(`?${props.banner.addInfo.link}`)
+    } else if (props.banner.addInfo?.pizzaId)
+      props.setPizzaId(props.banner.addInfo.pizzaId)
+    else if (props.banner.addInfo?.productId)
+      props.setProductId(props.banner.addInfo.productId)
   }
 
   return props.banner ? (

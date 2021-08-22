@@ -27,6 +27,17 @@ productsRouter.get(
   })
 )
 productsRouter.get(
+  '/item/:productId',
+  expressAsyncHandler(async (req, res) => {
+    try {
+      const product = await Products.findById(req.params.productId)
+      res.status(200).json(product)
+    } catch (e) {
+      res.status(500).send({ error: e.message })
+    }
+  })
+)
+productsRouter.get(
   '/:cityId/:category',
   expressAsyncHandler(async (req, res) => {
     try {
@@ -35,17 +46,6 @@ productsRouter.get(
         category: req.params.category
       })
       res.status(200).json(products)
-    } catch (e) {
-      res.status(500).send({ error: e.message })
-    }
-  })
-)
-productsRouter.get(
-  '/:productId',
-  expressAsyncHandler(async (req, res) => {
-    try {
-      const product = await Products.findById(req.params.productId)
-      res.status(200).json(product)
     } catch (e) {
       res.status(500).send({ error: e.message })
     }

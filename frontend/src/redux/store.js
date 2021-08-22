@@ -5,24 +5,27 @@ import {
   articlesListReducer,
   bannersListReducer,
   getArticleReducer
-} from './reducers/articlesReducer'
-import { citiesListReducer, getCityReducer } from './reducers/citiesReducer'
+} from './reducers/articlesReducers'
+import { citiesListReducer, getCityReducer } from './reducers/citiesReducers'
 import {
   combosListReducer,
   getComboReducer
-} from './reducers/comboProductsReducer'
+} from './reducers/products/comboProductsReducers'
 import {
   loginReducer,
   modalOpenReducer,
   pageNotFoundReducer,
   smsLoginReducer
-} from './reducers/loginReducer'
-import { getPizzaReducer, pizzasListReducer } from './reducers/pizzasReducer'
-import { pizzeriasListReducer } from './reducers/pizzeriasReducer'
+} from './reducers/loginReducers'
+import {
+  getPizzaReducer,
+  pizzasListReducer
+} from './reducers/products/pizzasReducers'
+import { pizzeriasListReducer } from './reducers/pizzeriasReducers'
 import {
   getProductReducer,
   productsListReducer
-} from './reducers/productsReducer'
+} from './reducers/products/productsReducers'
 
 const reducer = combineReducers({
   pageNotFound: pageNotFoundReducer,

@@ -7,7 +7,7 @@ import {
   GET_PRODUCT_FAIL,
   GET_PRODUCT_REQUEST,
   GET_PRODUCT_SUCCESS
-} from './actionTypes'
+} from '../actionTypes'
 
 export const fetchProductsAction = (cityId, category) => async dispatch => {
   try {
@@ -27,7 +27,7 @@ export const getProductAction = productId => async dispatch => {
   try {
     dispatch({ type: GET_PRODUCT_REQUEST })
 
-    const { data } = await axios.get(`/products/${productId}`)
+    const { data } = await axios.get(`/products/item/${productId}`)
     dispatch({
       type: GET_PRODUCT_SUCCESS,
       payload: data

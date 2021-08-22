@@ -6,7 +6,7 @@ import {
   GET_PIZZA_FAIL,
   GET_PIZZA_REQUEST,
   GET_PIZZA_SUCCESS
-} from '../actions/actionTypes'
+} from '../../actions/actionTypes'
 
 export const pizzasListReducer = (state = [], action) => {
   switch (action.type) {

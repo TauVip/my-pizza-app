@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchBannersAction } from '../../../redux/actions/articlesAction'
+import { fetchBannersAction } from '../../../redux/actions/articlesActions'
 import ModalArticle from '../../Modals/ModalArticle'
 import Banner from './Banner'
 import './styles.css'
 
-const Slider = () => {
+const Slider = props => {
   const x = -1304
 
   const [prevIconShow, setPrevIconShow] = useState(false)
@@ -99,6 +99,8 @@ const Slider = () => {
                   setShowModal={setShowModal}
                   setArticleId={setArticleId}
                   key={banner._id}
+                  setPizzaId={props.setPizzaId}
+                  setProductId={props.setProductId}
                 />
               ))}
               <Banner banner={banners[0]} current={current} />

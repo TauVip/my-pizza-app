@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 import closeIcon from '../../../../images/close-icon.svg'
-import { getComboAction } from '../../../../redux/actions/comboProductsActions'
+import { getComboAction } from '../../../../redux/actions/products/comboProductsActions'
 import { modalOpenAction } from '../../../../redux/actions/loginActions'
 import InformationCircle from '../InformationCircle'
 import ComboProductChoose from './ComboProductChoose'
@@ -9,6 +10,7 @@ import ComboProductSection from './ComboProductSection'
 
 const ModalComboCard = props => {
   const dispatch = useDispatch()
+  const history = useHistory()
 
   const { combo } = useSelector(state => state.getCombo)
   const { pizzas, sizeVars } = useSelector(state => state.pizzasList)
@@ -24,8 +26,15 @@ const ModalComboCard = props => {
   useEffect(() => {
     dispatch(modalOpenAction(true))
     dispatch(getComboAction(props.comboCardId))
+    history.replace({
+      search: `product=${props.comboCardId}`,
+      hash: history.location.hash
+    })
 
-    return () => dispatch(modalOpenAction(false))
+    return () => {
+      dispatch(modalOpenAction(false))
+      history.replace({ search: null, hash: history.location.hash })
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

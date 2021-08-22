@@ -6,7 +6,7 @@ import {
   GET_PRODUCT_FAIL,
   GET_PRODUCT_REQUEST,
   GET_PRODUCT_SUCCESS
-} from '../actions/actionTypes'
+} from '../../actions/actionTypes'
 
 export const productsListReducer = (state = [], action) => {
   switch (action.type) {

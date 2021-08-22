@@ -23,7 +23,14 @@ const bannersSchema = new mongoose.Schema(
           type: mongoose.Schema.Types.ObjectId,
           ref: 'Articles'
         },
-        link: { type: String }
+        pizzaId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Pizzas'
+        },
+        productId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Products'
+        }
       }
     }
   },

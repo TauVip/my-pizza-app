@@ -6,7 +6,7 @@ import {
   GET_COMBO_FAIL,
   GET_COMBO_REQUEST,
   GET_COMBO_SUCCESS
-} from '../actions/actionTypes'
+} from '../../actions/actionTypes'
 
 export const combosListReducer = (state = [], action) => {
   switch (action.type) {

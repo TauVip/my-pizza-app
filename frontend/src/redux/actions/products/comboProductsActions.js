@@ -7,7 +7,7 @@ import {
   GET_COMBO_FAIL,
   GET_COMBO_REQUEST,
   GET_COMBO_SUCCESS
-} from './actionTypes'
+} from '../actionTypes'
 
 export const fetchCombosAction = cityId => async dispatch => {
   try {

@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import closeIcon from '../../images/close-icon.svg'
-import { getArticleAction } from '../../redux/actions/articlesAction'
+import { getArticleAction } from '../../redux/actions/articlesActions'
 import { modalOpenAction } from '../../redux/actions/loginActions'
 
 const ModalArticle = props => {
@@ -30,7 +30,13 @@ const ModalArticle = props => {
             <h1 className='modal-article__title'>{article.title}</h1>
             <p className='modal-article__desc'>{article.description}</p>
             {article.buttonDesc && (
-              <button className='modal-article__button'>
+              <button
+                className='modal-article__button'
+                onClick={() => {
+                  props.setShowModal(false)
+                  document.getElementById('pizzas')?.scrollIntoView()
+                }}
+              >
                 {article.buttonDesc}
               </button>
             )}

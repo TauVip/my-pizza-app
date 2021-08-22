@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchArticlesAction } from '../../redux/actions/articlesAction'
+import { fetchArticlesAction } from '../../redux/actions/articlesActions'
 import Loading from '../Loading'
 import './styles.css'
 

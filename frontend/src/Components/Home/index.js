@@ -4,13 +4,13 @@ import { Link, useHistory } from 'react-router-dom'
 import Slider from './Slider'
 import figureImg from '../../images/home-figure.svg'
 import ModalPizzaCard from '../Modals/ModalProductCard/ModalPizzaCard'
-import { fetchPizzasAction } from '../../redux/actions/pizzasActions'
+import { fetchPizzasAction } from '../../redux/actions/products/pizzasActions'
 import ModalAssemblePizza from '../Modals/ModalProductCard/ModalAssemblePizza'
 import ModalProductCard from '../Modals/ModalProductCard'
-import { fetchProductsAction } from '../../redux/actions/productsActions'
+import { fetchProductsAction } from '../../redux/actions/products/productsActions'
 import ProductsShow from './ProductsShow'
 import ModalComboCard from '../Modals/ModalProductCard/ModalComboCard'
-import { fetchCombosAction } from '../../redux/actions/comboProductsActions'
+import { fetchCombosAction } from '../../redux/actions/products/comboProductsActions'
 import './styles.css'
 
 const Home = () => {
@@ -27,7 +27,6 @@ const Home = () => {
   const [productCardId, setProductCardId] = useState(null)
   const [comboCardId, setComboCardId] = useState(null)
   const [title, setTitle] = useState(null)
-  const [pageLoading, setPageLoading] = useState(true)
 
   useEffect(() => {
     if (city) {
@@ -43,59 +42,47 @@ const Home = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [city])
 
-  const setTitleFunc = () =>
+  useEffect(() => {
+    if (title) title.scrollIntoView()
+    else window.scroll(0, 0)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pizzas, products, combos])
+
+  useEffect(() => {
     setTitle(document.getElementById(history.location.hash.slice(1)))
-  useEffect(() => {
-    if (pageLoading) {
-      setTitleFunc()
-      if (title) {
-        window.scrollBy(0, title.getBoundingClientRect().y)
-        if (
-          title.getBoundingClientRect().y < 2 &&
-          title.getBoundingClientRect().y > -2
-        )
-          setPageLoading(false)
-      } else window.scroll(0, 0)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [title?.getBoundingClientRect().y, pageLoading, pizzas, products, combos])
+    let mark = null
+    const titles = document.querySelectorAll('.product-title')
 
-  useEffect(() => {
-    if (!pageLoading) {
-      let mark = null
-      const titles = document.querySelectorAll('.product-title')
-      const title = document.getElementById(history.location.hash.slice(1))
-
-      const onScroll = () => {
-        if (mark && mark > window.scrollY)
-          title?.getBoundingClientRect().y > 500 &&
-            titles.forEach((elem, i) => {
+    const onScroll = () => {
+      if (mark && mark > window.scrollY)
+        title?.getBoundingClientRect().y > 500 &&
+          titles.forEach(
+            (elem, i) =>
               elem === title &&
-                history.replace({
-                  hash: titles[i - 1]?.id
-                })
-            })
-        else if (mark && mark < window.scrollY)
-          title?.getBoundingClientRect().y < 300
-            ? titles.forEach(
-                (elem, i) =>
-                  elem === title &&
-                  titles[i + 1]?.id &&
-                  titles[i + 1].getBoundingClientRect().y < 300 &&
-                  history.replace({ hash: titles[i + 1].id })
-              )
-            : !history.location.hash &&
-              titles[0].getBoundingClientRect().y < 300 &&
-              history.replace({ hash: titles[0].id })
+              history.replace({
+                hash: titles[i - 1]?.id
+              })
+          )
+      else if (mark && mark < window.scrollY)
+        title?.getBoundingClientRect().y < 300
+          ? titles.forEach(
+              (elem, i) =>
+                elem === title &&
+                titles[i + 1]?.id &&
+                titles[i + 1].getBoundingClientRect().y < 300 &&
+                history.replace({ hash: titles[i + 1].id })
+            )
+          : !history.location.hash &&
+            titles[0].getBoundingClientRect().y < 300 &&
+            history.replace({ hash: titles[0].id })
 
-        mark = window.scrollY
-      }
-      document.addEventListener('scroll', onScroll)
-
-      return () => document.removeEventListener('scroll', onScroll)
+      mark = window.scrollY
     }
+    document.addEventListener('scroll', onScroll)
+
+    return () => document.removeEventListener('scroll', onScroll)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [history.location.hash])
+  }, [history.location.hash, title])
 
   const assembleMinPrice = pizzas => {
     const sortPizzas = pizzas
@@ -125,7 +112,7 @@ const Home = () => {
 
   return (
     <>
-      <Slider />
+      <Slider setPizzaId={setPizzaId} setProductId={setProductCardId} />
 
       <main className='container'>
         <figure className='home-figure'>
@@ -342,7 +329,7 @@ const Home = () => {
               <img
                 src='https://dodopizza-a.akamaihd.net/site-static/dist/afdce5bbb5d38204b6c6.jpg'
                 alt='map'
-                style={{ width: '100%' }}
+                className='delivery__zone-image'
               />
               <span className='delivery__zone-text'>Зона доставки</span>
             </Link>

@@ -142,9 +142,14 @@
   text-decoration: none;
   font-weight: 500;
 }
-.delivery__zone-menu:hover {
-  font-weight: 600;
-  transition: font-weight 2s ease-in;
+.delivery__zone-image {
+  width: 100%;
+  transition: transform 2s ease 0s, filter 0.25s ease 0s;
+}
+.delivery__zone-image:hover {
+  transform: scale(1.2) translate(-15px, -15px);
+  filter: saturate(2);
+  transition: transform 5s ease-out;
 }
 .delivery__zone-text {
   color: rgb(0, 0, 0);
@@ -153,4 +158,5 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  pointer-events: none;
 }

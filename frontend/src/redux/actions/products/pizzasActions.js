@@ -7,7 +7,7 @@ import {
   GET_PIZZA_FAIL,
   GET_PIZZA_REQUEST,
   GET_PIZZA_SUCCESS
-} from './actionTypes'
+} from '../actionTypes'
 
 export const fetchPizzasAction = cityId => async dispatch => {
   try {
