@@ -1,6 +1,5 @@
 import axios from 'axios'
 import {
-  CLEAR_GET_PIZZA,
   FETCH_PIZZAS_FAIL,
   FETCH_PIZZAS_REQUEST,
   FETCH_PIZZAS_SUCCESS,
@@ -36,6 +35,3 @@ export const getPizzaAction = pizzaId => async dispatch => {
     dispatch({ type: GET_PIZZA_FAIL, payload: e.message })
   }
 }
-
-export const clearGetPizza = () => dispatch =>
-  dispatch({ type: CLEAR_GET_PIZZA })

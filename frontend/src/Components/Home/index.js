@@ -22,6 +22,9 @@ const Home = () => {
   const { products } = useSelector(state => state.productsList)
   const { combos } = useSelector(state => state.combosList)
 
+  const { productsCart } = useSelector(state => state.productsCart)
+  console.log(productsCart)
+
   const [pizzaId, setPizzaId] = useState(null)
   const [showAssemblePizza, setShowAssemblePizza] = useState(false)
   const [productCardId, setProductCardId] = useState(null)
@@ -38,6 +41,15 @@ const Home = () => {
       dispatch(fetchProductsAction(city._id, 'others'))
       dispatch(fetchProductsAction(city._id, 'sauces'))
       dispatch(fetchCombosAction(city._id))
+
+      if (localStorage.getItem('pizzaId'))
+        setPizzaId(localStorage.getItem('pizzaId'))
+      else if (localStorage.getItem('showAssemblePizza'))
+        setShowAssemblePizza(true)
+      else if (localStorage.getItem('productCardId'))
+        setProductCardId(localStorage.getItem('productCardId'))
+      else if (localStorage.getItem('comboCardId'))
+        setComboCardId(localStorage.getItem('comboCardId'))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [city])

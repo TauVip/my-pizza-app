@@ -26,6 +26,7 @@ import {
   getProductReducer,
   productsListReducer
 } from './reducers/products/productsReducers'
+import { productsCartReducer } from './reducers/productsCartReducers'
 
 const reducer = combineReducers({
   pageNotFound: pageNotFoundReducer,
@@ -43,7 +44,8 @@ const reducer = combineReducers({
   productsList: productsListReducer,
   getProduct: getProductReducer,
   combosList: combosListReducer,
-  getCombo: getComboReducer
+  getCombo: getComboReducer,
+  productsCart: productsCartReducer
 })
 
 export const store = createStore(

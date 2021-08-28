@@ -4,10 +4,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import closeIcon from '../../../../images/close-icon.svg'
 import { modalOpenAction } from '../../../../redux/actions/loginActions'
-import {
-  clearGetPizza,
-  getPizzaAction
-} from '../../../../redux/actions/products/pizzasActions'
+import { getPizzaAction } from '../../../../redux/actions/products/pizzasActions'
+import { clearGetProduct } from '../../../../redux/actions/products/productsActions'
+import { addToCartAction } from '../../../../redux/actions/productsCartActions'
 import InformationCircle from '../InformationCircle'
 import '../styles.css'
 import PizzaComposition from './PizzaComposition'
@@ -31,9 +30,11 @@ const ModalPizzaCard = props => {
       search: `product=${props.pizzaId}`,
       hash: history.location.hash
     })
+    localStorage.setItem('pizzaId', props.pizzaId)
 
     return () => {
-      dispatch(clearGetPizza())
+      localStorage.removeItem('pizzaId')
+      dispatch(clearGetProduct())
       dispatch(modalOpenAction(false))
       history.replace({ search: null, hash: history.location.hash })
     }
@@ -57,6 +58,19 @@ const ModalPizzaCard = props => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [checkedSnacks, pizza, sizeChosen])
+
+  const onClick = () =>
+    dispatch(
+      addToCartAction({
+        productId: props.pizzaId,
+        image: pizza.images[thickness][sizeChosen],
+        name: pizza.name,
+        sizeChosen,
+        thickness,
+        checkedSnacks,
+        price
+      })
+    )
 
   return (
     <div className='show-locality__selector'>
@@ -275,7 +289,7 @@ const ModalPizzaCard = props => {
                 </div>
               </div>
               <div style={{ margin: '24px 30px 30px' }}>
-                <button className='add-cart__button'>
+                <button className='add-cart__button' onClick={onClick}>
                   Добавить в корзину за {price.toLocaleString()} тг.
                 </button>
               </div>

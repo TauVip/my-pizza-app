@@ -30,8 +30,10 @@ const ModalComboCard = props => {
       search: `product=${props.comboCardId}`,
       hash: history.location.hash
     })
+    localStorage.setItem('comboCardId', props.comboCardId)
 
     return () => {
+      localStorage.removeItem('comboCardId')
       dispatch(modalOpenAction(false))
       history.replace({ search: null, hash: history.location.hash })
     }

@@ -1,5 +1,5 @@
 import {
-  CLEAR_GET_PIZZA,
+  CLEAR_GET_PRODUCT,
   FETCH_PIZZAS_FAIL,
   FETCH_PIZZAS_REQUEST,
   FETCH_PIZZAS_SUCCESS,
@@ -34,7 +34,7 @@ export const getPizzaReducer = (state = [], action) => {
       }
     case GET_PIZZA_FAIL:
       return { loading: false, getPizzaError: action.payload }
-    case CLEAR_GET_PIZZA:
+    case CLEAR_GET_PRODUCT:
       return []
     default:
       return state

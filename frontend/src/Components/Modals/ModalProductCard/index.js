@@ -2,8 +2,10 @@ import InformationCircle from './InformationCircle'
 import closeIcon from '../../../images/close-icon.svg'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getProductAction } from '../../../redux/actions/products/productsActions'
-import { clearGetPizza } from '../../../redux/actions/products/pizzasActions'
+import {
+  clearGetProduct,
+  getProductAction
+} from '../../../redux/actions/products/productsActions'
 import { modalOpenAction } from '../../../redux/actions/loginActions'
 import { useHistory } from 'react-router-dom'
 
@@ -20,9 +22,11 @@ const ModalProductCard = props => {
       search: `product=${props.productCardId}`,
       hash: history.location.hash
     })
+    localStorage.setItem('productCardId', props.productCardId)
 
     return () => {
-      dispatch(clearGetPizza())
+      localStorage.removeItem('productCardId')
+      dispatch(clearGetProduct())
       dispatch(modalOpenAction(false))
       history.replace({ search: null, hash: history.location.hash })
     }

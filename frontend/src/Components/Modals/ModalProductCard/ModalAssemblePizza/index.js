@@ -23,8 +23,10 @@ const ModalAssemblePizza = props => {
       search: 'product=assemble-pizza',
       hash: history.location.hash
     })
+    localStorage.setItem('showAssemblePizza', 'true')
 
     return () => {
+      localStorage.removeItem('showAssemblePizza')
       dispatch(modalOpenAction(false))
       history.replace({ search: null, hash: history.location.hash })
     }
