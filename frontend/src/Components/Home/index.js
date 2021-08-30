@@ -22,9 +22,6 @@ const Home = () => {
   const { products } = useSelector(state => state.productsList)
   const { combos } = useSelector(state => state.combosList)
 
-  const { productsCart } = useSelector(state => state.productsCart)
-  console.log(productsCart)
-
   const [pizzaId, setPizzaId] = useState(null)
   const [showAssemblePizza, setShowAssemblePizza] = useState(false)
   const [productCardId, setProductCardId] = useState(null)

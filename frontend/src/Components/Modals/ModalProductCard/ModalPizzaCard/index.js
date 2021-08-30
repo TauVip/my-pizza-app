@@ -23,6 +23,7 @@ const ModalPizzaCard = props => {
   const [thickness, setThickness] = useState('traditional')
   const [checkedSnacks, setCheckedSnacks] = useState([])
   const [price, setPrice] = useState(0)
+  const [removedCompose, setRemovedCompose] = useState([])
 
   useEffect(() => {
     dispatch(modalOpenAction(true))
@@ -59,7 +60,7 @@ const ModalPizzaCard = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [checkedSnacks, pizza, sizeChosen])
 
-  const onClick = () =>
+  const onClick = () => {
     dispatch(
       addToCartAction({
         productId: props.pizzaId,
@@ -68,9 +69,16 @@ const ModalPizzaCard = props => {
         sizeChosen,
         thickness,
         checkedSnacks,
-        price
+        price,
+        removedCompose
       })
     )
+    localStorage.setItem(
+      'dispatchCart',
+      `${pizza.name}, ${sizeVars[sizeChosen]}см`
+    )
+    props.setPizzaId(null)
+  }
 
   return (
     <div className='show-locality__selector'>
@@ -166,6 +174,8 @@ const ModalPizzaCard = props => {
                         <PizzaComposition
                           name={compose.name}
                           canRemove={compose.canRemove}
+                          removedCompose={removedCompose}
+                          setRemovedCompose={setRemovedCompose}
                         />
                         {i !== pizza.composition.length - 1 && ', '}
                       </Fragment>
@@ -269,23 +279,25 @@ const ModalPizzaCard = props => {
                       </>
                     )}
                   </div>
-                  <div style={{ padding: '14px 0px 24px' }}>
-                    <div className='product-snacks__title'>
-                      Добавить в пиццу
+                  {pizzaSnacks?.length > 0 && (
+                    <div style={{ padding: '14px 0px 24px' }}>
+                      <div className='product-snacks__title'>
+                        Добавить в пиццу
+                      </div>
+                      <section className='product-snack-section'>
+                        {pizzaSnacks.map(pizzaSnack => (
+                          <PizzaSnack
+                            key={pizzaSnack._id}
+                            pizzaSnack={pizzaSnack}
+                            size={sizeChosen}
+                            thickness={thickness}
+                            setCheckedSnacks={setCheckedSnacks}
+                            checkedSnacks={checkedSnacks}
+                          />
+                        ))}
+                      </section>
                     </div>
-                    <section className='product-snack-section'>
-                      {pizzaSnacks.map(pizzaSnack => (
-                        <PizzaSnack
-                          key={pizzaSnack._id}
-                          pizzaSnack={pizzaSnack}
-                          size={sizeChosen}
-                          thickness={thickness}
-                          setCheckedSnacks={setCheckedSnacks}
-                          checkedSnacks={checkedSnacks}
-                        />
-                      ))}
-                    </section>
-                  </div>
+                  )}
                 </div>
               </div>
               <div style={{ margin: '24px 30px 30px' }}>

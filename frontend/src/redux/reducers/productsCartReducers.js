@@ -1,15 +1,19 @@
-import { ADD_TO_CART } from '../actions/actionTypes'
+import { ADD_TO_CART, GET_PRODUCTS_CART } from '../actions/actionTypes'
 
 export const productsCartReducer = (state = [], action) => {
   switch (action.type) {
+    case GET_PRODUCTS_CART:
+      return action.payload
+        ? { productsCart: JSON.parse(action.payload) }
+        : state
     case ADD_TO_CART:
-      const productsCart = localStorage.getItem('productsCart')
-        ? [...JSON.parse(localStorage.getItem('productsCart')), action.payload]
+      const productsCart = state.productsCart
+        ? [...state.productsCart, action.payload]
         : [action.payload]
 
       localStorage.setItem('productsCart', JSON.stringify(productsCart))
 
-      return { loading: false, productsCart }
+      return { productsCart }
     default:
       return state
   }
