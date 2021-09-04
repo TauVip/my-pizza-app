@@ -4,14 +4,19 @@ import { Link, NavLink, useHistory, withRouter } from 'react-router-dom'
 import Loading from '../Loading'
 import cartEmpty from '../../images/cart-empty.svg'
 import './styles.css'
-import { getProductsCartAction } from '../../redux/actions/productsCartActions'
+import {
+  addQuantityAction,
+  deleteProductCartAction,
+  getProductsCartAction,
+  reduceQuantityAction
+} from '../../redux/actions/productsCartActions'
 
 const Navigation = () => {
   const history = useHistory()
   const dispatch = useDispatch()
 
   const { city } = useSelector(state => state.getCity)
-
+  const { sizeVars } = useSelector(state => state.pizzasList)
   const { productsCart } = useSelector(state => state.productsCart)
   console.log(productsCart)
 
@@ -20,7 +25,7 @@ const Navigation = () => {
   const [showGradientTop, setShowGradientTop] = useState(false)
   const [showGradientBottom, setShowGradientBottom] = useState(false)
 
-  const onScroll = e => {
+  const onScrollCart = e => {
     if (e.target.scrollTop > 10) setShowGradientTop(true)
     else setShowGradientTop(false)
 
@@ -198,7 +203,7 @@ const Navigation = () => {
           <div className='nav__cart'>
             <button className='nav__cart-btn'>
               Корзина
-              {productsCart && (
+              {productsCart?.length > 0 && (
                 <>
                   <div className='cart-line' />
                   <svg
@@ -216,12 +221,13 @@ const Navigation = () => {
                     ></path>
                   </svg>
                   <div className='products-cart__length'>
-                    {productsCart.length + 1}
+                    {productsCart.reduce((sum, val) => sum + val.quantity, 0) +
+                      1}
                   </div>
                 </>
               )}
             </button>
-            {!productsCart ? (
+            {productsCart?.length > 0 ? (
               <div className='floating-cart__container'>
                 <i className='pointer-icon__cart'>
                   <svg
@@ -236,648 +242,105 @@ const Navigation = () => {
                     ></path>
                   </svg>
                 </i>
-                <div className='floating-cart__content'>
-                  <img src={cartEmpty} alt='Empty Cart' />
-                  <h2 style={{ fontSize: 22, marginBottom: 10 }}>Ой, пусто!</h2>
-                  <div>
-                    Мы всегда доставляем бесплатно, но сумма заказа должна быть
-                    от 2 500 тг.
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <div className='floating-cart__container'>
-                <i className='pointer-icon__cart'>
-                  <svg
-                    viewBox='0 0 18 12'
-                    version='1.1'
-                    xmlns='http://www.w3.org/2000/svg'
-                  >
-                    <path
-                      transform='translate(-2 0)'
-                      fillRule='evenodd'
-                      d='M 9.52569 1.60834L 3.07216 8.64855C 1.89626 9.93135 2.80626 12 4.54647 12L 17.4535 12C 19.1937 12 20.1037 9.93135 18.9278 8.64855L 12.4743 1.60834C 11.6816 0.743602 10.3184 0.743603 9.52569 1.60834Z'
-                    ></path>
-                  </svg>
-                </i>
-                <div
-                  style={{
-                    padding: '0 32px',
-                    height: window.innerHeight - 300,
-                    overflow: 'auto'
-                  }}
-                  onScroll={onScroll}
-                >
+                <div id='floating-cart__products' onScroll={onScrollCart}>
                   <div
                     id='scroll__gradient-top'
                     data-gradient-top={`${showGradientTop}`}
-                    style={{ top: 31 }}
+                    style={{ top: 16 }}
                   />
-                  <div className='floating-cart__product'>
-                    <img
-                      className='floating-cart__image'
-                      src='https://dodopizza-a.akamaihd.net/static/Img/Products/2c37b341d6da45b59b6381074f825b37_584x584.jpeg'
-                      alt='Product-cart'
-                    />
-                    <div style={{ flex: '1 1 auto', flexFlow: 'column' }}>
-                      <div style={{ paddingRight: 20, marginBottom: 2 }}>
-                        Колбаски барбекю
-                        <svg
-                          width='20'
-                          height='20'
-                          fill='none'
-                          className='cart__product-delete'
-                        >
-                          <path
-                            d='M14.75 6h-9.5l.66 9.805c.061 1.013.598 1.695 1.489 1.695H12.6c.89 0 1.412-.682 1.49-1.695L14.75 6z'
-                            fill='#373536'
-                          ></path>
-                          <path
-                            d='M13.85 3.007H6.196C4.984 2.887 5.021 4.365 5 5h9.992c.024-.62.07-1.873-1.142-1.993z'
-                            fill='#373535'
-                          ></path>
-                        </svg>
-                      </div>
-                      <div className='cart__product-desc'>
-                        Средняя 30см, традиционное тесто
-                      </div>
-                      <div className='product__quantity-price'>
-                        <div className='cart__product-quantity'>
-                          <button className='cart__product-balance'>
-                            <svg width='10' height='10'>
-                              <rect
-                                fill='#454B54'
-                                y='4'
-                                width='10'
-                                height='2'
-                                rx='1'
-                              ></rect>
-                            </svg>
-                          </button>
-                          <div className='cart__product-count'>1</div>
-                          <button className='cart__product-balance'>
-                            <svg width='10' height='10'>
-                              <g fill='#454B54'>
-                                <rect x='4' width='2' height='10' ry='1'></rect>
-                                <rect y='4' width='10' height='2' rx='1'></rect>
-                              </g>
-                            </svg>
-                          </button>
+                  {productsCart.map((product, i) => (
+                    <div className='floating-cart__product' key={i}>
+                      <img
+                        className='floating-cart__image'
+                        src={product.image}
+                        alt='Product-cart'
+                      />
+                      <div style={{ flex: '1 1 auto', flexFlow: 'column' }}>
+                        <div style={{ paddingRight: 20, marginBottom: 2 }}>
+                          {product.name}
+                          <svg
+                            width='20'
+                            height='20'
+                            fill='none'
+                            className='cart__product-delete'
+                            onClick={() =>
+                              dispatch(deleteProductCartAction(product))
+                            }
+                          >
+                            <path
+                              d='M14.75 6h-9.5l.66 9.805c.061 1.013.598 1.695 1.489 1.695H12.6c.89 0 1.412-.682 1.49-1.695L14.75 6z'
+                              fill='#373536'
+                            ></path>
+                            <path
+                              d='M13.85 3.007H6.196C4.984 2.887 5.021 4.365 5 5h9.992c.024-.62.07-1.873-1.142-1.993z'
+                              fill='#373535'
+                            ></path>
+                          </svg>
                         </div>
-                        <div>2 750 тг.</div>
+                        <div className='cart__product-desc'>
+                          {product.sizeChosen === 'small'
+                            ? 'Маленькая'
+                            : product.sizeChosen === 'medium'
+                            ? 'Средняя'
+                            : 'Большая'}{' '}
+                          {sizeVars && sizeVars[product.sizeChosen]} см,{' '}
+                          {product.thickness === 'traditional'
+                            ? 'традиционное'
+                            : 'тонкое'}{' '}
+                          тесто
+                        </div>
+                        <div className='product__quantity-price'>
+                          <div className='cart__product-quantity'>
+                            <button
+                              className='cart__product-balance'
+                              onClick={() => {
+                                if (product.quantity > 1)
+                                  dispatch(reduceQuantityAction(product))
+                                else dispatch(deleteProductCartAction(product))
+                              }}
+                            >
+                              <svg width='10' height='10'>
+                                <rect
+                                  fill='#454B54'
+                                  y='4'
+                                  width='10'
+                                  height='2'
+                                  rx='1'
+                                ></rect>
+                              </svg>
+                            </button>
+                            <div className='cart__product-count'>
+                              {product.quantity}
+                            </div>
+                            <button
+                              className='cart__product-balance'
+                              onClick={() =>
+                                dispatch(addQuantityAction(product))
+                              }
+                            >
+                              <svg width='10' height='10'>
+                                <g fill='#454B54'>
+                                  <rect
+                                    x='4'
+                                    width='2'
+                                    height='10'
+                                    ry='1'
+                                  ></rect>
+                                  <rect
+                                    y='4'
+                                    width='10'
+                                    height='2'
+                                    rx='1'
+                                  ></rect>
+                                </g>
+                              </svg>
+                            </button>
+                          </div>
+                          <div>{product.price.toLocaleString()} тг.</div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div className='floating-cart__product'>
-                    <img
-                      className='floating-cart__image'
-                      src='https://dodopizza-a.akamaihd.net/static/Img/Products/2c37b341d6da45b59b6381074f825b37_584x584.jpeg'
-                      alt='Product-cart'
-                    />
-                    <div style={{ flex: '1 1 auto', flexFlow: 'column' }}>
-                      <div style={{ paddingRight: 20, marginBottom: 2 }}>
-                        Колбаски барбекю
-                        <svg
-                          width='20'
-                          height='20'
-                          fill='none'
-                          className='cart__product-delete'
-                        >
-                          <path
-                            d='M14.75 6h-9.5l.66 9.805c.061 1.013.598 1.695 1.489 1.695H12.6c.89 0 1.412-.682 1.49-1.695L14.75 6z'
-                            fill='#373536'
-                          ></path>
-                          <path
-                            d='M13.85 3.007H6.196C4.984 2.887 5.021 4.365 5 5h9.992c.024-.62.07-1.873-1.142-1.993z'
-                            fill='#373535'
-                          ></path>
-                        </svg>
-                      </div>
-                      <div className='cart__product-desc'>
-                        Средняя 30см, традиционное тесто
-                      </div>
-                      <div className='product__quantity-price'>
-                        <div className='cart__product-quantity'>
-                          <button className='cart__product-balance'>
-                            <svg width='10' height='10'>
-                              <rect
-                                fill='#454B54'
-                                y='4'
-                                width='10'
-                                height='2'
-                                rx='1'
-                              ></rect>
-                            </svg>
-                          </button>
-                          <div className='cart__product-count'>1</div>
-                          <button className='cart__product-balance'>
-                            <svg width='10' height='10'>
-                              <g fill='#454B54'>
-                                <rect x='4' width='2' height='10' ry='1'></rect>
-                                <rect y='4' width='10' height='2' rx='1'></rect>
-                              </g>
-                            </svg>
-                          </button>
-                        </div>
-                        <div>2 750 тг.</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className='floating-cart__product'>
-                    <img
-                      className='floating-cart__image'
-                      src='https://dodopizza-a.akamaihd.net/static/Img/Products/2c37b341d6da45b59b6381074f825b37_584x584.jpeg'
-                      alt='Product-cart'
-                    />
-                    <div style={{ flex: '1 1 auto', flexFlow: 'column' }}>
-                      <div style={{ paddingRight: 20, marginBottom: 2 }}>
-                        Колбаски барбекю
-                        <svg
-                          width='20'
-                          height='20'
-                          fill='none'
-                          className='cart__product-delete'
-                        >
-                          <path
-                            d='M14.75 6h-9.5l.66 9.805c.061 1.013.598 1.695 1.489 1.695H12.6c.89 0 1.412-.682 1.49-1.695L14.75 6z'
-                            fill='#373536'
-                          ></path>
-                          <path
-                            d='M13.85 3.007H6.196C4.984 2.887 5.021 4.365 5 5h9.992c.024-.62.07-1.873-1.142-1.993z'
-                            fill='#373535'
-                          ></path>
-                        </svg>
-                      </div>
-                      <div className='cart__product-desc'>
-                        Средняя 30см, традиционное тесто
-                      </div>
-                      <div className='product__quantity-price'>
-                        <div className='cart__product-quantity'>
-                          <button className='cart__product-balance'>
-                            <svg width='10' height='10'>
-                              <rect
-                                fill='#454B54'
-                                y='4'
-                                width='10'
-                                height='2'
-                                rx='1'
-                              ></rect>
-                            </svg>
-                          </button>
-                          <div className='cart__product-count'>1</div>
-                          <button className='cart__product-balance'>
-                            <svg width='10' height='10'>
-                              <g fill='#454B54'>
-                                <rect x='4' width='2' height='10' ry='1'></rect>
-                                <rect y='4' width='10' height='2' rx='1'></rect>
-                              </g>
-                            </svg>
-                          </button>
-                        </div>
-                        <div>2 750 тг.</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className='floating-cart__product'>
-                    <img
-                      className='floating-cart__image'
-                      src='https://dodopizza-a.akamaihd.net/static/Img/Products/2c37b341d6da45b59b6381074f825b37_584x584.jpeg'
-                      alt='Product-cart'
-                    />
-                    <div style={{ flex: '1 1 auto', flexFlow: 'column' }}>
-                      <div style={{ paddingRight: 20, marginBottom: 2 }}>
-                        Колбаски барбекю
-                        <svg
-                          width='20'
-                          height='20'
-                          fill='none'
-                          className='cart__product-delete'
-                        >
-                          <path
-                            d='M14.75 6h-9.5l.66 9.805c.061 1.013.598 1.695 1.489 1.695H12.6c.89 0 1.412-.682 1.49-1.695L14.75 6z'
-                            fill='#373536'
-                          ></path>
-                          <path
-                            d='M13.85 3.007H6.196C4.984 2.887 5.021 4.365 5 5h9.992c.024-.62.07-1.873-1.142-1.993z'
-                            fill='#373535'
-                          ></path>
-                        </svg>
-                      </div>
-                      <div className='cart__product-desc'>
-                        Средняя 30см, традиционное тесто
-                      </div>
-                      <div className='product__quantity-price'>
-                        <div className='cart__product-quantity'>
-                          <button className='cart__product-balance'>
-                            <svg width='10' height='10'>
-                              <rect
-                                fill='#454B54'
-                                y='4'
-                                width='10'
-                                height='2'
-                                rx='1'
-                              ></rect>
-                            </svg>
-                          </button>
-                          <div className='cart__product-count'>1</div>
-                          <button className='cart__product-balance'>
-                            <svg width='10' height='10'>
-                              <g fill='#454B54'>
-                                <rect x='4' width='2' height='10' ry='1'></rect>
-                                <rect y='4' width='10' height='2' rx='1'></rect>
-                              </g>
-                            </svg>
-                          </button>
-                        </div>
-                        <div>2 750 тг.</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className='floating-cart__product'>
-                    <img
-                      className='floating-cart__image'
-                      src='https://dodopizza-a.akamaihd.net/static/Img/Products/2c37b341d6da45b59b6381074f825b37_584x584.jpeg'
-                      alt='Product-cart'
-                    />
-                    <div style={{ flex: '1 1 auto', flexFlow: 'column' }}>
-                      <div style={{ paddingRight: 20, marginBottom: 2 }}>
-                        Колбаски барбекю
-                        <svg
-                          width='20'
-                          height='20'
-                          fill='none'
-                          className='cart__product-delete'
-                        >
-                          <path
-                            d='M14.75 6h-9.5l.66 9.805c.061 1.013.598 1.695 1.489 1.695H12.6c.89 0 1.412-.682 1.49-1.695L14.75 6z'
-                            fill='#373536'
-                          ></path>
-                          <path
-                            d='M13.85 3.007H6.196C4.984 2.887 5.021 4.365 5 5h9.992c.024-.62.07-1.873-1.142-1.993z'
-                            fill='#373535'
-                          ></path>
-                        </svg>
-                      </div>
-                      <div className='cart__product-desc'>
-                        Средняя 30см, традиционное тесто
-                      </div>
-                      <div className='product__quantity-price'>
-                        <div className='cart__product-quantity'>
-                          <button className='cart__product-balance'>
-                            <svg width='10' height='10'>
-                              <rect
-                                fill='#454B54'
-                                y='4'
-                                width='10'
-                                height='2'
-                                rx='1'
-                              ></rect>
-                            </svg>
-                          </button>
-                          <div className='cart__product-count'>1</div>
-                          <button className='cart__product-balance'>
-                            <svg width='10' height='10'>
-                              <g fill='#454B54'>
-                                <rect x='4' width='2' height='10' ry='1'></rect>
-                                <rect y='4' width='10' height='2' rx='1'></rect>
-                              </g>
-                            </svg>
-                          </button>
-                        </div>
-                        <div>2 750 тг.</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className='floating-cart__product'>
-                    <img
-                      className='floating-cart__image'
-                      src='https://dodopizza-a.akamaihd.net/static/Img/Products/2c37b341d6da45b59b6381074f825b37_584x584.jpeg'
-                      alt='Product-cart'
-                    />
-                    <div style={{ flex: '1 1 auto', flexFlow: 'column' }}>
-                      <div style={{ paddingRight: 20, marginBottom: 2 }}>
-                        Колбаски барбекю
-                        <svg
-                          width='20'
-                          height='20'
-                          fill='none'
-                          className='cart__product-delete'
-                        >
-                          <path
-                            d='M14.75 6h-9.5l.66 9.805c.061 1.013.598 1.695 1.489 1.695H12.6c.89 0 1.412-.682 1.49-1.695L14.75 6z'
-                            fill='#373536'
-                          ></path>
-                          <path
-                            d='M13.85 3.007H6.196C4.984 2.887 5.021 4.365 5 5h9.992c.024-.62.07-1.873-1.142-1.993z'
-                            fill='#373535'
-                          ></path>
-                        </svg>
-                      </div>
-                      <div className='cart__product-desc'>
-                        Средняя 30см, традиционное тесто
-                      </div>
-                      <div className='product__quantity-price'>
-                        <div className='cart__product-quantity'>
-                          <button className='cart__product-balance'>
-                            <svg width='10' height='10'>
-                              <rect
-                                fill='#454B54'
-                                y='4'
-                                width='10'
-                                height='2'
-                                rx='1'
-                              ></rect>
-                            </svg>
-                          </button>
-                          <div className='cart__product-count'>1</div>
-                          <button className='cart__product-balance'>
-                            <svg width='10' height='10'>
-                              <g fill='#454B54'>
-                                <rect x='4' width='2' height='10' ry='1'></rect>
-                                <rect y='4' width='10' height='2' rx='1'></rect>
-                              </g>
-                            </svg>
-                          </button>
-                        </div>
-                        <div>2 750 тг.</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className='floating-cart__product'>
-                    <img
-                      className='floating-cart__image'
-                      src='https://dodopizza-a.akamaihd.net/static/Img/Products/2c37b341d6da45b59b6381074f825b37_584x584.jpeg'
-                      alt='Product-cart'
-                    />
-                    <div style={{ flex: '1 1 auto', flexFlow: 'column' }}>
-                      <div style={{ paddingRight: 20, marginBottom: 2 }}>
-                        Колбаски барбекю
-                        <svg
-                          width='20'
-                          height='20'
-                          fill='none'
-                          className='cart__product-delete'
-                        >
-                          <path
-                            d='M14.75 6h-9.5l.66 9.805c.061 1.013.598 1.695 1.489 1.695H12.6c.89 0 1.412-.682 1.49-1.695L14.75 6z'
-                            fill='#373536'
-                          ></path>
-                          <path
-                            d='M13.85 3.007H6.196C4.984 2.887 5.021 4.365 5 5h9.992c.024-.62.07-1.873-1.142-1.993z'
-                            fill='#373535'
-                          ></path>
-                        </svg>
-                      </div>
-                      <div className='cart__product-desc'>
-                        Средняя 30см, традиционное тесто
-                      </div>
-                      <div className='product__quantity-price'>
-                        <div className='cart__product-quantity'>
-                          <button className='cart__product-balance'>
-                            <svg width='10' height='10'>
-                              <rect
-                                fill='#454B54'
-                                y='4'
-                                width='10'
-                                height='2'
-                                rx='1'
-                              ></rect>
-                            </svg>
-                          </button>
-                          <div className='cart__product-count'>1</div>
-                          <button className='cart__product-balance'>
-                            <svg width='10' height='10'>
-                              <g fill='#454B54'>
-                                <rect x='4' width='2' height='10' ry='1'></rect>
-                                <rect y='4' width='10' height='2' rx='1'></rect>
-                              </g>
-                            </svg>
-                          </button>
-                        </div>
-                        <div>2 750 тг.</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className='floating-cart__product'>
-                    <img
-                      className='floating-cart__image'
-                      src='https://dodopizza-a.akamaihd.net/static/Img/Products/2c37b341d6da45b59b6381074f825b37_584x584.jpeg'
-                      alt='Product-cart'
-                    />
-                    <div style={{ flex: '1 1 auto', flexFlow: 'column' }}>
-                      <div style={{ paddingRight: 20, marginBottom: 2 }}>
-                        Колбаски барбекю
-                        <svg
-                          width='20'
-                          height='20'
-                          fill='none'
-                          className='cart__product-delete'
-                        >
-                          <path
-                            d='M14.75 6h-9.5l.66 9.805c.061 1.013.598 1.695 1.489 1.695H12.6c.89 0 1.412-.682 1.49-1.695L14.75 6z'
-                            fill='#373536'
-                          ></path>
-                          <path
-                            d='M13.85 3.007H6.196C4.984 2.887 5.021 4.365 5 5h9.992c.024-.62.07-1.873-1.142-1.993z'
-                            fill='#373535'
-                          ></path>
-                        </svg>
-                      </div>
-                      <div className='cart__product-desc'>
-                        Средняя 30см, традиционное тесто
-                      </div>
-                      <div className='product__quantity-price'>
-                        <div className='cart__product-quantity'>
-                          <button className='cart__product-balance'>
-                            <svg width='10' height='10'>
-                              <rect
-                                fill='#454B54'
-                                y='4'
-                                width='10'
-                                height='2'
-                                rx='1'
-                              ></rect>
-                            </svg>
-                          </button>
-                          <div className='cart__product-count'>1</div>
-                          <button className='cart__product-balance'>
-                            <svg width='10' height='10'>
-                              <g fill='#454B54'>
-                                <rect x='4' width='2' height='10' ry='1'></rect>
-                                <rect y='4' width='10' height='2' rx='1'></rect>
-                              </g>
-                            </svg>
-                          </button>
-                        </div>
-                        <div>2 750 тг.</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className='floating-cart__product'>
-                    <img
-                      className='floating-cart__image'
-                      src='https://dodopizza-a.akamaihd.net/static/Img/Products/2c37b341d6da45b59b6381074f825b37_584x584.jpeg'
-                      alt='Product-cart'
-                    />
-                    <div style={{ flex: '1 1 auto', flexFlow: 'column' }}>
-                      <div style={{ paddingRight: 20, marginBottom: 2 }}>
-                        Колбаски барбекю
-                        <svg
-                          width='20'
-                          height='20'
-                          fill='none'
-                          className='cart__product-delete'
-                        >
-                          <path
-                            d='M14.75 6h-9.5l.66 9.805c.061 1.013.598 1.695 1.489 1.695H12.6c.89 0 1.412-.682 1.49-1.695L14.75 6z'
-                            fill='#373536'
-                          ></path>
-                          <path
-                            d='M13.85 3.007H6.196C4.984 2.887 5.021 4.365 5 5h9.992c.024-.62.07-1.873-1.142-1.993z'
-                            fill='#373535'
-                          ></path>
-                        </svg>
-                      </div>
-                      <div className='cart__product-desc'>
-                        Средняя 30см, традиционное тесто
-                      </div>
-                      <div className='product__quantity-price'>
-                        <div className='cart__product-quantity'>
-                          <button className='cart__product-balance'>
-                            <svg width='10' height='10'>
-                              <rect
-                                fill='#454B54'
-                                y='4'
-                                width='10'
-                                height='2'
-                                rx='1'
-                              ></rect>
-                            </svg>
-                          </button>
-                          <div className='cart__product-count'>1</div>
-                          <button className='cart__product-balance'>
-                            <svg width='10' height='10'>
-                              <g fill='#454B54'>
-                                <rect x='4' width='2' height='10' ry='1'></rect>
-                                <rect y='4' width='10' height='2' rx='1'></rect>
-                              </g>
-                            </svg>
-                          </button>
-                        </div>
-                        <div>2 750 тг.</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className='floating-cart__product'>
-                    <img
-                      className='floating-cart__image'
-                      src='https://dodopizza-a.akamaihd.net/static/Img/Products/2c37b341d6da45b59b6381074f825b37_584x584.jpeg'
-                      alt='Product-cart'
-                    />
-                    <div style={{ flex: '1 1 auto', flexFlow: 'column' }}>
-                      <div style={{ paddingRight: 20, marginBottom: 2 }}>
-                        Колбаски барбекю
-                        <svg
-                          width='20'
-                          height='20'
-                          fill='none'
-                          className='cart__product-delete'
-                        >
-                          <path
-                            d='M14.75 6h-9.5l.66 9.805c.061 1.013.598 1.695 1.489 1.695H12.6c.89 0 1.412-.682 1.49-1.695L14.75 6z'
-                            fill='#373536'
-                          ></path>
-                          <path
-                            d='M13.85 3.007H6.196C4.984 2.887 5.021 4.365 5 5h9.992c.024-.62.07-1.873-1.142-1.993z'
-                            fill='#373535'
-                          ></path>
-                        </svg>
-                      </div>
-                      <div className='cart__product-desc'>
-                        Средняя 30см, традиционное тесто
-                      </div>
-                      <div className='product__quantity-price'>
-                        <div className='cart__product-quantity'>
-                          <button className='cart__product-balance'>
-                            <svg width='10' height='10'>
-                              <rect
-                                fill='#454B54'
-                                y='4'
-                                width='10'
-                                height='2'
-                                rx='1'
-                              ></rect>
-                            </svg>
-                          </button>
-                          <div className='cart__product-count'>1</div>
-                          <button className='cart__product-balance'>
-                            <svg width='10' height='10'>
-                              <g fill='#454B54'>
-                                <rect x='4' width='2' height='10' ry='1'></rect>
-                                <rect y='4' width='10' height='2' rx='1'></rect>
-                              </g>
-                            </svg>
-                          </button>
-                        </div>
-                        <div>2 750 тг.</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className='floating-cart__product'>
-                    <img
-                      className='floating-cart__image'
-                      src='https://dodopizza-a.akamaihd.net/static/Img/Products/2c37b341d6da45b59b6381074f825b37_584x584.jpeg'
-                      alt='Product-cart'
-                    />
-                    <div style={{ flex: '1 1 auto', flexFlow: 'column' }}>
-                      <div style={{ paddingRight: 20, marginBottom: 2 }}>
-                        Колбаски барбекю
-                        <svg
-                          width='20'
-                          height='20'
-                          fill='none'
-                          className='cart__product-delete'
-                        >
-                          <path
-                            d='M14.75 6h-9.5l.66 9.805c.061 1.013.598 1.695 1.489 1.695H12.6c.89 0 1.412-.682 1.49-1.695L14.75 6z'
-                            fill='#373536'
-                          ></path>
-                          <path
-                            d='M13.85 3.007H6.196C4.984 2.887 5.021 4.365 5 5h9.992c.024-.62.07-1.873-1.142-1.993z'
-                            fill='#373535'
-                          ></path>
-                        </svg>
-                      </div>
-                      <div className='cart__product-desc'>
-                        Средняя 30см, традиционное тесто
-                      </div>
-                      <div className='product__quantity-price'>
-                        <div className='cart__product-quantity'>
-                          <button className='cart__product-balance'>
-                            <svg width='10' height='10'>
-                              <rect
-                                fill='#454B54'
-                                y='4'
-                                width='10'
-                                height='2'
-                                rx='1'
-                              ></rect>
-                            </svg>
-                          </button>
-                          <div className='cart__product-count'>1</div>
-                          <button className='cart__product-balance'>
-                            <svg width='10' height='10'>
-                              <g fill='#454B54'>
-                                <rect x='4' width='2' height='10' ry='1'></rect>
-                                <rect y='4' width='10' height='2' rx='1'></rect>
-                              </g>
-                            </svg>
-                          </button>
-                        </div>
-                        <div>2 750 тг.</div>
-                      </div>
-                    </div>
-                  </div>
+                  ))}
                   <div className='floating-cart__product'>
                     <img
                       className='floating-cart__image'
@@ -927,13 +390,42 @@ const Navigation = () => {
                   <div
                     id='scroll__gradient-bottom'
                     data-gradient-bottom={`${showGradientBottom}`}
-                    style={{ bottom: 63 }}
+                    style={{ bottom: 66 }}
                   />
                 </div>
                 <div style={{ padding: '0 32px' }}>
                   <div style={{ marginTop: 12, position: 'relative' }}>
                     Сумма заказа
-                    <div className='products-cart__price'>2 750 тг</div>
+                    <div className='products-cart__price'>
+                      {productsCart
+                        .reduce((sum, val) => sum + val.price * val.quantity, 0)
+                        .toLocaleString()}{' '}
+                      тг
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className='floating-cart__container'>
+                <i className='pointer-icon__cart'>
+                  <svg
+                    viewBox='0 0 18 12'
+                    version='1.1'
+                    xmlns='http://www.w3.org/2000/svg'
+                  >
+                    <path
+                      transform='translate(-2 0)'
+                      fillRule='evenodd'
+                      d='M 9.52569 1.60834L 3.07216 8.64855C 1.89626 9.93135 2.80626 12 4.54647 12L 17.4535 12C 19.1937 12 20.1037 9.93135 18.9278 8.64855L 12.4743 1.60834C 11.6816 0.743602 10.3184 0.743603 9.52569 1.60834Z'
+                    ></path>
+                  </svg>
+                </i>
+                <div className='floating-cart__content'>
+                  <img src={cartEmpty} alt='Empty Cart' />
+                  <h2 style={{ fontSize: 22, marginBottom: 10 }}>Ой, пусто!</h2>
+                  <div>
+                    Мы всегда доставляем бесплатно, но сумма заказа должна быть
+                    от 2 500 тг.
                   </div>
                 </div>
               </div>

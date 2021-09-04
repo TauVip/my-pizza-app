@@ -6,7 +6,10 @@ import closeIcon from '../../../../images/close-icon.svg'
 import { modalOpenAction } from '../../../../redux/actions/loginActions'
 import { getPizzaAction } from '../../../../redux/actions/products/pizzasActions'
 import { clearGetProduct } from '../../../../redux/actions/products/productsActions'
-import { addToCartAction } from '../../../../redux/actions/productsCartActions'
+import {
+  addQuantityAction,
+  addToCartAction
+} from '../../../../redux/actions/productsCartActions'
 import InformationCircle from '../InformationCircle'
 import '../styles.css'
 import PizzaComposition from './PizzaComposition'
@@ -18,6 +21,7 @@ const ModalPizzaCard = props => {
 
   const { pizza, pizzaSnacks } = useSelector(state => state.getPizza)
   const { sizeVars } = useSelector(state => state.pizzasList)
+  const { productsCart } = useSelector(state => state.productsCart)
 
   const [sizeChosen, setSizeChosen] = useState(null)
   const [thickness, setThickness] = useState('traditional')
@@ -61,18 +65,25 @@ const ModalPizzaCard = props => {
   }, [checkedSnacks, pizza, sizeChosen])
 
   const onClick = () => {
-    dispatch(
-      addToCartAction({
-        productId: props.pizzaId,
-        image: pizza.images[thickness][sizeChosen],
-        name: pizza.name,
-        sizeChosen,
-        thickness,
-        checkedSnacks,
-        price,
-        removedCompose
-      })
+    const product = {
+      productId: props.pizzaId,
+      image: pizza.images[thickness][sizeChosen],
+      name: pizza.name,
+      sizeChosen,
+      thickness,
+      checkedSnacks,
+      price,
+      removedCompose,
+      quantity: 1
+    }
+
+    const checkProduct = productsCart?.find(
+      item =>
+        JSON.stringify({ ...item, quantity: 1 }) === JSON.stringify(product)
     )
+    if (checkProduct) dispatch(addQuantityAction(product))
+    else dispatch(addToCartAction(product))
+
     localStorage.setItem(
       'dispatchCart',
       `${pizza.name}, ${sizeVars[sizeChosen]}см`

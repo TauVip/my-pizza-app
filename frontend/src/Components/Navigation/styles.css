@@ -144,7 +144,7 @@
   opacity: 0;
   transform: translateX(-5px);
 }
-.nav__cart:hover .cart-desc__arrow {
+.nav__cart-btn:hover .cart-desc__arrow {
   opacity: 1;
   transform: translateX(0px);
 }
@@ -158,7 +158,7 @@
   opacity: 1;
   transform: translateX(0px);
 }
-.nav__cart:hover .products-cart__length {
+.nav__cart-btn:hover .products-cart__length {
   opacity: 0;
   transform: translateX(5px);
 }
@@ -169,7 +169,6 @@
   padding: 32px 0px;
   box-shadow: rgb(0 0 0 / 12%) 0px 3px 25px;
   border-radius: 8px;
-  transition: opacity 0.5s ease 0s;
   width: 352px;
   background-color: #fff;
   font-family: Dodo, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
@@ -177,10 +176,13 @@
     'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
   font-weight: 500;
   opacity: 0;
-  transform: translateY(5px);
-  transition: transform 0.2s ease-in-out 0.5s, opacity 0.2s ease-in-out 0.5s;
+  visibility: hidden;
+  transform: translateY(0px);
+  transition: transform 0.2s ease-in-out 0.5s, opacity 0.2s ease-in-out 0.5s,
+    visibility 0.2s ease-in-out 0.5s;
 }
 .nav__cart:hover .floating-cart__container {
+  visibility: visible;
   opacity: 1;
   transform: translateY(5px);
   transition: transform 0.2s ease-in-out 0s, opacity 0.2s ease-in-out 0s;
@@ -192,6 +194,12 @@
   width: 22px;
   height: 11px;
   fill: white;
+}
+#floating-cart__products {
+  padding: 0 32px;
+  max-height: calc(100vh - 200px);
+  overflow: auto;
+  margin-top: -16px;
 }
 .floating-cart__content {
   text-align: center;

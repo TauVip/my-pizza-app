@@ -151,7 +151,7 @@ const Home = () => {
                 </main>
                 <footer className='product-footer'>
                   <div className='product-control-price'>
-                    от {assembleMinPrice(pizzas)} тг.
+                    от {assembleMinPrice(pizzas).toLocaleString()} тг.
                   </div>
                   <button
                     className='product-button collect-button'

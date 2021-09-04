@@ -28,3 +28,11 @@ app.use('/combos', combosRouter)
 
 const PORT = process.env.PORT || 5000
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`))
+
+/*
+  showDispatchCart во время добавления в корзину
+  GradientTop и GradientBottom при наведении на корзину
+  Подарочные наборы в корзине
+  Что-то сделать с quantity
+  Cart actions and reducers пересмотреть
+*/
