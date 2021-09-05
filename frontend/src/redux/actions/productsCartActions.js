@@ -1,9 +1,11 @@
 import {
   ADD_QUANTITY_CART,
   ADD_TO_CART,
+  CLEAR_SENDING_CART,
   DELETE_PRODUCT_CART,
   GET_PRODUCTS_CART,
-  REDUCE_QUANTITY_CART
+  REDUCE_QUANTITY_CART,
+  SENDING_PRODUCT_CART
 } from './actionTypes'
 
 export const getProductsCartAction = () => dispatch =>
@@ -35,3 +37,8 @@ export const deleteProductCartAction = product => dispatch =>
     type: DELETE_PRODUCT_CART,
     payload: product
   })
+
+export const sendingProductAction = product => dispatch =>
+  dispatch({ type: SENDING_PRODUCT_CART, payload: product })
+export const clearSendingProductAction = () => dispatch =>
+  dispatch({ type: CLEAR_SENDING_CART })

@@ -1,9 +1,11 @@
 import {
   ADD_QUANTITY_CART,
   ADD_TO_CART,
+  CLEAR_SENDING_CART,
   DELETE_PRODUCT_CART,
   GET_PRODUCTS_CART,
-  REDUCE_QUANTITY_CART
+  REDUCE_QUANTITY_CART,
+  SENDING_PRODUCT_CART
 } from '../actions/actionTypes'
 
 export const productsCartReducer = (state = [], action) => {
@@ -51,6 +53,17 @@ export const productsCartReducer = (state = [], action) => {
       )
       return { productsCart }
     }
+    default:
+      return state
+  }
+}
+
+export const sendingProductReducer = (state = null, action) => {
+  switch (action.type) {
+    case SENDING_PRODUCT_CART:
+      return action.payload
+    case CLEAR_SENDING_CART:
+      return null
     default:
       return state
   }

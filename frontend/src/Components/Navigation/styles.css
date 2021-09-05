@@ -196,10 +196,13 @@
   fill: white;
 }
 #floating-cart__products {
+  max-height: calc(100vh - 280px);
   padding: 0 32px;
-  max-height: calc(100vh - 200px);
   overflow: auto;
   margin-top: -16px;
+}
+#floating-cart__products[data-stick='true'] {
+  max-height: calc(100vh - 200px);
 }
 .floating-cart__content {
   text-align: center;

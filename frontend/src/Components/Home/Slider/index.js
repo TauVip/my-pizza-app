@@ -106,7 +106,7 @@ const Slider = props => {
               <Banner banner={banners[0]} current={current} />
             </>
           </div>
-          <div className='counter' data-show={`${counterShow}`}>
+          <div className='counter' data-show={counterShow}>
             {banners.map((banner, i) => (
               <div
                 className={`counter-inner${i === current ? ' current' : ''}`}
@@ -120,7 +120,7 @@ const Slider = props => {
           </div>
           <i
             className='prev-next__show prev-show'
-            data-show={`${prevIconShow}`}
+            data-show={prevIconShow}
             onMouseEnter={() => setPrevIconShow(true)}
             onMouseLeave={() => setPrevIconShow(false)}
             onClick={() => {
@@ -129,7 +129,7 @@ const Slider = props => {
             }}
           >
             <svg
-              data-show={`${prevIconShow}`}
+              data-show={prevIconShow}
               width='34'
               height='34'
               viewBox='0 0 34 34'
@@ -148,7 +148,7 @@ const Slider = props => {
           </i>
           <i
             className='prev-next__show next-show'
-            data-show={`${nextIconShow}`}
+            data-show={nextIconShow}
             onMouseEnter={() => setNextIconShow(true)}
             onMouseLeave={() => setNextIconShow(false)}
             onClick={() => {
@@ -157,7 +157,7 @@ const Slider = props => {
             }}
           >
             <svg
-              data-show={`${nextIconShow}`}
+              data-show={nextIconShow}
               width='34'
               height='34'
               viewBox='0 0 34 34'

@@ -8,7 +8,8 @@ import { getPizzaAction } from '../../../../redux/actions/products/pizzasActions
 import { clearGetProduct } from '../../../../redux/actions/products/productsActions'
 import {
   addQuantityAction,
-  addToCartAction
+  addToCartAction,
+  sendingProductAction
 } from '../../../../redux/actions/productsCartActions'
 import InformationCircle from '../InformationCircle'
 import '../styles.css'
@@ -76,7 +77,6 @@ const ModalPizzaCard = props => {
       removedCompose,
       quantity: 1
     }
-
     const checkProduct = productsCart?.find(
       item =>
         JSON.stringify({ ...item, quantity: 1 }) === JSON.stringify(product)
@@ -84,10 +84,8 @@ const ModalPizzaCard = props => {
     if (checkProduct) dispatch(addQuantityAction(product))
     else dispatch(addToCartAction(product))
 
-    localStorage.setItem(
-      'dispatchCart',
-      `${pizza.name}, ${sizeVars[sizeChosen]}см`
-    )
+    dispatch(sendingProductAction(product))
+
     props.setPizzaId(null)
   }
 

@@ -6,37 +6,41 @@ import cartEmpty from '../../images/cart-empty.svg'
 import './styles.css'
 import {
   addQuantityAction,
+  clearSendingProductAction,
   deleteProductCartAction,
   getProductsCartAction,
   reduceQuantityAction
 } from '../../redux/actions/productsCartActions'
 
 const Navigation = () => {
+  const y = document.querySelector('header').offsetHeight
+
   const history = useHistory()
   const dispatch = useDispatch()
 
   const { city } = useSelector(state => state.getCity)
   const { sizeVars } = useSelector(state => state.pizzasList)
   const { productsCart } = useSelector(state => state.productsCart)
-  console.log(productsCart)
+  const sendingProduct = useSelector(state => state.sendingCart)
+  console.log(productsCart, sendingProduct)
 
   const [stick, setStick] = useState(null)
-  const [showDispatchCart, setShowDispatchCart] = useState(false)
   const [showGradientTop, setShowGradientTop] = useState(false)
   const [showGradientBottom, setShowGradientBottom] = useState(false)
 
-  const onScrollCart = e => {
-    if (e.target.scrollTop > 10) setShowGradientTop(true)
+  const onScrollCart = () => {
+    const elem = document.getElementById('floating-cart__products')
+    if (elem?.scrollTop > 10) setShowGradientTop(true)
     else setShowGradientTop(false)
 
-    if (e.target.scrollHeight > e.target.scrollTop + e.target.offsetHeight + 10)
+    if (elem?.scrollHeight > elem?.scrollTop + elem?.offsetHeight + 10)
       setShowGradientBottom(true)
     else setShowGradientBottom(false)
   }
 
   useEffect(() => {
     const onScroll = () =>
-      window.pageYOffset > 80 ? setStick(true) : setStick(false)
+      window.pageYOffset > y ? setStick(true) : setStick(false)
     window.addEventListener('scroll', onScroll)
     onScroll()
 
@@ -47,21 +51,16 @@ const Navigation = () => {
   }, [])
 
   useEffect(() => {
-    if (localStorage.getItem('dispatchCart')) {
-      setShowDispatchCart(true)
-      setTimeout(() => {
-        localStorage.removeItem('dispatchCart')
-        setShowDispatchCart(false)
-      }, 2000)
-    }
+    if (sendingProduct)
+      setTimeout(() => dispatch(clearSendingProductAction()), 2000)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [localStorage.getItem('dispatchCart')])
+  }, [sendingProduct])
 
   const onClick = () =>
     document.querySelector(history.location.hash)?.scrollIntoView()
 
   return city ? (
-    <nav className='nav' data-stick={`${stick}`}>
+    <nav className='nav' data-stick={stick}>
       <div className='container'>
         <div className='header__items'>
           <Link
@@ -70,7 +69,7 @@ const Navigation = () => {
             onClick={() => window.scrollTo(0, 0)}
           >
             <svg
-              data-stick={`${stick}`}
+              data-stick={stick}
               id='logo_svg__Layer_1'
               x='0'
               y='0'
@@ -88,7 +87,7 @@ const Navigation = () => {
               ></path>
             </svg>
           </Link>
-          <ul className='products' data-stick={`${stick}`}>
+          <ul className='products' data-stick={stick}>
             <li className='product' onClick={onClick}>
               <NavLink
                 to={`/${city.link}#pizzas`}
@@ -200,7 +199,7 @@ const Navigation = () => {
               </li>
             )}
           </ul>
-          <div className='nav__cart'>
+          <div className='nav__cart' onMouseEnter={onScrollCart}>
             <button className='nav__cart-btn'>
               Корзина
               {productsCart?.length > 0 && (
@@ -242,11 +241,15 @@ const Navigation = () => {
                     ></path>
                   </svg>
                 </i>
-                <div id='floating-cart__products' onScroll={onScrollCart}>
+                <div
+                  id='floating-cart__products'
+                  data-stick={stick}
+                  onScroll={onScrollCart}
+                >
                   <div
                     id='scroll__gradient-top'
-                    data-gradient-top={`${showGradientTop}`}
-                    style={{ top: 16 }}
+                    data-gradient-top={showGradientTop}
+                    style={{ top: 15 }}
                   />
                   {productsCart.map((product, i) => (
                     <div className='floating-cart__product' key={i}>
@@ -389,8 +392,8 @@ const Navigation = () => {
                   </div>
                   <div
                     id='scroll__gradient-bottom'
-                    data-gradient-bottom={`${showGradientBottom}`}
-                    style={{ bottom: 66 }}
+                    data-gradient-bottom={showGradientBottom}
+                    style={{ bottom: 63 }}
                   />
                 </div>
                 <div style={{ padding: '0 32px' }}>
@@ -431,11 +434,14 @@ const Navigation = () => {
               </div>
             )}
           </div>
-          {showDispatchCart && (
+          {sendingProduct && (
             <div className='add-cart__popup'>
               <div className='timing-description' style={{ padding: 18 }}>
                 <div>Добавлено:</div>
-                <div>{localStorage.getItem('dispatchCart')}</div>
+                <div>
+                  {sendingProduct.name}, {sizeVars[sendingProduct.sizeChosen]}{' '}
+                  см
+                </div>
               </div>
             </div>
           )}
