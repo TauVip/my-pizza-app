@@ -6,7 +6,7 @@ import cartEmpty from '../../images/cart-empty.svg'
 import './styles.css'
 import {
   addQuantityAction,
-  clearSendingProductAction,
+  //clearSendingProductAction,
   deleteProductCartAction,
   getProductsCartAction,
   reduceQuantityAction
@@ -21,8 +21,8 @@ const Navigation = () => {
   const { city } = useSelector(state => state.getCity)
   const { sizeVars } = useSelector(state => state.pizzasList)
   const { productsCart } = useSelector(state => state.productsCart)
-  const sendingProduct = useSelector(state => state.sendingCart)
-  console.log(productsCart, sendingProduct)
+  //const sendingProduct = useSelector(state => state.sendingProduct)
+  //console.log(productsCart)
 
   const [stick, setStick] = useState(null)
   const [showGradientTop, setShowGradientTop] = useState(false)
@@ -49,13 +49,13 @@ const Navigation = () => {
     return () => window.removeEventListener('scroll', onScroll)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
+  /*
   useEffect(() => {
     if (sendingProduct)
       setTimeout(() => dispatch(clearSendingProductAction()), 2000)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sendingProduct])
-
+*/
   const onClick = () =>
     document.querySelector(history.location.hash)?.scrollIntoView()
 
@@ -434,7 +434,7 @@ const Navigation = () => {
               </div>
             )}
           </div>
-          {sendingProduct && (
+          {/*sendingProduct && (
             <div className='add-cart__popup'>
               <div className='timing-description' style={{ padding: 18 }}>
                 <div>Добавлено:</div>
@@ -444,7 +444,7 @@ const Navigation = () => {
                 </div>
               </div>
             </div>
-          )}
+          )*/}
         </div>
       </div>
     </nav>

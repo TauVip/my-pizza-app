@@ -21,12 +21,14 @@ const Home = () => {
   const { pizzas } = useSelector(state => state.pizzasList)
   const { products } = useSelector(state => state.productsList)
   const { combos } = useSelector(state => state.combosList)
+  const { sizeVars } = useSelector(state => state.pizzasList)
 
   const [pizzaId, setPizzaId] = useState(null)
   const [showAssemblePizza, setShowAssemblePizza] = useState(false)
   const [productCardId, setProductCardId] = useState(null)
   const [comboCardId, setComboCardId] = useState(null)
   const [title, setTitle] = useState(null)
+  const [sendingProduct, setSendingProduct] = useState(null)
 
   useEffect(() => {
     if (city) {
@@ -92,6 +94,11 @@ const Home = () => {
     return () => document.removeEventListener('scroll', onScroll)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [history.location.hash, title])
+
+  useEffect(() => {
+    console.log(sendingProduct)
+    //if (sendingProduct) setTimeout(() => setSendingProduct(null), 2000)
+  }, [sendingProduct])
 
   const assembleMinPrice = pizzas => {
     const sortPizzas = pizzas
@@ -195,7 +202,11 @@ const Home = () => {
             emptyProducts()
           )}
           {pizzaId && (
-            <ModalPizzaCard pizzaId={pizzaId} setPizzaId={setPizzaId} />
+            <ModalPizzaCard
+              pizzaId={pizzaId}
+              setPizzaId={setPizzaId}
+              setSendingProduct={setSendingProduct}
+            />
           )}
           {showAssemblePizza && (
             <ModalAssemblePizza setShowAssemblePizza={setShowAssemblePizza} />
@@ -344,6 +355,16 @@ const Home = () => {
             </Link>
           </article>
         </section>
+        {sendingProduct && (
+          <div className='add-cart__popup'>
+            <div className='timing-description' style={{ padding: 18 }}>
+              <div>Добавлено:</div>
+              <div>
+                {sendingProduct.name}, {sizeVars[sendingProduct.sizeChosen]} см
+              </div>
+            </div>
+          </div>
+        )}
       </main>
     </>
   )

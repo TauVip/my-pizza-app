@@ -8,8 +8,8 @@ import { getPizzaAction } from '../../../../redux/actions/products/pizzasActions
 import { clearGetProduct } from '../../../../redux/actions/products/productsActions'
 import {
   addQuantityAction,
-  addToCartAction,
-  sendingProductAction
+  addToCartAction
+  //sendingProductAction
 } from '../../../../redux/actions/productsCartActions'
 import InformationCircle from '../InformationCircle'
 import '../styles.css'
@@ -84,7 +84,8 @@ const ModalPizzaCard = props => {
     if (checkProduct) dispatch(addQuantityAction(product))
     else dispatch(addToCartAction(product))
 
-    dispatch(sendingProductAction(product))
+    //dispatch(sendingProductAction(product))
+    props.setSendingProduct(product)
 
     props.setPizzaId(null)
   }

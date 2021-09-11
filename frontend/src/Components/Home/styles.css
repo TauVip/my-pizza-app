@@ -160,3 +160,11 @@
   transform: translate(-50%, -50%);
   pointer-events: none;
 }
+
+.add-cart__popup {
+  position: fixed;
+  top: 75px;
+  right: 115px;
+  width: 250px;
+  animation: show 0.2s;
+}
