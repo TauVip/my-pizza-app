@@ -30,10 +30,15 @@ const PORT = process.env.PORT || 5000
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`))
 
 /*
-  showDispatchCart во время добавления в корзину
+  Очистить корзину при смене city
   Подарочные наборы в корзине
   Что-то сделать с quantity
   Cart actions and reducers пересмотреть
   Подумать над объединением fetchProductsAction-сов
   Подумать над переименованием селекторов
+  Подумать над переходами продуктов в Navigation и Home
+  Исправить баг в ModalLocality при клике на тень
+  Исправить Header в ModalLocality
+  Установить Footer внизу страницы когда компонент невысокий
+  MODAL_OPEN убрать из глобального state
 */

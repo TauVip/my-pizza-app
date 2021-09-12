@@ -4,6 +4,8 @@
   position: relative;
 }
 .header__item_info {
+  display: table;
+  width: 100%;
   padding-top: 25px;
   padding-bottom: 5px;
 }
@@ -73,8 +75,6 @@
   text-align: right;
   display: table-cell;
   vertical-align: top;
-  padding-top: 25px;
-  padding-bottom: 5px;
   user-select: none;
 }
 .header__user-profile-button {

@@ -14,7 +14,6 @@ import {
 import {
   loginReducer,
   modalOpenReducer,
-  pageNotFoundReducer,
   smsLoginReducer
 } from './reducers/loginReducers'
 import {
@@ -26,13 +25,9 @@ import {
   getProductReducer,
   productsListReducer
 } from './reducers/products/productsReducers'
-import {
-  productsCartReducer,
-  sendingProductReducer
-} from './reducers/productsCartReducers'
+import { productsCartReducer } from './reducers/productsCartReducers'
 
 const reducer = combineReducers({
-  pageNotFound: pageNotFoundReducer,
   modalOpen: modalOpenReducer,
   citiesList: citiesListReducer,
   getCity: getCityReducer,
@@ -48,8 +43,7 @@ const reducer = combineReducers({
   getProduct: getProductReducer,
   combosList: combosListReducer,
   getCombo: getComboReducer,
-  productsCart: productsCartReducer,
-  sendingProduct: sendingProductReducer
+  productsCart: productsCartReducer
 })
 
 export const store = createStore(

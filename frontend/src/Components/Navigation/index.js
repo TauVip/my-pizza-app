@@ -1,19 +1,17 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, NavLink, useHistory, withRouter } from 'react-router-dom'
-import Loading from '../Loading'
 import cartEmpty from '../../images/cart-empty.svg'
 import './styles.css'
 import {
   addQuantityAction,
-  //clearSendingProductAction,
   deleteProductCartAction,
   getProductsCartAction,
   reduceQuantityAction
 } from '../../redux/actions/productsCartActions'
 
-const Navigation = () => {
-  const y = document.querySelector('header').offsetHeight
+const Navigation = props => {
+  const y = document.querySelector('header')?.offsetHeight
 
   const history = useHistory()
   const dispatch = useDispatch()
@@ -21,8 +19,6 @@ const Navigation = () => {
   const { city } = useSelector(state => state.getCity)
   const { sizeVars } = useSelector(state => state.pizzasList)
   const { productsCart } = useSelector(state => state.productsCart)
-  //const sendingProduct = useSelector(state => state.sendingProduct)
-  //console.log(productsCart)
 
   const [stick, setStick] = useState(null)
   const [showGradientTop, setShowGradientTop] = useState(false)
@@ -49,23 +45,17 @@ const Navigation = () => {
     return () => window.removeEventListener('scroll', onScroll)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-  /*
-  useEffect(() => {
-    if (sendingProduct)
-      setTimeout(() => dispatch(clearSendingProductAction()), 2000)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sendingProduct])
-*/
+
   const onClick = () =>
     document.querySelector(history.location.hash)?.scrollIntoView()
 
-  return city ? (
+  return (
     <nav className='nav' data-stick={stick}>
       <div className='container'>
         <div className='header__items'>
           <Link
             className='sticky-logo'
-            to={`/${city.link}`}
+            to={`/${city?.link}`}
             onClick={() => window.scrollTo(0, 0)}
           >
             <svg
@@ -90,7 +80,7 @@ const Navigation = () => {
           <ul className='products' data-stick={stick}>
             <li className='product' onClick={onClick}>
               <NavLink
-                to={`/${city.link}#pizzas`}
+                to={`/${city?.link}#pizzas`}
                 className='product-link'
                 exact
                 isActive={() => window.location.hash === '#pizzas'}
@@ -101,7 +91,7 @@ const Navigation = () => {
             </li>
             <li className='product' onClick={onClick}>
               <NavLink
-                to={`/${city.link}#combos`}
+                to={`/${city?.link}#combos`}
                 className='product-link'
                 exact
                 isActive={() => window.location.hash === '#combos'}
@@ -112,7 +102,7 @@ const Navigation = () => {
             </li>
             <li className='product' onClick={onClick}>
               <NavLink
-                to={`/${city.link}#snacks`}
+                to={`/${city?.link}#snacks`}
                 className='product-link'
                 exact
                 isActive={() => window.location.hash === '#snacks'}
@@ -123,7 +113,7 @@ const Navigation = () => {
             </li>
             <li className='product' onClick={onClick}>
               <NavLink
-                to={`/${city.link}#desserts`}
+                to={`/${city?.link}#desserts`}
                 className='product-link'
                 exact
                 isActive={() => window.location.hash === '#desserts'}
@@ -134,7 +124,7 @@ const Navigation = () => {
             </li>
             <li className='product' onClick={onClick}>
               <NavLink
-                to={`/${city.link}#drinks`}
+                to={`/${city?.link}#drinks`}
                 className='product-link'
                 exact
                 isActive={() => window.location.hash === '#drinks'}
@@ -145,7 +135,7 @@ const Navigation = () => {
             </li>
             <li className='product' onClick={onClick}>
               <NavLink
-                to={`/${city.link}#others`}
+                to={`/${city?.link}#others`}
                 className='product-link'
                 exact
                 isActive={() => window.location.hash === '#others'}
@@ -156,7 +146,7 @@ const Navigation = () => {
             </li>
             <li className='product'>
               <NavLink
-                to={`/${city.link}/bonusactions`}
+                to={`/${city?.link}/bonusactions`}
                 className='product-link'
                 exact
                 activeStyle={{ color: 'rgb(255, 105, 0)' }}
@@ -166,7 +156,7 @@ const Navigation = () => {
             </li>
             <li className='product'>
               <NavLink
-                to={`/${city.link}/contacts`}
+                to={`/${city?.link}/contacts`}
                 className='product-link'
                 exact
                 activeStyle={{ color: 'rgb(255, 105, 0)' }}
@@ -185,7 +175,7 @@ const Navigation = () => {
             </li>
             <li className='product'>
               <NavLink
-                to={`/${city.link}/about`}
+                to={`/${city?.link}/about`}
                 className='product-link'
                 exact
                 activeStyle={{ color: 'rgb(255, 105, 0)' }}
@@ -193,7 +183,7 @@ const Navigation = () => {
                 О нас
               </NavLink>
             </li>
-            {window.location.pathname === `/${city.link}` && (
+            {window.location.pathname === `/${city?.link}` && (
               <li className='product'>
                 <span className='camera-link'>Прямой эфир</span>
               </li>
@@ -434,22 +424,20 @@ const Navigation = () => {
               </div>
             )}
           </div>
-          {/*sendingProduct && (
+          {props.sendingProduct && (
             <div className='add-cart__popup'>
               <div className='timing-description' style={{ padding: 18 }}>
                 <div>Добавлено:</div>
                 <div>
-                  {sendingProduct.name}, {sizeVars[sendingProduct.sizeChosen]}{' '}
-                  см
+                  {props.sendingProduct.name},{' '}
+                  {sizeVars[props.sendingProduct.sizeChosen]} см
                 </div>
               </div>
             </div>
-          )*/}
+          )}
         </div>
       </div>
     </nav>
-  ) : (
-    <Loading />
   )
 }
 export default withRouter(Navigation)

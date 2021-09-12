@@ -12,6 +12,7 @@ import ProductsShow from './ProductsShow'
 import ModalComboCard from '../Modals/ModalProductCard/ModalComboCard'
 import { fetchCombosAction } from '../../redux/actions/products/comboProductsActions'
 import './styles.css'
+import Container from '../../Container'
 
 const Home = () => {
   const dispatch = useDispatch()
@@ -21,7 +22,6 @@ const Home = () => {
   const { pizzas } = useSelector(state => state.pizzasList)
   const { products } = useSelector(state => state.productsList)
   const { combos } = useSelector(state => state.combosList)
-  const { sizeVars } = useSelector(state => state.pizzasList)
 
   const [pizzaId, setPizzaId] = useState(null)
   const [showAssemblePizza, setShowAssemblePizza] = useState(false)
@@ -96,8 +96,7 @@ const Home = () => {
   }, [history.location.hash, title])
 
   useEffect(() => {
-    console.log(sendingProduct)
-    //if (sendingProduct) setTimeout(() => setSendingProduct(null), 2000)
+    if (sendingProduct) setTimeout(() => setSendingProduct(null), 2000)
   }, [sendingProduct])
 
   const assembleMinPrice = pizzas => {
@@ -127,7 +126,7 @@ const Home = () => {
     ))
 
   return (
-    <>
+    <Container sendingProduct={sendingProduct}>
       <Slider setPizzaId={setPizzaId} setProductId={setProductCardId} />
 
       <main className='container'>
@@ -142,7 +141,7 @@ const Home = () => {
           Пицца
         </h1>
         <section className='products-section'>
-          {pizzas?.length ? (
+          {pizzas?.length > 0 ? (
             <>
               <article className='menu__meta-product'>
                 <main className='menu__meta-main'>
@@ -216,7 +215,7 @@ const Home = () => {
           Комбо
         </h1>
         <section className='products-section'>
-          {combos?.length
+          {combos?.length > 0
             ? combos.map(combo => (
                 <article className='menu__meta-product' key={combo._id}>
                   <main className='menu__meta-main'>
@@ -255,7 +254,7 @@ const Home = () => {
           Закуски
         </h1>
         <section className='products-section'>
-          {products?.snacks?.length
+          {products?.snacks?.length > 0
             ? products.snacks.map(snack => (
                 <ProductsShow
                   product={snack}
@@ -269,7 +268,7 @@ const Home = () => {
           Десерты
         </h1>
         <section className='products-section'>
-          {products?.desserts?.length
+          {products?.desserts?.length > 0
             ? products.desserts.map(dessert => (
                 <ProductsShow
                   product={dessert}
@@ -283,7 +282,7 @@ const Home = () => {
           Напитки
         </h1>
         <section className='products-section'>
-          {products?.drinks?.length
+          {products?.drinks?.length > 0
             ? products.drinks.map(drink => (
                 <ProductsShow
                   product={drink}
@@ -297,7 +296,7 @@ const Home = () => {
           Другие товары
         </h1>
         <section className='products-section'>
-          {products?.others?.length
+          {products?.others?.length > 0
             ? products.others.map(other => (
                 <ProductsShow
                   product={other}
@@ -355,18 +354,8 @@ const Home = () => {
             </Link>
           </article>
         </section>
-        {sendingProduct && (
-          <div className='add-cart__popup'>
-            <div className='timing-description' style={{ padding: 18 }}>
-              <div>Добавлено:</div>
-              <div>
-                {sendingProduct.name}, {sizeVars[sendingProduct.sizeChosen]} см
-              </div>
-            </div>
-          </div>
-        )}
       </main>
-    </>
+    </Container>
   )
 }
 export default Home

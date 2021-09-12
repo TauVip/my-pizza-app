@@ -1,6 +1,5 @@
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import Loading from '../Loading'
 import secretBuyerImg from '../../images/secret-buyer.svg'
 import linkAndroidImg from '../../images/app-link-android.svg'
 import linkIosImg from '../../images/app-link-ios.svg'
@@ -9,7 +8,7 @@ import './styles.css'
 const Footer = () => {
   const { city } = useSelector(state => state.getCity)
 
-  return city ? (
+  return (
     <footer className='page__footer'>
       <div className='secret-buyer'>
         <div className='container footer-part'>
@@ -34,7 +33,7 @@ const Footer = () => {
         <div style={{ display: 'flex' }}>
           <div className='links-section'>
             <span className='links-section__title'>Додо Пицца</span>
-            <Link to={`/${city.link}/about`} className='links-section__link'>
+            <Link to={`/${city?.link}/about`} className='links-section__link'>
               О нас
             </Link>
             <Link
@@ -155,10 +154,10 @@ const Footer = () => {
             <div className='contacts-phone'>
               <div className='contacts-phone__desc'>Звонок по телефону</div>
               <a
-                href={`tel:+${city.phoneNumber.match(/\d/g).join('')}`}
+                href={`tel:+${city?.phoneNumber.match(/\d/g).join('')}`}
                 className='contacts-phone__num'
               >
-                {city.phoneNumber}
+                {city?.phoneNumber}
               </a>
             </div>
             <a href='mailto:feedback@dodopizza.kz' className='contacts-link'>
@@ -177,7 +176,7 @@ const Footer = () => {
           © 2021
         </div>
         <div style={{ flexGrow: 1 }}>
-          <Link to={`/${city.link}/legal`} className='bottom-link'>
+          <Link to={`/${city?.link}/legal`} className='bottom-link'>
             Правовая информация
           </Link>
           <Link
@@ -190,7 +189,7 @@ const Footer = () => {
           >
             Калорийность и состав
           </Link>
-          <Link to={`/${city.link}/faq`} className='bottom-link'>
+          <Link to={`/${city?.link}/faq`} className='bottom-link'>
             Помощь
           </Link>
         </div>
@@ -246,8 +245,6 @@ const Footer = () => {
         </div>
       </div>
     </footer>
-  ) : (
-    <Loading />
   )
 }
 export default Footer
