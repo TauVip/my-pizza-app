@@ -9,7 +9,6 @@ import {
 } from '../../redux/actions/citiesActions'
 import Loading from '../Loading'
 import closeIcon from '../../images/close-icon.svg'
-import { modalOpenAction } from '../../redux/actions/loginActions'
 import HeaderContainer from '../Header/HeaderContainer'
 
 const ModalLocality = props => {
@@ -21,10 +20,10 @@ const ModalLocality = props => {
   const { city } = useSelector(state => state.getCity)
 
   useEffect(() => {
-    dispatch(modalOpenAction(true))
+    document.body.style.overflow = 'hidden'
     dispatch(fetchCitiesAction())
 
-    return () => dispatch(modalOpenAction(false))
+    return () => (document.body.style.overflow = 'auto')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

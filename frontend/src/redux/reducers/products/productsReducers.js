@@ -1,5 +1,4 @@
 import {
-  CLEAR_GET_PRODUCT,
   FETCH_PRODUCTS_FAIL,
   FETCH_PRODUCTS_REQUEST,
   FETCH_PRODUCTS_SUCCESS,
@@ -34,8 +33,6 @@ export const getProductReducer = (state = [], action) => {
       return { loading: false, product: action.payload }
     case GET_PRODUCT_FAIL:
       return { loading: false, getProductError: action.payload }
-    case CLEAR_GET_PRODUCT:
-      return []
     default:
       return state
   }

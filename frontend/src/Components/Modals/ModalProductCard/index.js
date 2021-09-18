@@ -1,23 +1,19 @@
 import InformationCircle from './InformationCircle'
 import closeIcon from '../../../images/close-icon.svg'
 import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import {
-  clearGetProduct,
-  getProductAction
-} from '../../../redux/actions/products/productsActions'
-import { modalOpenAction } from '../../../redux/actions/loginActions'
+import { /*useDispatch,*/ useSelector } from 'react-redux'
+//import { getProductAction } from '../../../redux/actions/products/productsActions'
 import { useHistory } from 'react-router-dom'
 
 const ModalProductCard = props => {
-  const dispatch = useDispatch()
+  //const dispatch = useDispatch()
   const history = useHistory()
 
   const { product } = useSelector(state => state.getProduct)
 
   useEffect(() => {
-    dispatch(getProductAction(props.productCardId))
-    dispatch(modalOpenAction(true))
+    document.body.style.overflow = 'hidden'
+    //dispatch(getProductAction(props.productCardId))
     history.replace({
       search: `product=${props.productCardId}`,
       hash: history.location.hash
@@ -26,9 +22,8 @@ const ModalProductCard = props => {
 
     return () => {
       localStorage.removeItem('productCardId')
-      dispatch(clearGetProduct())
-      dispatch(modalOpenAction(false))
       history.replace({ search: null, hash: history.location.hash })
+      document.body.style.overflow = 'auto'
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

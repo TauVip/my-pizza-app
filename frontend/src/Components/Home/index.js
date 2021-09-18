@@ -4,13 +4,22 @@ import { Link, useHistory } from 'react-router-dom'
 import Slider from './Slider'
 import figureImg from '../../images/home-figure.svg'
 import ModalPizzaCard from '../Modals/ModalProductCard/ModalPizzaCard'
-import { fetchPizzasAction } from '../../redux/actions/products/pizzasActions'
+import {
+  fetchPizzasAction,
+  getPizzaAction
+} from '../../redux/actions/products/pizzasActions'
 import ModalAssemblePizza from '../Modals/ModalProductCard/ModalAssemblePizza'
 import ModalProductCard from '../Modals/ModalProductCard'
-import { fetchProductsAction } from '../../redux/actions/products/productsActions'
+import {
+  fetchProductsAction,
+  getProductAction
+} from '../../redux/actions/products/productsActions'
 import ProductsShow from './ProductsShow'
 import ModalComboCard from '../Modals/ModalProductCard/ModalComboCard'
-import { fetchCombosAction } from '../../redux/actions/products/comboProductsActions'
+import {
+  fetchCombosAction,
+  getComboAction
+} from '../../redux/actions/products/comboProductsActions'
 import './styles.css'
 import Container from '../../Container'
 
@@ -41,14 +50,18 @@ const Home = () => {
       dispatch(fetchProductsAction(city._id, 'sauces'))
       dispatch(fetchCombosAction(city._id))
 
-      if (localStorage.getItem('pizzaId'))
+      if (localStorage.getItem('pizzaId')) {
         setPizzaId(localStorage.getItem('pizzaId'))
-      else if (localStorage.getItem('showAssemblePizza'))
+        dispatch(getPizzaAction(localStorage.getItem('pizzaId')))
+      } else if (localStorage.getItem('showAssemblePizza'))
         setShowAssemblePizza(true)
-      else if (localStorage.getItem('productCardId'))
+      else if (localStorage.getItem('productCardId')) {
         setProductCardId(localStorage.getItem('productCardId'))
-      else if (localStorage.getItem('comboCardId'))
+        dispatch(getProductAction(localStorage.getItem('productCardId')))
+      } else if (localStorage.getItem('comboCardId')) {
         setComboCardId(localStorage.getItem('comboCardId'))
+        dispatch(getComboAction(localStorage.getItem('comboCardId')))
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [city])
@@ -178,7 +191,10 @@ const Home = () => {
                         pizza.images.traditional.medium ||
                         pizza.images.traditional.small
                       }
-                      onClick={() => setPizzaId(pizza._id)}
+                      onClick={() => {
+                        setPizzaId(pizza._id)
+                        dispatch(getPizzaAction(pizza._id))
+                      }}
                     />
                     <div className='menu__meta-title'>{pizza.name}</div>
                     {pizza.composition.map(compose => compose.name).join(', ')}
@@ -189,7 +205,10 @@ const Home = () => {
                     </div>
                     <button
                       className='product-button'
-                      onClick={() => setPizzaId(pizza._id)}
+                      onClick={() => {
+                        setPizzaId(pizza._id)
+                        dispatch(getPizzaAction(pizza._id))
+                      }}
                     >
                       Выбрать
                     </button>
@@ -224,7 +243,10 @@ const Home = () => {
                       title={combo.name}
                       className='menu__meta-img'
                       src={combo.image}
-                      onClick={() => setComboCardId(combo._id)}
+                      onClick={() => {
+                        setComboCardId(combo._id)
+                        dispatch(getComboAction(combo._id))
+                      }}
                     />
                     <div className='menu__meta-title'>{combo.name}</div>
                     {combo.description}
@@ -235,7 +257,10 @@ const Home = () => {
                     </div>
                     <button
                       className='product-button'
-                      onClick={() => setComboCardId(combo._id)}
+                      onClick={() => {
+                        setComboCardId(combo._id)
+                        dispatch(getComboAction(combo._id))
+                      }}
                     >
                       Выбрать
                     </button>

@@ -239,6 +239,16 @@
   background-size: 20px;
   background-position: 0px 0px;
 }
+.cart__product-delete path {
+  transform-origin: 17px 5px;
+  transition: transform 0.2s ease-in-out 0s, fill 0.2s ease-in-out 0s;
+}
+.cart__product-delete:hover path {
+  fill: rgb(255, 62, 51);
+}
+.cart__product-delete:hover path:not(:first-child) {
+  transform: rotate(10deg);
+}
 .cart__product-desc {
   font-size: 12px;
   line-height: 16px;
@@ -273,6 +283,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.cart__product-balance:hover svg :first-child {
+  fill: #000;
 }
 .cart__product-gift {
   font-size: 14px;

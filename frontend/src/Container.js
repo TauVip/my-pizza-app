@@ -4,9 +4,11 @@ import Navigation from './Components/Navigation'
 
 const Container = props => (
   <>
-    <Header />
-    <Navigation sendingProduct={props.sendingProduct} />
-    {props.children}
+    <div style={{ flex: '1 0 auto' }}>
+      <Header />
+      <Navigation sendingProduct={props.sendingProduct} />
+      {props.children}
+    </div>
     <Footer />
   </>
 )

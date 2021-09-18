@@ -1,6 +1,5 @@
 import axios from 'axios'
 import {
-  CLEAR_GET_COMBO,
   FETCH_COMBOS_FAIL,
   FETCH_COMBOS_REQUEST,
   FETCH_COMBOS_SUCCESS,
@@ -36,6 +35,3 @@ export const getComboAction = comboId => async dispatch => {
     dispatch({ type: GET_COMBO_FAIL, payload: e.message })
   }
 }
-
-export const clearGetPizza = () => dispatch =>
-  dispatch({ type: CLEAR_GET_COMBO })

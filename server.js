@@ -35,10 +35,7 @@ app.listen(PORT, () => console.log(`Server is running on port ${PORT}`))
   Что-то сделать с quantity
   Cart actions and reducers пересмотреть
   Подумать над объединением fetchProductsAction-сов
-  Подумать над переименованием селекторов
   Подумать над переходами продуктов в Navigation и Home
-  Исправить баг в ModalLocality при клике на тень
-  Исправить Header в ModalLocality
-  Установить Footer внизу страницы когда компонент невысокий
-  MODAL_OPEN убрать из глобального state
+  Небольшой баг в ModalLocality: когда выбираешь город, снова заходит в модалку
+  Переписать LocalStorage в useEffect Home
 */

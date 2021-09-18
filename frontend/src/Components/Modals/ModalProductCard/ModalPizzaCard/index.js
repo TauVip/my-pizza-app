@@ -3,13 +3,10 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import closeIcon from '../../../../images/close-icon.svg'
-import { modalOpenAction } from '../../../../redux/actions/loginActions'
-import { getPizzaAction } from '../../../../redux/actions/products/pizzasActions'
-import { clearGetProduct } from '../../../../redux/actions/products/productsActions'
+//import { getPizzaAction } from '../../../../redux/actions/products/pizzasActions'
 import {
   addQuantityAction,
   addToCartAction
-  //sendingProductAction
 } from '../../../../redux/actions/productsCartActions'
 import InformationCircle from '../InformationCircle'
 import '../styles.css'
@@ -22,7 +19,7 @@ const ModalPizzaCard = props => {
 
   const { pizza, pizzaSnacks } = useSelector(state => state.getPizza)
   const { sizeVars } = useSelector(state => state.pizzasList)
-  const { productsCart } = useSelector(state => state.productsCart)
+  const productsCart = useSelector(state => state.productsCart)
 
   const [sizeChosen, setSizeChosen] = useState(null)
   const [thickness, setThickness] = useState('traditional')
@@ -31,7 +28,8 @@ const ModalPizzaCard = props => {
   const [removedCompose, setRemovedCompose] = useState([])
 
   useEffect(() => {
-    dispatch(modalOpenAction(true))
+    //dispatch(getPizzaAction(props.pizzaId))
+    document.body.style.overflow = 'hidden'
     history.replace({
       search: `product=${props.pizzaId}`,
       hash: history.location.hash
@@ -40,16 +38,14 @@ const ModalPizzaCard = props => {
 
     return () => {
       localStorage.removeItem('pizzaId')
-      dispatch(clearGetProduct())
-      dispatch(modalOpenAction(false))
       history.replace({ search: null, hash: history.location.hash })
+      document.body.style.overflow = 'auto'
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
-    if (!pizza) dispatch(getPizzaAction(props.pizzaId))
-    else {
+    if (pizza) {
       if (!sizeChosen) setSizeChosen(pizza.price.medium ? 'medium' : 'small')
       else
         setPrice(
@@ -63,7 +59,7 @@ const ModalPizzaCard = props => {
         )
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [checkedSnacks, pizza, sizeChosen])
+  }, [checkedSnacks, sizeChosen, pizza])
 
   const onClick = () => {
     const product = {
@@ -84,7 +80,6 @@ const ModalPizzaCard = props => {
     if (checkProduct) dispatch(addQuantityAction(product))
     else dispatch(addToCartAction(product))
 
-    //dispatch(sendingProductAction(product))
     props.setSendingProduct(product)
 
     props.setPizzaId(null)
@@ -312,7 +307,7 @@ const ModalPizzaCard = props => {
               </div>
               <div style={{ margin: '24px 30px 30px' }}>
                 <button className='add-cart__button' onClick={onClick}>
-                  Добавить в корзину за {price.toLocaleString()} тг.
+                  Добавить в корзину за {price?.toLocaleString()} тг.
                 </button>
               </div>
             </div>

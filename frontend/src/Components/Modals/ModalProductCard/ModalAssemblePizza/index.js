@@ -1,13 +1,11 @@
 import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import closeIcon from '../../../../images/close-icon.svg'
-import { modalOpenAction } from '../../../../redux/actions/loginActions'
 import ChooseHalvePizza from './ChooseHalvePizza'
 import SelectedHalveSection from './SelectedHalveSection'
 
 const ModalAssemblePizza = props => {
-  const dispatch = useDispatch()
   const history = useHistory()
 
   const { pizzas } = useSelector(state => state.pizzasList)
@@ -18,7 +16,7 @@ const ModalAssemblePizza = props => {
   const [addCartError, setAddCartError] = useState(false)
 
   useEffect(() => {
-    dispatch(modalOpenAction(true))
+    document.body.style.overflow = 'hidden'
     history.replace({
       search: 'product=assemble-pizza',
       hash: history.location.hash
@@ -27,8 +25,8 @@ const ModalAssemblePizza = props => {
 
     return () => {
       localStorage.removeItem('showAssemblePizza')
-      dispatch(modalOpenAction(false))
       history.replace({ search: null, hash: history.location.hash })
+      document.body.style.overflow = 'auto'
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

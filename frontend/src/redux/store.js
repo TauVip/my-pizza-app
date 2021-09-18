@@ -11,11 +11,7 @@ import {
   combosListReducer,
   getComboReducer
 } from './reducers/products/comboProductsReducers'
-import {
-  loginReducer,
-  modalOpenReducer,
-  smsLoginReducer
-} from './reducers/loginReducers'
+import { loginReducer, smsLoginReducer } from './reducers/loginReducers'
 import {
   getPizzaReducer,
   pizzasListReducer
@@ -28,7 +24,6 @@ import {
 import { productsCartReducer } from './reducers/productsCartReducers'
 
 const reducer = combineReducers({
-  modalOpen: modalOpenReducer,
   citiesList: citiesListReducer,
   getCity: getCityReducer,
   smsLogin: smsLoginReducer,

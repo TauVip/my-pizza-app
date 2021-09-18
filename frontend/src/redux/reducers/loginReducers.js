@@ -2,14 +2,10 @@ import {
   LOGIN_FAIL,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
-  MODAL_OPEN,
   SMS_LOGIN_FAIL,
   SMS_LOGIN_REQUEST,
   SMS_LOGIN_SUCCESS
 } from '../actions/actionTypes'
-
-export const modalOpenReducer = (state = [], action) =>
-  action.type === MODAL_OPEN ? { modalOpen: action.payload } : state
 
 export const smsLoginReducer = (state = [], action) => {
   switch (action.type) {

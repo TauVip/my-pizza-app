@@ -35,7 +35,7 @@ export const citiesListReducer = (state = [], action) => {
 
       return {
         loading: false,
-        megaCities: megaCities,
+        megaCities,
         citiesGroup,
         columnsGroup
       }

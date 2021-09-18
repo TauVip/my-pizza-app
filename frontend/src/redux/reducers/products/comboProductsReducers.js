@@ -1,5 +1,4 @@
 import {
-  CLEAR_GET_COMBO,
   FETCH_COMBOS_FAIL,
   FETCH_COMBOS_REQUEST,
   FETCH_COMBOS_SUCCESS,
@@ -32,8 +31,6 @@ export const getComboReducer = (state = [], action) => {
       }
     case GET_COMBO_FAIL:
       return { loading: false, getComboError: action.payload }
-    case CLEAR_GET_COMBO:
-      return []
     default:
       return state
   }

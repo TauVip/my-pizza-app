@@ -17,7 +17,6 @@ const App = () => {
 
   const { city, getCityError } = useSelector(state => state.getCity)
   const { userInfo } = useSelector(state => state.login)
-  const { modalOpen } = useSelector(state => state.modalOpen)
 
   useEffect(() => {
     if (!city) dispatch(isCityGet())
@@ -27,11 +26,8 @@ const App = () => {
 
     if (city)
       document.title = `🍕 Додо Пицца ${city.name} | Доставка пиццы №1 в Казахстане`
-
-    if (modalOpen) document.body.style.overflow = 'hidden'
-    else document.body.style.overflow = 'auto'
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [city, getCityError, modalOpen, userInfo])
+  }, [city, getCityError, userInfo])
 
   return (
     <Switch>

@@ -2,7 +2,6 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import closeIcon from '../../images/close-icon.svg'
 import { getArticleAction } from '../../redux/actions/articlesActions'
-import { modalOpenAction } from '../../redux/actions/loginActions'
 
 const ModalArticle = props => {
   const dispatch = useDispatch()
@@ -10,10 +9,10 @@ const ModalArticle = props => {
   const { article } = useSelector(state => state.getArticle)
 
   useEffect(() => {
+    document.body.style.overflow = 'hidden'
     dispatch(getArticleAction(props.articleId))
-    dispatch(modalOpenAction(true))
 
-    return () => dispatch(modalOpenAction(false))
+    return () => (document.body.style.overflow = 'auto')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

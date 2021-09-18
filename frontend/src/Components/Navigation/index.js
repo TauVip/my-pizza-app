@@ -11,16 +11,14 @@ import {
 } from '../../redux/actions/productsCartActions'
 
 const Navigation = props => {
-  const y = document.querySelector('header')?.offsetHeight
-
   const history = useHistory()
   const dispatch = useDispatch()
 
   const { city } = useSelector(state => state.getCity)
   const { sizeVars } = useSelector(state => state.pizzasList)
-  const { productsCart } = useSelector(state => state.productsCart)
+  const productsCart = useSelector(state => state.productsCart)
 
-  const [stick, setStick] = useState(null)
+  const [stick, setStick] = useState(false)
   const [showGradientTop, setShowGradientTop] = useState(false)
   const [showGradientBottom, setShowGradientBottom] = useState(false)
 
@@ -36,7 +34,7 @@ const Navigation = props => {
 
   useEffect(() => {
     const onScroll = () =>
-      window.pageYOffset > y ? setStick(true) : setStick(false)
+      window.pageYOffset > 80 ? setStick(true) : setStick(false)
     window.addEventListener('scroll', onScroll)
     onScroll()
 
@@ -294,7 +292,7 @@ const Navigation = props => {
                             >
                               <svg width='10' height='10'>
                                 <rect
-                                  fill='#454B54'
+                                  fill='rgb(92, 99, 112)'
                                   y='4'
                                   width='10'
                                   height='2'
@@ -312,7 +310,7 @@ const Navigation = props => {
                               }
                             >
                               <svg width='10' height='10'>
-                                <g fill='#454B54'>
+                                <g fill='rgb(92, 99, 112)'>
                                   <rect
                                     x='4'
                                     width='2'
@@ -329,7 +327,7 @@ const Navigation = props => {
                               </svg>
                             </button>
                           </div>
-                          <div>{product.price.toLocaleString()} тг.</div>
+                          <div>{product.price?.toLocaleString()} тг.</div>
                         </div>
                       </div>
                     </div>

@@ -1,6 +1,5 @@
 import axios from 'axios'
 import {
-  CLEAR_GET_PRODUCT,
   FETCH_PRODUCTS_FAIL,
   FETCH_PRODUCTS_REQUEST,
   FETCH_PRODUCTS_SUCCESS,
@@ -36,6 +35,3 @@ export const getProductAction = productId => async dispatch => {
     dispatch({ type: GET_PRODUCT_FAIL, payload: e.message })
   }
 }
-
-export const clearGetProduct = () => dispatch =>
-  dispatch({ type: CLEAR_GET_PRODUCT })

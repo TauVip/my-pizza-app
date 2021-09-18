@@ -6,23 +6,19 @@ import {
   REDUCE_QUANTITY_CART
 } from '../actions/actionTypes'
 
-export const productsCartReducer = (state = [], action) => {
+export const productsCartReducer = (state = null, action) => {
   switch (action.type) {
     case GET_PRODUCTS_CART:
-      return action.payload
-        ? { productsCart: JSON.parse(action.payload) }
-        : state
+      return action.payload ? JSON.parse(action.payload) : state
     case ADD_TO_CART: {
-      const productsCart = state.productsCart
-        ? [...state.productsCart, action.payload]
-        : [action.payload]
+      const productsCart = state ? [...state, action.payload] : [action.payload]
 
       localStorage.setItem('productsCart', JSON.stringify(productsCart))
 
-      return { productsCart }
+      return productsCart
     }
     case ADD_QUANTITY_CART: {
-      const productsCart = state.productsCart.map(product =>
+      const productsCart = state.map(product =>
         JSON.stringify({ ...product, quantity: 1 }) ===
         JSON.stringify({ ...action.payload, quantity: 1 })
           ? { ...product, quantity: product.quantity + 1 }
@@ -31,10 +27,10 @@ export const productsCartReducer = (state = [], action) => {
 
       localStorage.setItem('productsCart', JSON.stringify(productsCart))
 
-      return { productsCart }
+      return productsCart
     }
     case REDUCE_QUANTITY_CART: {
-      const productsCart = state.productsCart.map(product =>
+      const productsCart = state.map(product =>
         JSON.stringify({ ...product, quantity: 1 }) ===
         JSON.stringify({ ...action.payload, quantity: 1 })
           ? { ...product, quantity: product.quantity - 1 }
@@ -43,13 +39,16 @@ export const productsCartReducer = (state = [], action) => {
 
       localStorage.setItem('productsCart', JSON.stringify(productsCart))
 
-      return { productsCart }
+      return productsCart
     }
     case DELETE_PRODUCT_CART: {
-      const productsCart = state.productsCart.filter(
+      const productsCart = state.filter(
         product => JSON.stringify(product) !== JSON.stringify(action.payload)
       )
-      return { productsCart }
+
+      localStorage.setItem('productsCart', JSON.stringify(productsCart))
+
+      return productsCart
     }
     default:
       return state

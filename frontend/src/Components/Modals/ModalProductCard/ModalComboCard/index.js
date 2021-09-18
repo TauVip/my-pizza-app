@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { /*useDispatch,*/ useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import closeIcon from '../../../../images/close-icon.svg'
-import { getComboAction } from '../../../../redux/actions/products/comboProductsActions'
-import { modalOpenAction } from '../../../../redux/actions/loginActions'
+//import { getComboAction } from '../../../../redux/actions/products/comboProductsActions'
 import InformationCircle from '../InformationCircle'
 import ComboProductChoose from './ComboProductChoose'
 import ComboProductSection from './ComboProductSection'
 
 const ModalComboCard = props => {
-  const dispatch = useDispatch()
+  //const dispatch = useDispatch()
   const history = useHistory()
 
   const { combo } = useSelector(state => state.getCombo)
@@ -24,8 +23,8 @@ const ModalComboCard = props => {
   const [thicknessObj, setThicknessObj] = useState({})
 
   useEffect(() => {
-    dispatch(modalOpenAction(true))
-    dispatch(getComboAction(props.comboCardId))
+    document.body.style.overflow = 'hidden'
+    //dispatch(getComboAction(props.comboCardId))
     history.replace({
       search: `product=${props.comboCardId}`,
       hash: history.location.hash
@@ -34,8 +33,8 @@ const ModalComboCard = props => {
 
     return () => {
       localStorage.removeItem('comboCardId')
-      dispatch(modalOpenAction(false))
       history.replace({ search: null, hash: history.location.hash })
+      document.body.style.overflow = 'auto'
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
