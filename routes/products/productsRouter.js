@@ -38,13 +38,10 @@ productsRouter.get(
   })
 )
 productsRouter.get(
-  '/:cityId/:category',
+  '/:cityId',
   expressAsyncHandler(async (req, res) => {
     try {
-      const products = await Products.find({
-        citiesId: req.params.cityId,
-        category: req.params.category
-      })
+      const products = await Products.find({ citiesId: req.params.cityId })
       res.status(200).json(products)
     } catch (e) {
       res.status(500).send({ error: e.message })

@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import closeIcon from '../../../../images/close-icon.svg'
+import { showAssemblePizzaAction } from '../../../../redux/actions/products/pizzasActions'
 import ChooseHalvePizza from './ChooseHalvePizza'
 import SelectedHalveSection from './SelectedHalveSection'
 
-const ModalAssemblePizza = props => {
+const ModalAssemblePizza = () => {
   const history = useHistory()
+  const dispatch = useDispatch()
 
   const { pizzas } = useSelector(state => state.pizzasList)
 
@@ -21,10 +23,8 @@ const ModalAssemblePizza = props => {
       search: 'product=assemble-pizza',
       hash: history.location.hash
     })
-    localStorage.setItem('showAssemblePizza', 'true')
 
     return () => {
-      localStorage.removeItem('showAssemblePizza')
       history.replace({ search: null, hash: history.location.hash })
       document.body.style.overflow = 'auto'
     }
@@ -42,7 +42,7 @@ const ModalAssemblePizza = props => {
     <div className='show-locality__selector'>
       <div
         className='show-locality__shadow'
-        onClick={() => props.setShowAssemblePizza(false)}
+        onClick={() => dispatch(showAssemblePizzaAction(false))}
       />
       <div className='locality-selector__wrapper'>
         <div className='modal-product__card'>
@@ -189,7 +189,7 @@ const ModalAssemblePizza = props => {
             src={closeIcon}
             alt='Close Icon'
             className='close-icon'
-            onClick={() => props.setShowAssemblePizza(false)}
+            onClick={() => dispatch(showAssemblePizzaAction(false))}
           />
         </div>
       </div>

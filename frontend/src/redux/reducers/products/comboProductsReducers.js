@@ -1,4 +1,5 @@
 import {
+  CLEAR_GET_PRODUCT,
   FETCH_COMBOS_FAIL,
   FETCH_COMBOS_REQUEST,
   FETCH_COMBOS_SUCCESS,
@@ -7,7 +8,7 @@ import {
   GET_COMBO_SUCCESS
 } from '../../actions/actionTypes'
 
-export const combosListReducer = (state = [], action) => {
+export const combosListReducer = (state = {}, action) => {
   switch (action.type) {
     case FETCH_COMBOS_REQUEST:
       return { loading: true }
@@ -20,17 +21,21 @@ export const combosListReducer = (state = [], action) => {
   }
 }
 
-export const getComboReducer = (state = [], action) => {
+export const getComboReducer = (state = {}, action) => {
   switch (action.type) {
     case GET_COMBO_REQUEST:
       return { loading: true }
     case GET_COMBO_SUCCESS:
+      localStorage.setItem('combo', JSON.stringify(action.payload))
       return {
         loading: false,
         combo: action.payload
       }
     case GET_COMBO_FAIL:
       return { loading: false, getComboError: action.payload }
+    case CLEAR_GET_PRODUCT:
+      localStorage.removeItem('combo')
+      return {}
     default:
       return state
   }

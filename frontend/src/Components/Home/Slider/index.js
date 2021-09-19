@@ -99,8 +99,6 @@ const Slider = props => {
                   setShowModal={setShowModal}
                   setArticleId={setArticleId}
                   key={banner._id}
-                  setPizzaId={props.setPizzaId}
-                  setProductId={props.setProductId}
                 />
               ))}
               <Banner banner={banners[0]} current={current} />

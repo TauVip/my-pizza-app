@@ -6,13 +6,14 @@ import figureImg from '../../images/home-figure.svg'
 import ModalPizzaCard from '../Modals/ModalProductCard/ModalPizzaCard'
 import {
   fetchPizzasAction,
-  getPizzaAction
+  getPizzaAction,
+  showAssemblePizzaAction
 } from '../../redux/actions/products/pizzasActions'
 import ModalAssemblePizza from '../Modals/ModalProductCard/ModalAssemblePizza'
 import ModalProductCard from '../Modals/ModalProductCard'
 import {
   fetchProductsAction,
-  getProductAction
+  getOpenCardAction
 } from '../../redux/actions/products/productsActions'
 import ProductsShow from './ProductsShow'
 import ModalComboCard from '../Modals/ModalProductCard/ModalComboCard'
@@ -31,11 +32,10 @@ const Home = () => {
   const { pizzas } = useSelector(state => state.pizzasList)
   const { products } = useSelector(state => state.productsList)
   const { combos } = useSelector(state => state.combosList)
+  const { product } = useSelector(state => state.getProduct)
+  const { pizza, showAssemblePizza } = useSelector(state => state.getPizza)
+  const { combo } = useSelector(state => state.getCombo)
 
-  const [pizzaId, setPizzaId] = useState(null)
-  const [showAssemblePizza, setShowAssemblePizza] = useState(false)
-  const [productCardId, setProductCardId] = useState(null)
-  const [comboCardId, setComboCardId] = useState(null)
   const [title, setTitle] = useState(null)
   const [sendingProduct, setSendingProduct] = useState(null)
 
@@ -43,25 +43,9 @@ const Home = () => {
     if (city) {
       document.title = `🍕 Додо Пицца ${city.name} | Доставка пиццы №1 в Казахстане`
       dispatch(fetchPizzasAction(city._id))
-      dispatch(fetchProductsAction(city._id, 'snacks'))
-      dispatch(fetchProductsAction(city._id, 'desserts'))
-      dispatch(fetchProductsAction(city._id, 'drinks'))
-      dispatch(fetchProductsAction(city._id, 'others'))
-      dispatch(fetchProductsAction(city._id, 'sauces'))
+      dispatch(fetchProductsAction(city._id))
       dispatch(fetchCombosAction(city._id))
-
-      if (localStorage.getItem('pizzaId')) {
-        setPizzaId(localStorage.getItem('pizzaId'))
-        dispatch(getPizzaAction(localStorage.getItem('pizzaId')))
-      } else if (localStorage.getItem('showAssemblePizza'))
-        setShowAssemblePizza(true)
-      else if (localStorage.getItem('productCardId')) {
-        setProductCardId(localStorage.getItem('productCardId'))
-        dispatch(getProductAction(localStorage.getItem('productCardId')))
-      } else if (localStorage.getItem('comboCardId')) {
-        setComboCardId(localStorage.getItem('comboCardId'))
-        dispatch(getComboAction(localStorage.getItem('comboCardId')))
-      }
+      dispatch(getOpenCardAction())
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [city])
@@ -70,7 +54,7 @@ const Home = () => {
     if (title) title.scrollIntoView()
     else window.scroll(0, 0)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pizzas, products, combos])
+  }, [pizzas, combos, products, title])
 
   useEffect(() => {
     setTitle(document.getElementById(history.location.hash.slice(1)))
@@ -106,7 +90,7 @@ const Home = () => {
 
     return () => document.removeEventListener('scroll', onScroll)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [history.location.hash, title])
+  }, [history.location])
 
   useEffect(() => {
     if (sendingProduct) setTimeout(() => setSendingProduct(null), 2000)
@@ -138,9 +122,19 @@ const Home = () => {
       </article>
     ))
 
+  const productsShow = category =>
+    products?.length
+      ? products.map(
+          product =>
+            product.category === category && (
+              <ProductsShow product={product} key={product._id} />
+            )
+        )
+      : emptyProducts()
+
   return (
     <Container sendingProduct={sendingProduct}>
-      <Slider setPizzaId={setPizzaId} setProductId={setProductCardId} />
+      <Slider />
 
       <main className='container'>
         <figure className='home-figure'>
@@ -163,7 +157,7 @@ const Home = () => {
                     title='Пицца из половинок'
                     className='menu__meta-img'
                     src='https://dodopizza-a.akamaihd.net/static/Img/Products/0851076ebbeb4937ad70c52bc64a4c3b_292x292.jpeg'
-                    onClick={() => setShowAssemblePizza(true)}
+                    onClick={() => dispatch(showAssemblePizzaAction(true))}
                   />
                   <div className='menu__meta-title'>Пицца из половинок</div>
                   Соберите свою пиццу 35 см с двумя разными вкусами
@@ -174,7 +168,7 @@ const Home = () => {
                   </div>
                   <button
                     className='product-button collect-button'
-                    onClick={() => setShowAssemblePizza(true)}
+                    onClick={() => dispatch(showAssemblePizzaAction(true))}
                   >
                     Собрать
                   </button>
@@ -191,10 +185,7 @@ const Home = () => {
                         pizza.images.traditional.medium ||
                         pizza.images.traditional.small
                       }
-                      onClick={() => {
-                        setPizzaId(pizza._id)
-                        dispatch(getPizzaAction(pizza._id))
-                      }}
+                      onClick={() => dispatch(getPizzaAction(pizza._id))}
                     />
                     <div className='menu__meta-title'>{pizza.name}</div>
                     {pizza.composition.map(compose => compose.name).join(', ')}
@@ -205,10 +196,7 @@ const Home = () => {
                     </div>
                     <button
                       className='product-button'
-                      onClick={() => {
-                        setPizzaId(pizza._id)
-                        dispatch(getPizzaAction(pizza._id))
-                      }}
+                      onClick={() => dispatch(getPizzaAction(pizza._id))}
                     >
                       Выбрать
                     </button>
@@ -219,16 +207,8 @@ const Home = () => {
           ) : (
             emptyProducts()
           )}
-          {pizzaId && (
-            <ModalPizzaCard
-              pizzaId={pizzaId}
-              setPizzaId={setPizzaId}
-              setSendingProduct={setSendingProduct}
-            />
-          )}
-          {showAssemblePizza && (
-            <ModalAssemblePizza setShowAssemblePizza={setShowAssemblePizza} />
-          )}
+          {pizza && <ModalPizzaCard setSendingProduct={setSendingProduct} />}
+          {showAssemblePizza && <ModalAssemblePizza />}
         </section>
         <h1 className='product-title' id='combos'>
           Комбо
@@ -243,10 +223,7 @@ const Home = () => {
                       title={combo.name}
                       className='menu__meta-img'
                       src={combo.image}
-                      onClick={() => {
-                        setComboCardId(combo._id)
-                        dispatch(getComboAction(combo._id))
-                      }}
+                      onClick={() => dispatch(getComboAction(combo._id))}
                     />
                     <div className='menu__meta-title'>{combo.name}</div>
                     {combo.description}
@@ -257,10 +234,7 @@ const Home = () => {
                     </div>
                     <button
                       className='product-button'
-                      onClick={() => {
-                        setComboCardId(combo._id)
-                        dispatch(getComboAction(combo._id))
-                      }}
+                      onClick={() => dispatch(getComboAction(combo._id))}
                     >
                       Выбрать
                     </button>
@@ -269,74 +243,26 @@ const Home = () => {
               ))
             : emptyProducts()}
         </section>
-        {comboCardId && (
-          <ModalComboCard
-            setComboCardId={setComboCardId}
-            comboCardId={comboCardId}
-          />
-        )}
+        {combo && <ModalComboCard />}
         <h1 className='product-title' id='snacks'>
           Закуски
         </h1>
-        <section className='products-section'>
-          {products?.snacks?.length > 0
-            ? products.snacks.map(snack => (
-                <ProductsShow
-                  product={snack}
-                  setProductCardId={setProductCardId}
-                  key={snack._id}
-                />
-              ))
-            : emptyProducts()}
-        </section>
+        <section className='products-section'>{productsShow('snacks')}</section>
         <h1 className='product-title' id='desserts'>
           Десерты
         </h1>
         <section className='products-section'>
-          {products?.desserts?.length > 0
-            ? products.desserts.map(dessert => (
-                <ProductsShow
-                  product={dessert}
-                  setProductCardId={setProductCardId}
-                  key={dessert._id}
-                />
-              ))
-            : emptyProducts()}
+          {productsShow('desserts')}
         </section>
         <h1 className='product-title' id='drinks'>
           Напитки
         </h1>
-        <section className='products-section'>
-          {products?.drinks?.length > 0
-            ? products.drinks.map(drink => (
-                <ProductsShow
-                  product={drink}
-                  setProductCardId={setProductCardId}
-                  key={drink._id}
-                />
-              ))
-            : emptyProducts()}
-        </section>
+        <section className='products-section'>{productsShow('drinks')}</section>
         <h1 className='product-title' id='others'>
           Другие товары
         </h1>
-        <section className='products-section'>
-          {products?.others?.length > 0
-            ? products.others.map(other => (
-                <ProductsShow
-                  product={other}
-                  setProductCardId={setProductCardId}
-                  key={other._id}
-                />
-              ))
-            : emptyProducts()}
-        </section>
-        {productCardId && (
-          <ModalProductCard
-            setProductCardId={setProductCardId}
-            productCardId={productCardId}
-          />
-        )}
+        <section className='products-section'>{productsShow('others')}</section>
+        {product && <ModalProductCard />}
         <h1 className='product-title'>Доставка и оплата</h1>
         <section className='products-section'>
           <article className='footer__article'>

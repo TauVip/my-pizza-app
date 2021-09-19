@@ -1,14 +1,19 @@
+import { useDispatch } from 'react-redux'
+import { getPizzaAction } from '../../../redux/actions/products/pizzasActions'
+import { getProductAction } from '../../../redux/actions/products/productsActions'
 import './styles.css'
 
 const Banner = props => {
+  const dispatch = useDispatch()
+
   const onClick = () => {
     if (props.banner.addInfo?.articleId) {
       props.setArticleId(props.banner.addInfo.articleId)
       props.setShowModal(true)
     } else if (props.banner.addInfo?.pizzaId)
-      props.setPizzaId(props.banner.addInfo.pizzaId)
+      dispatch(getPizzaAction(props.banner.addInfo.pizzaId))
     else if (props.banner.addInfo?.productId)
-      props.setProductId(props.banner.addInfo.productId)
+      dispatch(getProductAction(props.banner.addInfo.productId))
   }
 
   return props.banner ? (

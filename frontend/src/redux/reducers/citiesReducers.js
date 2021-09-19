@@ -7,7 +7,7 @@ import {
   GET_CITY_SUCCESS
 } from '../actions/actionTypes'
 
-export const citiesListReducer = (state = [], action) => {
+export const citiesListReducer = (state = {}, action) => {
   switch (action.type) {
     case FETCH_CITIES_REQUEST:
       return { loading: true }
@@ -47,7 +47,7 @@ export const citiesListReducer = (state = [], action) => {
   }
 }
 
-export const getCityReducer = (state = [], action) => {
+export const getCityReducer = (state = {}, action) => {
   switch (action.type) {
     case GET_CITY_REQUEST:
       return { loading: true }

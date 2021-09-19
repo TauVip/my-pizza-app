@@ -1,38 +1,35 @@
 import InformationCircle from './InformationCircle'
 import closeIcon from '../../../images/close-icon.svg'
 import { useEffect } from 'react'
-import { /*useDispatch,*/ useSelector } from 'react-redux'
-//import { getProductAction } from '../../../redux/actions/products/productsActions'
+import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
+import { clearGetProduct } from '../../../redux/actions/products/productsActions'
 
-const ModalProductCard = props => {
-  //const dispatch = useDispatch()
+const ModalProductCard = () => {
+  const dispatch = useDispatch()
   const history = useHistory()
 
   const { product } = useSelector(state => state.getProduct)
 
   useEffect(() => {
     document.body.style.overflow = 'hidden'
-    //dispatch(getProductAction(props.productCardId))
     history.replace({
-      search: `product=${props.productCardId}`,
+      search: `product=${product._id}`,
       hash: history.location.hash
     })
-    localStorage.setItem('productCardId', props.productCardId)
 
     return () => {
-      localStorage.removeItem('productCardId')
       history.replace({ search: null, hash: history.location.hash })
       document.body.style.overflow = 'auto'
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  return product ? (
+  return (
     <div className='show-locality__selector'>
       <div
         className='show-locality__shadow'
-        onClick={() => props.setProductCardId(null)}
+        onClick={() => dispatch(clearGetProduct())}
       />
       <div className='locality-selector__wrapper'>
         <div className='modal-product__card'>
@@ -65,11 +62,11 @@ const ModalProductCard = props => {
             src={closeIcon}
             alt='Close Icon'
             className='close-icon'
-            onClick={() => props.setProductCardId(null)}
+            onClick={() => dispatch(clearGetProduct())}
           />
         </div>
       </div>
     </div>
-  ) : null
+  )
 }
 export default ModalProductCard

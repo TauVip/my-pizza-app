@@ -7,7 +7,7 @@ import {
   SMS_LOGIN_SUCCESS
 } from '../actions/actionTypes'
 
-export const smsLoginReducer = (state = [], action) => {
+export const smsLoginReducer = (state = {}, action) => {
   switch (action.type) {
     case SMS_LOGIN_REQUEST:
       return { loading: true }
@@ -24,7 +24,7 @@ export const smsLoginReducer = (state = [], action) => {
   }
 }
 
-export const loginReducer = (state = [], action) => {
+export const loginReducer = (state = {}, action) => {
   switch (action.type) {
     case LOGIN_REQUEST:
       return { loading: true }

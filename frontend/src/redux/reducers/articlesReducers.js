@@ -10,7 +10,7 @@ import {
   GET_ARTICLE_SUCCESS
 } from '../actions/actionTypes'
 
-export const articlesListReducer = (state = [], action) => {
+export const articlesListReducer = (state = {}, action) => {
   switch (action.type) {
     case FETCH_ARTICLES_REQUEST:
       return { loading: true }
@@ -26,7 +26,7 @@ export const articlesListReducer = (state = [], action) => {
   }
 }
 
-export const getArticleReducer = (state = [], action) => {
+export const getArticleReducer = (state = {}, action) => {
   switch (action.type) {
     case GET_ARTICLE_REQUEST:
       return { loading: true }
@@ -42,7 +42,7 @@ export const getArticleReducer = (state = [], action) => {
   }
 }
 
-export const bannersListReducer = (state = [], action) => {
+export const bannersListReducer = (state = {}, action) => {
   switch (action.type) {
     case FETCH_BANNERS_REQUEST:
       return { loading: true }

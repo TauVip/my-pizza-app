@@ -4,7 +4,7 @@ import {
   FETCH_PIZZERIAS_SUCCESS
 } from '../actions/actionTypes'
 
-export const pizzeriasListReducer = (state = [], action) => {
+export const pizzeriasListReducer = (state = {}, action) => {
   switch (action.type) {
     case FETCH_PIZZERIAS_REQUEST:
       return { loading: true }
