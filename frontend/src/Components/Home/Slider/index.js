@@ -5,7 +5,7 @@ import ModalArticle from '../../Modals/ModalArticle'
 import Banner from './Banner'
 import './styles.css'
 
-const Slider = props => {
+const Slider = () => {
   const x = -1304
 
   const [prevIconShow, setPrevIconShow] = useState(false)

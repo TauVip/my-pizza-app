@@ -36,9 +36,6 @@ const Home = () => {
   const { pizza, showAssemblePizza } = useSelector(state => state.getPizza)
   const { combo } = useSelector(state => state.getCombo)
 
-  const [title, setTitle] = useState(null)
-  const [sendingProduct, setSendingProduct] = useState(null)
-
   useEffect(() => {
     if (city) {
       document.title = `🍕 Додо Пицца ${city.name} | Доставка пиццы №1 в Казахстане`
@@ -50,12 +47,17 @@ const Home = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [city])
 
+  const func = () => false
   useEffect(() => {
+    const title = document.getElementById(history.location.hash.slice(1))
     if (title) title.scrollIntoView()
     else window.scroll(0, 0)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pizzas, combos, products, title])
 
+    console.log(document.body.scrollHeight)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [func])
+
+  /*
   useEffect(() => {
     setTitle(document.getElementById(history.location.hash.slice(1)))
     let mark = null
@@ -90,8 +92,9 @@ const Home = () => {
 
     return () => document.removeEventListener('scroll', onScroll)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [history.location])
-
+  }, [history.location.hash, title])
+*/
+  const [sendingProduct, setSendingProduct] = useState(null)
   useEffect(() => {
     if (sendingProduct) setTimeout(() => setSendingProduct(null), 2000)
   }, [sendingProduct])
