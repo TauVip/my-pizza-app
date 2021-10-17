@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, NavLink, /*useHistory,*/ withRouter } from 'react-router-dom'
+import { Link, NavLink, useHistory, withRouter } from 'react-router-dom'
 import cartEmpty from '../../images/cart-empty.svg'
 import './styles.css'
 import {
@@ -11,7 +11,7 @@ import {
 } from '../../redux/actions/productsCartActions'
 
 const Navigation = props => {
-  //const history = useHistory()
+  const history = useHistory()
   const dispatch = useDispatch()
 
   const { city } = useSelector(state => state.getCity)
@@ -43,10 +43,10 @@ const Navigation = props => {
     return () => window.removeEventListener('scroll', onScroll)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-  /*
+
   const onClick = () =>
     document.querySelector(history.location.hash)?.scrollIntoView()
-*/
+
   return (
     <nav className='nav' data-stick={stick}>
       <div className='container'>
@@ -76,7 +76,7 @@ const Navigation = props => {
             </svg>
           </Link>
           <ul className='products' data-stick={stick}>
-            <li className='product' /*onClick={onClick}*/>
+            <li className='product' onClick={onClick}>
               <NavLink
                 to={`/${city?.link}#pizzas`}
                 className='product-link'
@@ -87,7 +87,7 @@ const Navigation = props => {
                 Пицца
               </NavLink>
             </li>
-            <li className='product' /*onClick={onClick}*/>
+            <li className='product' onClick={onClick}>
               <NavLink
                 to={`/${city?.link}#combos`}
                 className='product-link'
@@ -98,7 +98,7 @@ const Navigation = props => {
                 Комбо
               </NavLink>
             </li>
-            <li className='product' /*onClick={onClick}*/>
+            <li className='product' onClick={onClick}>
               <NavLink
                 to={`/${city?.link}#snacks`}
                 className='product-link'
@@ -109,7 +109,7 @@ const Navigation = props => {
                 Закуски
               </NavLink>
             </li>
-            <li className='product' /*onClick={onClick}*/>
+            <li className='product' onClick={onClick}>
               <NavLink
                 to={`/${city?.link}#desserts`}
                 className='product-link'
@@ -120,7 +120,7 @@ const Navigation = props => {
                 Десерты
               </NavLink>
             </li>
-            <li className='product' /*onClick={onClick}*/>
+            <li className='product' onClick={onClick}>
               <NavLink
                 to={`/${city?.link}#drinks`}
                 className='product-link'
@@ -131,7 +131,7 @@ const Navigation = props => {
                 Напитки
               </NavLink>
             </li>
-            <li className='product' /*onClick={onClick}*/>
+            <li className='product' onClick={onClick}>
               <NavLink
                 to={`/${city?.link}#others`}
                 className='product-link'

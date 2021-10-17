@@ -47,53 +47,44 @@ const Home = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [city])
 
-  const func = () => false
+  //const [move, setMove] = useState(true)
+  const [height, setHeight] = useState(null)
+  const heightFn = () => document.body.scrollHeight
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
+    if (height !== heightFn()) {
+      setHeight(heightFn())
+      const title = document.getElementById(history.location.hash.slice(1))
+      if (title) title.scrollIntoView()
+      else window.scroll(0, 0)
+    }
+  })
+
+  useEffect(() => {
+    //if (!move) {
+    const titles = [...document.getElementsByClassName('product-title')]
     const title = document.getElementById(history.location.hash.slice(1))
-    if (title) title.scrollIntoView()
-    else window.scroll(0, 0)
-
-    console.log(document.body.scrollHeight)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [func])
-
-  /*
-  useEffect(() => {
-    setTitle(document.getElementById(history.location.hash.slice(1)))
-    let mark = null
-    const titles = document.querySelectorAll('.product-title')
 
     const onScroll = () => {
-      if (mark && mark > window.scrollY)
-        title?.getBoundingClientRect().y > 500 &&
-          titles.forEach(
-            (elem, i) =>
-              elem === title &&
-              history.replace({
-                hash: titles[i - 1]?.id
-              })
-          )
-      else if (mark && mark < window.scrollY)
-        title?.getBoundingClientRect().y < 300
-          ? titles.forEach(
-              (elem, i) =>
-                elem === title &&
-                titles[i + 1]?.id &&
-                titles[i + 1].getBoundingClientRect().y < 300 &&
-                history.replace({ hash: titles[i + 1].id })
-            )
-          : !history.location.hash &&
-            titles[0].getBoundingClientRect().y < 300 &&
-            history.replace({ hash: titles[0].id })
-
-      mark = window.scrollY
+      if (title?.getBoundingClientRect().y > 500)
+        history.replace({
+          hash: titles[titles.indexOf(title) - 1]?.id
+        })
+      else if (
+        titles[titles.indexOf(title) + 1].id &&
+        titles[titles.indexOf(title) + 1].getBoundingClientRect().y < 500
+      )
+        history.replace({
+          hash: titles[titles.indexOf(title) + 1].id
+        })
     }
-    document.addEventListener('scroll', onScroll)
 
+    document.addEventListener('scroll', onScroll)
     return () => document.removeEventListener('scroll', onScroll)
+    //}
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [history.location.hash, title])
-*/
+  }, [history.location.hash])
+
   const [sendingProduct, setSendingProduct] = useState(null)
   useEffect(() => {
     if (sendingProduct) setTimeout(() => setSendingProduct(null), 2000)
