@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { clearGetProduct } from '../../../redux/actions/products/productsActions'
+import { imagesURL } from '../../../redux/store'
 
 const ModalProductCard = () => {
   const dispatch = useDispatch()
@@ -39,7 +40,7 @@ const ModalProductCard = () => {
                 alt={product.name}
                 title={product.name}
                 style={{ width: '100%' }}
-                src={product.image}
+                src={imagesURL + product.image}
               />
             </div>
             <main className='product__card-info'>

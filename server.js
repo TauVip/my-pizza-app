@@ -1,4 +1,5 @@
 const express = require('express')
+const path = require('path')
 const citiesRouter = require('./routes/citiesRouter')
 const smsLoginRouter = require('./routes/smsLoginRouter')
 const usersRouter = require('./routes/usersRouter')
@@ -16,6 +17,7 @@ const app = express()
 
 app.use(express.json())
 
+app.use('/images', express.static(path.join(__dirname, 'uploads')))
 app.use('/cities', citiesRouter)
 app.use('/smslogin', smsLoginRouter)
 app.use('/users', usersRouter)
@@ -31,6 +33,9 @@ app.listen(PORT, () => console.log(`Server is running on port ${PORT}`))
 
 /*
   Подумать над переходами продуктов в Navigation и Home
+  Из акций при нажатии на город в Header выдает ошибку
+  Баг при закрытии модалки Banner-а стили сбиваются
+  Баг при выборе города, модалка появляется второй раз
   Что-то сделать с quantity
   Cart actions and reducers пересмотреть
   Очистить корзину при смене city

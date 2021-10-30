@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import closeIcon from '../../../../images/close-icon.svg'
 import { clearGetProduct } from '../../../../redux/actions/products/productsActions'
+import { imagesURL } from '../../../../redux/store'
 import InformationCircle from '../InformationCircle'
 import ComboProductChoose from './ComboProductChoose'
 import ComboProductSection from './ComboProductSection'
@@ -127,7 +128,7 @@ const ModalComboCard = () => {
                 </div>
               ) : (
                 <img
-                  src={combo.image}
+                  src={imagesURL + combo.image}
                   alt='Combo-card'
                   style={{ width: '100%', userSelect: 'none' }}
                 />

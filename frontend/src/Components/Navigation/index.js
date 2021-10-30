@@ -45,7 +45,7 @@ const Navigation = props => {
   }, [])
 
   const onClick = () =>
-    document.querySelector(history.location.hash)?.scrollIntoView()
+    props.scroll && props.scroll(document.querySelector(history.location.hash))
 
   return (
     <nav className='nav' data-stick={stick}>
@@ -54,7 +54,7 @@ const Navigation = props => {
           <Link
             className='sticky-logo'
             to={`/${city?.link}`}
-            onClick={() => window.scrollTo(0, 0)}
+            onClick={() => props.scroll && props.scroll()}
           >
             <svg
               data-stick={stick}

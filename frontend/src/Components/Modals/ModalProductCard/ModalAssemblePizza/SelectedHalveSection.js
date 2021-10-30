@@ -1,4 +1,5 @@
 import { Fragment, useState } from 'react'
+import { imagesURL } from '../../../../redux/store'
 import InformationCircle from '../InformationCircle'
 import PizzaComposition from '../ModalPizzaCard/PizzaComposition'
 
@@ -11,7 +12,7 @@ const SelectedHalveSection = props => {
         {props.halveSelected ? (
           <>
             <img
-              src={props.halveSelected.images[props.thickness].big}
+              src={imagesURL + props.halveSelected.images[props.thickness].big}
               alt={props.halveSelected.name}
               title={props.halveSelected.name}
               className='halves__menu-img'

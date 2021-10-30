@@ -1,6 +1,7 @@
 import { useDispatch } from 'react-redux'
 import { getPizzaAction } from '../../../redux/actions/products/pizzasActions'
 import { getProductAction } from '../../../redux/actions/products/productsActions'
+import { imagesURL } from '../../../redux/store'
 import './styles.css'
 
 const Banner = props => {
@@ -18,7 +19,7 @@ const Banner = props => {
 
   return props.banner ? (
     <img
-      src={props.banner.image}
+      src={imagesURL + props.banner.image}
       alt=''
       className={`products__slider-img${
         props.i === props.current ? ' current' : ''

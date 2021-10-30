@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import closeIcon from '../../images/close-icon.svg'
 import { getArticleAction } from '../../redux/actions/articlesActions'
+import { imagesURL } from '../../redux/store'
 
 const ModalArticle = props => {
   const dispatch = useDispatch()
@@ -25,7 +26,7 @@ const ModalArticle = props => {
       <div className='locality-selector__wrapper'>
         <div className='modal-article__wrapper'>
           <article className='modal-article'>
-            <img src={article.image} alt='' />
+            <img src={imagesURL + article.image} alt='' />
             <h1 className='modal-article__title'>{article.title}</h1>
             <p className='modal-article__desc'>{article.description}</p>
             {article.buttonDesc && (

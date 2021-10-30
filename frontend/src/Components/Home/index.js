@@ -6,7 +6,6 @@ import figureImg from '../../images/home-figure.svg'
 import ModalPizzaCard from '../Modals/ModalProductCard/ModalPizzaCard'
 import {
   fetchPizzasAction,
-  getPizzaAction,
   showAssemblePizzaAction
 } from '../../redux/actions/products/pizzasActions'
 import ModalAssemblePizza from '../Modals/ModalProductCard/ModalAssemblePizza'
@@ -17,12 +16,11 @@ import {
 } from '../../redux/actions/products/productsActions'
 import ProductsShow from './ProductsShow'
 import ModalComboCard from '../Modals/ModalProductCard/ModalComboCard'
-import {
-  fetchCombosAction,
-  getComboAction
-} from '../../redux/actions/products/comboProductsActions'
+import { fetchCombosAction } from '../../redux/actions/products/comboProductsActions'
 import './styles.css'
 import Container from '../../Container'
+import PizzasShow from './PizzasShow'
+import CombosShow from './CombosShow'
 
 const Home = () => {
   const dispatch = useDispatch()
@@ -47,43 +45,56 @@ const Home = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [city])
 
-  //const [move, setMove] = useState(true)
-  const [height, setHeight] = useState(null)
-  const heightFn = () => document.body.scrollHeight
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => {
-    if (height !== heightFn()) {
-      setHeight(heightFn())
-      const title = document.getElementById(history.location.hash.slice(1))
-      if (title) title.scrollIntoView()
-      else window.scroll(0, 0)
+  const [move, setMove] = useState(true)
+  const scroll = title => {
+    if (title) title.scrollIntoView()
+    else window.scroll(0, 0)
+    setMove(true)
+    let scrollTimeout
+    const fn = () => {
+      clearTimeout(scrollTimeout)
+      scrollTimeout = setTimeout(() => {
+        setMove(false)
+        document.removeEventListener('scroll', fn)
+      }, 200)
     }
-  })
-
+    document.addEventListener('scroll', fn)
+  }
   useEffect(() => {
-    //if (!move) {
-    const titles = [...document.getElementsByClassName('product-title')]
     const title = document.getElementById(history.location.hash.slice(1))
-
-    const onScroll = () => {
-      if (title?.getBoundingClientRect().y > 500)
-        history.replace({
-          hash: titles[titles.indexOf(title) - 1]?.id
-        })
-      else if (
-        titles[titles.indexOf(title) + 1].id &&
-        titles[titles.indexOf(title) + 1].getBoundingClientRect().y < 500
-      )
-        history.replace({
-          hash: titles[titles.indexOf(title) + 1].id
-        })
-    }
-
-    document.addEventListener('scroll', onScroll)
-    return () => document.removeEventListener('scroll', onScroll)
-    //}
+    if (
+      title &&
+      pizzas?.length > 0 &&
+      products?.length > 0 &&
+      combos?.length > 0
+    )
+      setTimeout(() => scroll(title), 500)
+    else if (!title) scroll()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [history.location.hash])
+  }, [pizzas, products, combos])
+  useEffect(() => {
+    if (!move) {
+      const titles = [...document.getElementsByClassName('product-title')]
+      const title = document.getElementById(history.location.hash.slice(1))
+
+      const onScroll = () => {
+        if (title?.getBoundingClientRect().y > 500)
+          history.replace({
+            hash: titles[titles.indexOf(title) - 1]?.id
+          })
+        else if (
+          titles[titles.indexOf(title) + 1].id &&
+          titles[titles.indexOf(title) + 1].getBoundingClientRect().y < 500
+        )
+          history.replace({
+            hash: titles[titles.indexOf(title) + 1].id
+          })
+      }
+      document.addEventListener('scroll', onScroll)
+      return () => document.removeEventListener('scroll', onScroll)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [history.location.hash, move])
 
   const [sendingProduct, setSendingProduct] = useState(null)
   useEffect(() => {
@@ -119,15 +130,15 @@ const Home = () => {
   const productsShow = category =>
     products?.length
       ? products.map(
-          product =>
+          (product, i) =>
             product.category === category && (
-              <ProductsShow product={product} key={product._id} />
+              <ProductsShow key={product._id} product={product} />
             )
         )
       : emptyProducts()
 
   return (
-    <Container sendingProduct={sendingProduct}>
+    <Container sendingProduct={sendingProduct} scroll={scroll}>
       <Slider />
 
       <main className='container'>
@@ -168,34 +179,8 @@ const Home = () => {
                   </button>
                 </footer>
               </article>
-              {pizzas.map(pizza => (
-                <article className='menu__meta-product' key={pizza._id}>
-                  <main className='menu__meta-main'>
-                    <img
-                      alt={pizza.name}
-                      title={pizza.name}
-                      className='menu__meta-img'
-                      src={
-                        pizza.images.traditional.medium ||
-                        pizza.images.traditional.small
-                      }
-                      onClick={() => dispatch(getPizzaAction(pizza._id))}
-                    />
-                    <div className='menu__meta-title'>{pizza.name}</div>
-                    {pizza.composition.map(compose => compose.name).join(', ')}
-                  </main>
-                  <footer className='product-footer'>
-                    <div className='product-control-price'>
-                      от {pizza.price.small.toLocaleString()} тг.
-                    </div>
-                    <button
-                      className='product-button'
-                      onClick={() => dispatch(getPizzaAction(pizza._id))}
-                    >
-                      Выбрать
-                    </button>
-                  </footer>
-                </article>
+              {pizzas.map((pizza, i) => (
+                <PizzasShow key={pizza._id} pizza={pizza} />
               ))}
             </>
           ) : (
@@ -209,31 +194,8 @@ const Home = () => {
         </h1>
         <section className='products-section'>
           {combos?.length > 0
-            ? combos.map(combo => (
-                <article className='menu__meta-product' key={combo._id}>
-                  <main className='menu__meta-main'>
-                    <img
-                      alt={combo.name}
-                      title={combo.name}
-                      className='menu__meta-img'
-                      src={combo.image}
-                      onClick={() => dispatch(getComboAction(combo._id))}
-                    />
-                    <div className='menu__meta-title'>{combo.name}</div>
-                    {combo.description}
-                  </main>
-                  <footer className='product-footer'>
-                    <div className='product-control-price'>
-                      от {combo.price.toLocaleString()} тг.
-                    </div>
-                    <button
-                      className='product-button'
-                      onClick={() => dispatch(getComboAction(combo._id))}
-                    >
-                      Выбрать
-                    </button>
-                  </footer>
-                </article>
+            ? combos.map((combo, i) => (
+                <CombosShow key={combo._id} combo={combo} />
               ))
             : emptyProducts()}
         </section>

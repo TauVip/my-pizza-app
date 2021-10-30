@@ -8,6 +8,7 @@ import {
   addQuantityAction,
   addToCartAction
 } from '../../../../redux/actions/productsCartActions'
+import { imagesURL } from '../../../../redux/store'
 import InformationCircle from '../InformationCircle'
 import '../styles.css'
 import PizzaComposition from './PizzaComposition'
@@ -59,7 +60,7 @@ const ModalPizzaCard = props => {
   const onClick = () => {
     const product = {
       productId: pizza._id,
-      image: pizza.images[thickness][sizeChosen],
+      image: imagesURL + pizza.images[thickness][sizeChosen],
       name: pizza.name,
       sizeChosen,
       thickness,
@@ -80,7 +81,7 @@ const ModalPizzaCard = props => {
     dispatch(clearGetProduct())
   }
 
-  return sizeVars ? (
+  return pizza.images[thickness][sizeChosen] ? (
     <div className='show-locality__selector'>
       <div
         className='show-locality__shadow'
@@ -95,7 +96,7 @@ const ModalPizzaCard = props => {
                   alt={pizza.name}
                   title={pizza.name}
                   className='pizza__img'
-                  src={pizza.images[thickness][sizeChosen]}
+                  src={imagesURL + pizza.images[thickness][sizeChosen]}
                 />
               </div>
               {pizza.price.medium && (

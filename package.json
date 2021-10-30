@@ -13,6 +13,7 @@
     "express": "^4.17.1",
     "express-async-handler": "^1.1.4",
     "mongoose": "^5.12.13",
+    "path": "^0.12.7",
     "sms_ru": "^0.0.1"
   },
   "devDependencies": {

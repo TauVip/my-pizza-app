@@ -45,3 +45,5 @@ export const store = createStore(
   reducer,
   composeWithDevTools(applyMiddleware(thunk))
 )
+
+export const imagesURL = 'http://localhost:5000/images/'

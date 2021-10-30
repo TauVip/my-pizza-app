@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import closeIcon from '../../../../images/close-icon.svg'
 import { showAssemblePizzaAction } from '../../../../redux/actions/products/pizzasActions'
+import { imagesURL } from '../../../../redux/store'
 import ChooseHalvePizza from './ChooseHalvePizza'
 import SelectedHalveSection from './SelectedHalveSection'
 
@@ -77,7 +78,9 @@ const ModalAssemblePizza = () => {
                   {leftHalveSelected && (
                     <div className='halves__selected left'>
                       <img
-                        src={leftHalveSelected.images[thickness].big}
+                        src={
+                          imagesURL + leftHalveSelected.images[thickness].big
+                        }
                         alt={leftHalveSelected.name}
                         title={leftHalveSelected.name}
                         className='halves__selected-img left'
@@ -87,7 +90,9 @@ const ModalAssemblePizza = () => {
                   {rightHalveSelected && (
                     <div className='halves__selected right'>
                       <img
-                        src={rightHalveSelected.images[thickness].big}
+                        src={
+                          imagesURL + rightHalveSelected.images[thickness].big
+                        }
                         alt={rightHalveSelected.name}
                         title={rightHalveSelected.name}
                         className='halves__selected-img right'

@@ -1,5 +1,6 @@
 import { useDispatch } from 'react-redux'
 import { getProductAction } from '../../redux/actions/products/productsActions'
+import { imagesURL } from '../../redux/store'
 
 const ProductsShow = props => {
   const dispatch = useDispatch()
@@ -11,7 +12,7 @@ const ProductsShow = props => {
           alt={props.product.name}
           title={props.product.name}
           className='menu__meta-img'
-          src={props.product.image}
+          src={imagesURL + props.product.image}
           onClick={() => dispatch(getProductAction(props.product._id))}
         />
         <div className='menu__meta-title'>{props.product.name}</div>

@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { imagesURL } from '../../../../redux/store'
 
 const ComboProductChoose = props => {
   useEffect(() => {
@@ -24,13 +25,15 @@ const ComboProductChoose = props => {
     <div
       className='choose-halves__menu'
       onClick={() => props.setSelected(props.product._id)}
-      data-selected={props.selected}>
+      data-selected={props.selected}
+    >
       <div className='menu-img__wrapper' data-selected={props.selected}>
         <img
           src={
-            props.product.images
+            imagesURL +
+            (props.product.images
               ? props.product.images[props.thickness][props.size]
-              : props.product.image
+              : props.product.image)
           }
           alt={props.product.name}
           title={props.product.name}

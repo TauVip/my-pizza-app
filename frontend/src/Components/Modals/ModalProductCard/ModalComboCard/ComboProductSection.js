@@ -1,5 +1,6 @@
 import { Fragment, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import { imagesURL } from '../../../../redux/store'
 import Loading from '../../../Loading'
 
 const ComboProductSection = props => {
@@ -47,9 +48,10 @@ const ComboProductSection = props => {
     >
       <img
         src={
-          props.item.category === 'pizzas'
+          imagesURL +
+          (props.item.category === 'pizzas'
             ? product.images[thickness][props.size]
-            : product.image
+            : product.image)
         }
         alt='Product'
         className='combo-product__img'

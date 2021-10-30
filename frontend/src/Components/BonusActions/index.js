@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Container from '../../Container'
 import { fetchArticlesAction } from '../../redux/actions/articlesActions'
+import { imagesURL } from '../../redux/store'
 import './styles.css'
 
 const BonusActions = () => {
@@ -26,7 +27,7 @@ const BonusActions = () => {
           <article className='article' key={article._id}>
             <img
               className='image'
-              src={article.image}
+              src={imagesURL + article.image}
               alt='Bonus Action Banner'
             />
             <h1 className='article-title'>{article.title}</h1>

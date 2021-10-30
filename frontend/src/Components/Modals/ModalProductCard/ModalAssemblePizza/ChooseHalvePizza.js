@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { imagesURL } from '../../../../redux/store'
 
 const ChooseHalvePizza = props => {
   const [halveSelected, setHalveSelected] = useState(null)
@@ -34,7 +35,7 @@ const ChooseHalvePizza = props => {
     <div className='choose-halves__menu' onClick={onClick}>
       <div className='menu-img__wrapper' data-selected={halveSelected}>
         <img
-          src={props.pizza.images[props.thickness].big}
+          src={imagesURL + props.pizza.images[props.thickness].big}
           alt={props.pizza.name}
           title={props.pizza.name}
           className='halves__menu-img'
