@@ -141,6 +141,7 @@ const Navigation = props => {
             <li className='product'>
               <NavLink
                 to={`/${city?.link}/bonusactions`}
+                strict
                 className='product-link'
                 exact
                 activeStyle={{ color: 'rgb(255, 105, 0)' }}

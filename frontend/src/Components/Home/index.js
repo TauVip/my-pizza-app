@@ -49,51 +49,52 @@ const Home = () => {
   const fn = () => {
     const title = document.getElementById(history.location.hash.slice(1))
     if (
-      title?.getBoundingClientRect().y < 10 &&
-      title?.getBoundingClientRect().y > -10
+      (!title && document.body.getBoundingClientRect().y > -10) ||
+      (title?.getBoundingClientRect().y < 10 &&
+        title?.getBoundingClientRect().y > -10)
     ) {
-      setMove(false)
       document.removeEventListener('scroll', fn)
-    } else if (!title && document.body.getBoundingClientRect().y > -10) {
       setMove(false)
-      document.removeEventListener('scroll', fn)
     }
   }
   const scroll = () => {
-    !move && setMove(true)
+    if (!move) setMove(true)
     const title = document.getElementById(history.location.hash.slice(1))
-    console.log(title)
     title ? title.scrollIntoView() : window.scroll(0, 0)
     document.addEventListener('scroll', fn)
   }
   useEffect(() => {
     const title = document.getElementById(history.location.hash.slice(1))
+    let timer
     if (
       title &&
       pizzas?.length > 0 &&
       products?.length > 0 &&
       combos?.length > 0
     )
-      setTimeout(scroll, 500)
+      timer = setTimeout(scroll, 500)
     else if (!title) scroll()
 
-    return () => document.removeEventListener('scroll', fn)
+    return () => {
+      document.removeEventListener('scroll', fn)
+      clearTimeout(timer)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pizzas, products, combos])
   useEffect(() => {
     if (!move) {
-      const titles = [...document.getElementsByClassName('product-title')]
       const title = document.getElementById(history.location.hash.slice(1))
-
       const onScroll = () => {
+        const titles = [...document.getElementsByClassName('product-title')]
         const nextTitle = titles[titles.indexOf(title) + 1],
           prevTitle = titles[titles.indexOf(title) - 1]
         if (title?.getBoundingClientRect().y > 500)
           history.replace({ hash: prevTitle?.id })
-        else if (nextTitle.id && nextTitle.getBoundingClientRect().y < 500)
+        else if (nextTitle?.getBoundingClientRect().y < 500)
           history.replace({ hash: nextTitle.id })
       }
       document.addEventListener('scroll', onScroll)
+
       return () => document.removeEventListener('scroll', onScroll)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
