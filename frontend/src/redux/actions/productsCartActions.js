@@ -9,7 +9,7 @@ import {
 export const getProductsCartAction = () => dispatch =>
   dispatch({
     type: GET_PRODUCTS_CART,
-    payload: localStorage.getItem('productsCart')
+    payload: JSON.parse(localStorage.getItem('productsCart'))
   })
 export const addToCartAction = product => dispatch =>
   dispatch({

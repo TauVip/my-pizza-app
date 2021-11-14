@@ -9,9 +9,11 @@ import {
 export const productsCartReducer = (state = null, action) => {
   switch (action.type) {
     case GET_PRODUCTS_CART:
-      return action.payload ? JSON.parse(action.payload) : state
+      return action.payload
     case ADD_TO_CART: {
-      const productsCart = state ? [...state, action.payload] : [action.payload]
+      const productsCart = state
+        ? [...state, { item: action.payload, quantity: 1 }]
+        : [{ item: action.payload, quantity: 1 }]
 
       localStorage.setItem('productsCart', JSON.stringify(productsCart))
 
@@ -19,8 +21,7 @@ export const productsCartReducer = (state = null, action) => {
     }
     case ADD_QUANTITY_CART: {
       const productsCart = state.map(product =>
-        JSON.stringify({ ...product, quantity: 1 }) ===
-        JSON.stringify({ ...action.payload, quantity: 1 })
+        JSON.stringify(product.item) === JSON.stringify(action.payload)
           ? { ...product, quantity: product.quantity + 1 }
           : product
       )
@@ -31,8 +32,7 @@ export const productsCartReducer = (state = null, action) => {
     }
     case REDUCE_QUANTITY_CART: {
       const productsCart = state.map(product =>
-        JSON.stringify({ ...product, quantity: 1 }) ===
-        JSON.stringify({ ...action.payload, quantity: 1 })
+        JSON.stringify(product.item) === JSON.stringify(action.payload)
           ? { ...product, quantity: product.quantity - 1 }
           : product
       )
@@ -43,7 +43,8 @@ export const productsCartReducer = (state = null, action) => {
     }
     case DELETE_PRODUCT_CART: {
       const productsCart = state.filter(
-        product => JSON.stringify(product) !== JSON.stringify(action.payload)
+        product =>
+          JSON.stringify(product.item) !== JSON.stringify(action.payload)
       )
 
       localStorage.setItem('productsCart', JSON.stringify(productsCart))

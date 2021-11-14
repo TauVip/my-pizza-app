@@ -32,12 +32,6 @@ const PORT = process.env.PORT || 5000
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`))
 
 /*
-  Подумать над переходами продуктов в Navigation и Home
-  Из акций при нажатии на город в Header выдает ошибку
-  Баг при закрытии модалки Banner-а стили сбиваются
-  Баг при выборе города, модалка появляется второй раз
-  Что-то сделать с quantity
   Cart actions and reducers пересмотреть
-  Очистить корзину при смене city
   Подарочные наборы в корзине
 */

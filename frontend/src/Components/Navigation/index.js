@@ -240,19 +240,19 @@ const Navigation = props => {
                     <div className='floating-cart__product' key={i}>
                       <img
                         className='floating-cart__image'
-                        src={product.image}
+                        src={product.item.image}
                         alt='Product-cart'
                       />
                       <div style={{ flex: '1 1 auto', flexFlow: 'column' }}>
                         <div style={{ paddingRight: 20, marginBottom: 2 }}>
-                          {product.name}
+                          {product.item.name}
                           <svg
                             width='20'
                             height='20'
                             fill='none'
                             className='cart__product-delete'
                             onClick={() =>
-                              dispatch(deleteProductCartAction(product))
+                              dispatch(deleteProductCartAction(product.item))
                             }
                           >
                             <path
@@ -266,13 +266,13 @@ const Navigation = props => {
                           </svg>
                         </div>
                         <div className='cart__product-desc'>
-                          {product.sizeChosen === 'small'
+                          {product.item.sizeChosen === 'small'
                             ? 'Маленькая'
-                            : product.sizeChosen === 'medium'
+                            : product.item.sizeChosen === 'medium'
                             ? 'Средняя'
                             : 'Большая'}{' '}
-                          {sizeVars && sizeVars[product.sizeChosen]} см,{' '}
-                          {product.thickness === 'traditional'
+                          {sizeVars && sizeVars[product.item.sizeChosen]} см,{' '}
+                          {product.item.thickness === 'traditional'
                             ? 'традиционное'
                             : 'тонкое'}{' '}
                           тесто
@@ -283,8 +283,11 @@ const Navigation = props => {
                               className='cart__product-balance'
                               onClick={() => {
                                 if (product.quantity > 1)
-                                  dispatch(reduceQuantityAction(product))
-                                else dispatch(deleteProductCartAction(product))
+                                  dispatch(reduceQuantityAction(product.item))
+                                else
+                                  dispatch(
+                                    deleteProductCartAction(product.item)
+                                  )
                               }}
                             >
                               <svg width='10' height='10'>
@@ -303,7 +306,7 @@ const Navigation = props => {
                             <button
                               className='cart__product-balance'
                               onClick={() =>
-                                dispatch(addQuantityAction(product))
+                                dispatch(addQuantityAction(product.item))
                               }
                             >
                               <svg width='10' height='10'>
@@ -324,7 +327,7 @@ const Navigation = props => {
                               </svg>
                             </button>
                           </div>
-                          <div>{product.price?.toLocaleString()} тг.</div>
+                          <div>{product.item.price?.toLocaleString()} тг.</div>
                         </div>
                       </div>
                     </div>

@@ -58,7 +58,7 @@ const ModalPizzaCard = props => {
   }, [checkedSnacks, sizeChosen])
 
   const onClick = () => {
-    const product = {
+    const item = {
       productId: pizza._id,
       image: imagesURL + pizza.images[thickness][sizeChosen],
       name: pizza.name,
@@ -66,17 +66,16 @@ const ModalPizzaCard = props => {
       thickness,
       checkedSnacks,
       price,
-      removedCompose,
-      quantity: 1
+      removedCompose
     }
     const checkProduct = productsCart?.find(
-      item =>
-        JSON.stringify({ ...item, quantity: 1 }) === JSON.stringify(product)
+      product => JSON.stringify(product.item) === JSON.stringify(item)
     )
-    if (checkProduct) dispatch(addQuantityAction(product))
-    else dispatch(addToCartAction(product))
+    checkProduct
+      ? dispatch(addQuantityAction(item))
+      : dispatch(addToCartAction(item))
 
-    props.setSendingProduct(product)
+    props.setSendingProduct(item)
 
     dispatch(clearGetProduct())
   }

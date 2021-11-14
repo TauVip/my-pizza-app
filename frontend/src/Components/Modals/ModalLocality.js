@@ -47,9 +47,12 @@ const ModalLocality = props => {
   const onInput = e => dispatch(fetchCitiesAction(e.target.value))
 
   const onClick = cityId => {
-    if (city) props.setChangeCity(false)
-
-    dispatch(getCityAction(cityId))
+    if (city?._id !== cityId) {
+      localStorage.removeItem('productsCart')
+      localStorage.removeItem('city')
+      dispatch(getCityAction(cityId))
+    }
+    city && props.setChangeCity(false)
   }
 
   return (
