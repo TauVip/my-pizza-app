@@ -1,6 +1,6 @@
 import './styles.css'
 import logo from '../../images/logo-locality.svg'
-import { Link, useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 import {
@@ -12,7 +12,6 @@ import closeIcon from '../../images/close-icon.svg'
 import HeaderContainer from '../Header/HeaderContainer'
 
 const ModalLocality = props => {
-  const history = useHistory()
   const dispatch = useDispatch()
 
   const { megaCities, citiesGroup, columnsGroup, loading, citiesListError } =
@@ -26,11 +25,6 @@ const ModalLocality = props => {
     return () => (document.body.style.overflow = 'auto')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
-  useEffect(() => {
-    history.push(city?.link)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [city])
 
   const [showGradientTop, setShowGradientTop] = useState(false)
   const [showGradientBottom, setShowGradientBottom] = useState(false)

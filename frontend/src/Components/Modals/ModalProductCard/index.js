@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom'
 import { clearGetProduct } from '../../../redux/actions/products/productsActions'
 import { imagesURL } from '../../../redux/store'
 
-const ModalProductCard = () => {
+const ModalProductCard = props => {
   const dispatch = useDispatch()
   const history = useHistory()
 
@@ -54,7 +54,13 @@ const ModalProductCard = () => {
               <div style={{ marginBottom: 32, flex: '1 1 auto' }}>
                 {product.info}
               </div>
-              <button className='add-cart__button'>
+              <button
+                className='add-cart__button'
+                onClick={() => {
+                  props.onClick()
+                  dispatch(clearGetProduct())
+                }}
+              >
                 Добавить в корзину за {product.price.toLocaleString()} тг.
               </button>
             </main>

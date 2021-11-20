@@ -8,9 +8,6 @@ import './styles.css'
 const Slider = () => {
   const x = -1304
 
-  const [prevIconShow, setPrevIconShow] = useState(false)
-  const [nextIconShow, setNextIconShow] = useState(false)
-  const [counterShow, setCounterShow] = useState(false)
   const [translate, setTranslate] = useState(x)
   const [current, setCurrent] = useState(0)
   const [showModal, setShowModal] = useState(false)
@@ -73,11 +70,7 @@ const Slider = () => {
     <>
       <section
         className='products__slider-section'
-        onMouseEnter={() => setCounterShow(true)}
-        onMouseLeave={() => {
-          setCounterShow(false)
-          moveSlide && setMoveSlide(false)
-        }}
+        onMouseLeave={() => moveSlide && setMoveSlide(false)}
         onMouseDown={e => {
           setMoveSlide(true)
           setStartPoint(e.pageX)
@@ -104,7 +97,7 @@ const Slider = () => {
               <Banner banner={banners[0]} current={current} />
             </>
           </div>
-          <div className='counter' data-show={counterShow}>
+          <div className='counter'>
             {banners.map((banner, i) => (
               <div
                 className={`counter-inner${i === current ? ' current' : ''}`}
@@ -118,16 +111,12 @@ const Slider = () => {
           </div>
           <i
             className='prev-next__show prev-show'
-            data-show={prevIconShow}
-            onMouseEnter={() => setPrevIconShow(true)}
-            onMouseLeave={() => setPrevIconShow(false)}
             onClick={() => {
               setTranslate(translate - x)
               setCurrent(current - 1)
             }}
           >
             <svg
-              data-show={prevIconShow}
               width='34'
               height='34'
               viewBox='0 0 34 34'
@@ -146,16 +135,12 @@ const Slider = () => {
           </i>
           <i
             className='prev-next__show next-show'
-            data-show={nextIconShow}
-            onMouseEnter={() => setNextIconShow(true)}
-            onMouseLeave={() => setNextIconShow(false)}
             onClick={() => {
               setTranslate(translate + x)
               setCurrent(current + 1)
             }}
           >
             <svg
-              data-show={nextIconShow}
               width='34'
               height='34'
               viewBox='0 0 34 34'

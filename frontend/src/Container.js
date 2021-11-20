@@ -6,7 +6,7 @@ const Container = props => (
   <>
     <div style={{ flex: '1 0 auto' }}>
       <Header />
-      <Navigation sendingProduct={props.sendingProduct} scroll={props.scroll} />
+      <Navigation sendingProduct={props.sendingProduct} moveFn={props.moveFn} />
       {props.children}
     </div>
     <Footer />

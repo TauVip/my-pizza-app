@@ -19,15 +19,18 @@ const App = () => {
   const { userInfo } = useSelector(state => state.login)
 
   useEffect(() => {
-    if (!city) dispatch(isCityGet())
-    if (getCityError) history.push('/')
-
     if (!userInfo) dispatch(isUserLogin())
-
-    if (city)
-      document.title = `🍕 Додо Пицца ${city.name} | Доставка пиццы №1 в Казахстане`
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [city, getCityError, userInfo])
+  }, [userInfo])
+
+  useEffect(() => {
+    if (city) {
+      if (history.location.pathname === '/') history.push(city.link)
+      document.title = `🍕 Додо Пицца ${city.name} | Доставка пиццы №1 в Казахстане`
+    } else if (getCityError) history.push('/')
+    else dispatch(isCityGet())
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [city, getCityError])
 
   return (
     <Switch>

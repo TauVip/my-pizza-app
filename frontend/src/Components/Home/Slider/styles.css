@@ -40,9 +40,9 @@
   transition: opacity 150ms ease-out 0s;
   opacity: 0;
 }
-.counter[data-show='true'],
-.prev-next__show svg[data-show='true'],
-.prev-next__show[data-show='true']::before {
+.products__slider-section:hover .counter,
+.prev-next__show:hover svg,
+.prev-next__show:hover::before {
   opacity: 1;
 }
 .counter-inner {

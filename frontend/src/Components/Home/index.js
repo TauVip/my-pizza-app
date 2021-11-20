@@ -11,6 +11,7 @@ import {
 import ModalAssemblePizza from '../Modals/ModalProductCard/ModalAssemblePizza'
 import ModalProductCard from '../Modals/ModalProductCard'
 import {
+  clearGetProduct,
   fetchProductsAction,
   getOpenCardAction
 } from '../../redux/actions/products/productsActions'
@@ -21,6 +22,9 @@ import './styles.css'
 import Container from '../../Container'
 import PizzasShow from './PizzasShow'
 import CombosShow from './CombosShow'
+import { productsCartAction } from '../../redux/reducers/productsCartReducers'
+import { ADD_QUANTITY_CART, ADD_TO_CART } from '../../redux/actions/actionTypes'
+import { imagesURL } from '../../redux/store'
 
 const Home = () => {
   const dispatch = useDispatch()
@@ -33,6 +37,7 @@ const Home = () => {
   const { product } = useSelector(state => state.getProduct)
   const { pizza, showAssemblePizza } = useSelector(state => state.getPizza)
   const { combo } = useSelector(state => state.getCombo)
+  const productsCart = useSelector(state => state.productsCart)
 
   useEffect(() => {
     if (city) {
@@ -46,22 +51,25 @@ const Home = () => {
   }, [city])
 
   const [move, setMove] = useState(true)
-  const fn = () => {
-    const title = document.getElementById(history.location.hash.slice(1))
-    if (
-      (!title && document.body.getBoundingClientRect().y > -10) ||
-      (title?.getBoundingClientRect().y < 10 &&
-        title?.getBoundingClientRect().y > -10)
-    ) {
-      document.removeEventListener('scroll', fn)
-      setMove(false)
-    }
-  }
   const scroll = () => {
-    if (!move) setMove(true)
+    const titles = document.getElementsByClassName('product-title').length,
+      title = document.getElementById(history.location.hash.slice(1))
+    if (titles) {
+      if (
+        (!title && document.body.getBoundingClientRect().y > -10) ||
+        (title?.getBoundingClientRect().y < 10 &&
+          title?.getBoundingClientRect().y > -10)
+      ) {
+        setMove(false)
+        document.removeEventListener('scroll', scroll)
+      }
+    } else document.removeEventListener('scroll', scroll)
+  }
+  const moveFn = () => {
+    setMove(true)
     const title = document.getElementById(history.location.hash.slice(1))
     title ? title.scrollIntoView() : window.scroll(0, 0)
-    document.addEventListener('scroll', fn)
+    document.addEventListener('scroll', scroll)
   }
   useEffect(() => {
     const title = document.getElementById(history.location.hash.slice(1))
@@ -72,25 +80,22 @@ const Home = () => {
       products?.length > 0 &&
       combos?.length > 0
     )
-      timer = setTimeout(scroll, 500)
-    else if (!title) scroll()
+      timer = setTimeout(moveFn, 500)
+    else if (!title) moveFn()
 
-    return () => {
-      document.removeEventListener('scroll', fn)
-      clearTimeout(timer)
-    }
+    return () => clearTimeout(timer)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pizzas, products, combos])
   useEffect(() => {
     if (!move) {
       const title = document.getElementById(history.location.hash.slice(1))
       const onScroll = () => {
-        const titles = [...document.getElementsByClassName('product-title')]
-        const nextTitle = titles[titles.indexOf(title) + 1],
+        const titles = [...document.getElementsByClassName('product-title')],
+          nextTitle = titles[titles.indexOf(title) + 1],
           prevTitle = titles[titles.indexOf(title) - 1]
         if (title?.getBoundingClientRect().y > 500)
           history.replace({ hash: prevTitle?.id })
-        else if (nextTitle?.getBoundingClientRect().y < 500)
+        else if (nextTitle?.id && nextTitle.getBoundingClientRect().y < 500)
           history.replace({ hash: nextTitle.id })
       }
       document.addEventListener('scroll', onScroll)
@@ -131,18 +136,45 @@ const Home = () => {
       </article>
     ))
 
+  const productCartAdd = item => {
+    const checkProduct = productsCart?.find(
+      product => JSON.stringify(product.item) === JSON.stringify(item)
+    )
+    checkProduct
+      ? dispatch(productsCartAction(ADD_QUANTITY_CART, item))
+      : dispatch(productsCartAction(ADD_TO_CART, item))
+
+    setSendingProduct(item)
+
+    dispatch(clearGetProduct())
+  }
+  const productItem = product => {
+    const item = {
+      type: 'product',
+      productId: product._id,
+      image: imagesURL + product.image,
+      name: product.name,
+      description: product.defaultCount,
+      price: product.price
+    }
+    productCartAdd(item)
+  }
   const productsShow = category =>
     products?.length
       ? products.map(
-          (product, i) =>
+          product =>
             product.category === category && (
-              <ProductsShow key={product._id} product={product} />
+              <ProductsShow
+                key={product._id}
+                product={product}
+                onClick={() => productItem(product)}
+              />
             )
         )
       : emptyProducts()
 
   return (
-    <Container sendingProduct={sendingProduct} scroll={scroll}>
+    <Container sendingProduct={sendingProduct} moveFn={moveFn}>
       <Slider />
 
       <main className='container'>
@@ -183,14 +215,14 @@ const Home = () => {
                   </button>
                 </footer>
               </article>
-              {pizzas.map((pizza, i) => (
+              {pizzas.map(pizza => (
                 <PizzasShow key={pizza._id} pizza={pizza} />
               ))}
             </>
           ) : (
             emptyProducts()
           )}
-          {pizza && <ModalPizzaCard setSendingProduct={setSendingProduct} />}
+          {pizza && <ModalPizzaCard productCartAdd={productCartAdd} />}
           {showAssemblePizza && <ModalAssemblePizza />}
         </section>
         <h1 className='product-title' id='combos'>
@@ -198,9 +230,7 @@ const Home = () => {
         </h1>
         <section className='products-section'>
           {combos?.length > 0
-            ? combos.map((combo, i) => (
-                <CombosShow key={combo._id} combo={combo} />
-              ))
+            ? combos.map(combo => <CombosShow key={combo._id} combo={combo} />)
             : emptyProducts()}
         </section>
         {combo && <ModalComboCard />}
@@ -222,7 +252,7 @@ const Home = () => {
           Другие товары
         </h1>
         <section className='products-section'>{productsShow('others')}</section>
-        {product && <ModalProductCard />}
+        {product && <ModalProductCard onClick={() => productItem(product)} />}
         <h1 className='product-title'>Доставка и оплата</h1>
         <section className='products-section'>
           <article className='footer__article'>

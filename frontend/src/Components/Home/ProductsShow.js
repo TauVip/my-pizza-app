@@ -22,10 +22,7 @@ const ProductsShow = props => {
         <div className='product-control-price'>
           от {props.product.price.toLocaleString()} тг.
         </div>
-        <button
-          className='product-button'
-          onClick={() => dispatch(getProductAction(props.product._id))}
-        >
+        <button className='product-button' onClick={props.onClick}>
           В корзину
         </button>
       </footer>
