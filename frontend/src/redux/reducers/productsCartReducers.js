@@ -9,26 +9,41 @@ import {
 export const productsCartAction = (type, product) => dispatch =>
   dispatch({ type, payload: product })
 
+const gifts = [
+  {
+    item: {
+      type: 'gift',
+      productId: '60f6a6cb75e6b01604522afa',
+      image:
+        'http://localhost:5000/images/d34f93b52d994d9388a9605aad536f9c_1875x1875.jpeg',
+      name: 'Додо набор',
+      description: '1 шт',
+      price: 0
+    },
+    quantity: 1
+  },
+  {
+    item: {
+      type: 'gift',
+      productId: '60f6a70c75e6b01604522afb',
+      image:
+        'http://localhost:5000/images/6f50bd873e614173922f3a4a1505852a_1875x1875.jpeg',
+      name: 'Бесконтактная доставка',
+      description: '1 шт',
+      price: 0
+    },
+    quantity: 1
+  }
+]
 export const productsCartReducer = (state = null, action) => {
   switch (action.type) {
     case GET_PRODUCTS_CART:
       return action.payload
     case ADD_TO_CART: {
-      const gift = {
-        item: {
-          type: 'gift',
-          productId: '60f6a6cb75e6b01604522afa',
-          image:
-            'http://localhost:5000/images/d34f93b52d994d9388a9605aad536f9c_1875x1875.jpeg',
-          name: 'Додо набор',
-          description: '1 шт'
-        },
-        quantity: 1
-      }
       const productsCart =
         state?.length > 0
           ? [...state, { item: action.payload, quantity: 1 }]
-          : [{ item: action.payload, quantity: 1 }, gift]
+          : [{ item: action.payload, quantity: 1 }, ...gifts]
 
       localStorage.setItem('productsCart', JSON.stringify(productsCart))
 

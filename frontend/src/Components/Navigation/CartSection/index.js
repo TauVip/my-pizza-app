@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import cartEmpty from '../../../images/cart-empty.svg'
 import { GET_PRODUCTS_CART } from '../../../redux/actions/actionTypes'
 import { productsCartAction } from '../../../redux/reducers/productsCartReducers'
+import ModalLogin from '../../Modals/ModalLogin'
 import FloatingCartProduct from './FloatingCartProduct'
 
 const CartSection = props => {
@@ -10,9 +11,11 @@ const CartSection = props => {
 
   const { sizeVars } = useSelector(state => state.pizzasList)
   const productsCart = useSelector(state => state.productsCart)
+  const { userInfo } = useSelector(state => state.login)
 
   const [showGradientTop, setShowGradientTop] = useState(false)
   const [showGradientBottom, setShowGradientBottom] = useState(false)
+  const [login, setLogin] = useState(false)
 
   const onScrollCart = () => {
     const elem = document.getElementById('floating-cart__products')
@@ -34,10 +37,16 @@ const CartSection = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  const onClick = () => {
+    if (productsCart?.length) {
+      if (!userInfo) setLogin(true)
+    }
+  }
+
   return (
     <>
       <div className='nav__cart' onMouseEnter={onScrollCart}>
-        <button className='nav__cart-btn'>
+        <button className='nav__cart-btn' onClick={onClick}>
           Корзина
           {productsCart?.length > 0 && (
             <>
@@ -111,9 +120,7 @@ const CartSection = props => {
                 <div className='products-cart__price'>
                   {productsCart
                     .reduce(
-                      (sum, val) =>
-                        sum +
-                        (val.item.price ? val.item.price * val.quantity : 0),
+                      (sum, val) => sum + val.item.price * val.quantity,
                       0
                     )
                     .toLocaleString()}{' '}
@@ -160,6 +167,7 @@ const CartSection = props => {
           </div>
         </div>
       )}
+      {login && <ModalLogin setLogin={setLogin} />}
     </>
   )
 }
