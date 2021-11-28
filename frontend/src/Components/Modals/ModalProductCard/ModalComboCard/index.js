@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import closeIcon from '../../../../images/close-icon.svg'
 import { clearGetProduct } from '../../../../redux/actions/products/productsActions'
+import { pizzaSizes } from '../../../../redux/reducers/products/pizzasReducers'
 import { imagesURL } from '../../../../redux/store'
 import InformationCircle from '../InformationCircle'
 import ComboProductChoose from './ComboProductChoose'
@@ -13,7 +14,7 @@ const ModalComboCard = () => {
   const history = useHistory()
 
   const { combo } = useSelector(state => state.getCombo)
-  const { pizzas, sizeVars } = useSelector(state => state.pizzasList)
+  const { pizzas } = useSelector(state => state.pizzasList)
   const { products } = useSelector(state => state.productsList)
 
   const [comboProducts, setComboProducts] = useState({})
@@ -76,7 +77,7 @@ const ModalComboCard = () => {
                     comboProducts={comboProducts}
                     thicknessObj={thicknessObj}
                     sizeChosen={size}
-                    diameter={sizeVars[size]}
+                    diameter={pizzaSizes[size]}
                   />
                 </div>
                 <div className='combo-info__desc'>{combo.description}</div>
@@ -121,7 +122,7 @@ const ModalComboCard = () => {
                       setSelected={setComboProductSelected}
                       thickness={thicknessObj[checkedItem._id]}
                       size={size}
-                      diameter={sizeVars[size]}
+                      diameter={pizzaSizes[size]}
                       key={productId}
                     />
                   ))}

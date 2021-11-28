@@ -17,21 +17,9 @@ const bannersSchema = new mongoose.Schema(
       required: true,
       validate: [value => value.length > 0, 'No outputs']
     },
-    addInfo: {
-      type: {
-        articleId: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'Articles'
-        },
-        pizzaId: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'Pizzas'
-        },
-        productId: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'Products'
-        }
-      }
+    articleId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Articles'
     }
   },
   { timestamps: true }

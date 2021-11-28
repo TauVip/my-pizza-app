@@ -9,13 +9,14 @@ import {
   SHOW_ASSEMBLE_PIZZA
 } from '../../actions/actionTypes'
 
+export const pizzaSizes = { small: 25, medium: 30, big: 35 }
+
 export const pizzasListReducer = (state = {}, action) => {
   switch (action.type) {
     case FETCH_PIZZAS_REQUEST:
       return { loading: true }
     case FETCH_PIZZAS_SUCCESS:
-      const sizeVars = { small: 25, medium: 30, big: 35 }
-      return { loading: false, pizzas: action.payload, sizeVars }
+      return { loading: false, pizzas: action.payload }
     case FETCH_PIZZAS_FAIL:
       return { loading: false, pizzasListError: action.payload }
     default:

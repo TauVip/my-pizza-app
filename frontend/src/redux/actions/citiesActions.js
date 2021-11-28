@@ -60,6 +60,6 @@ export const isCityGet = () => dispatch => {
   else
     dispatch({
       type: GET_CITY_FAIL,
-      payload: 'City is not in LocalStorage'
+      payload: 'City is not found in LocalStorage'
     })
 }

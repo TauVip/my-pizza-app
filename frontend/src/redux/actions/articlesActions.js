@@ -1,5 +1,6 @@
 import axios from 'axios'
 import {
+  CLEAR_GET_ARTICLE,
   FETCH_ARTICLES_FAIL,
   FETCH_ARTICLES_REQUEST,
   FETCH_ARTICLES_SUCCESS,
@@ -38,6 +39,8 @@ export const getArticleAction = articleId => async dispatch => {
     dispatch({ type: GET_ARTICLE_FAIL, payload: e.message })
   }
 }
+export const clearGetArticle = () => dispatch =>
+  dispatch({ type: CLEAR_GET_ARTICLE })
 
 export const fetchBannersAction = cityId => async dispatch => {
   try {

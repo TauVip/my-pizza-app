@@ -1,4 +1,5 @@
 import {
+  CLEAR_GET_ARTICLE,
   FETCH_ARTICLES_FAIL,
   FETCH_ARTICLES_REQUEST,
   FETCH_ARTICLES_SUCCESS,
@@ -37,6 +38,8 @@ export const getArticleReducer = (state = {}, action) => {
       }
     case GET_ARTICLE_FAIL:
       return { loading: false, getArticleError: action.payload }
+    case CLEAR_GET_ARTICLE:
+      return {}
     default:
       return state
   }

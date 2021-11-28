@@ -1,15 +1,14 @@
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import {
   ADD_QUANTITY_CART,
   DELETE_PRODUCT_CART,
   REDUCE_QUANTITY_CART
 } from '../../../redux/actions/actionTypes'
+import { pizzaSizes } from '../../../redux/reducers/products/pizzasReducers'
 import { productsCartAction } from '../../../redux/reducers/productsCartReducers'
 
 const FloatingCartProduct = props => {
   const dispatch = useDispatch()
-
-  const { sizeVars } = useSelector(state => state.pizzasList)
 
   return (
     <div className='floating-cart__product'>
@@ -50,7 +49,7 @@ const FloatingCartProduct = props => {
                 ? 'Средняя'
                 : 'Большая') +
               ' ' +
-              (sizeVars && sizeVars[props.product.item.sizeChosen]) +
+              pizzaSizes[props.product.item.sizeChosen] +
               ' см ' +
               (props.product.item.thickness === 'traditional'
                 ? 'традиционное'

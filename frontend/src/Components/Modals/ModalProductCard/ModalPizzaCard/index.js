@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import closeIcon from '../../../../images/close-icon.svg'
 import { clearGetProduct } from '../../../../redux/actions/products/productsActions'
+import { pizzaSizes } from '../../../../redux/reducers/products/pizzasReducers'
 import { imagesURL } from '../../../../redux/store'
 import InformationCircle from '../InformationCircle'
 import '../styles.css'
@@ -14,7 +15,6 @@ const ModalPizzaCard = props => {
   const dispatch = useDispatch()
   const history = useHistory()
 
-  const { sizeVars } = useSelector(state => state.pizzasList)
   const { pizza, pizzaSnacks } = useSelector(state => state.getPizza)
 
   const [sizeChosen, setSizeChosen] = useState(null)
@@ -146,11 +146,11 @@ const ModalPizzaCard = props => {
                     pizza={pizza}
                     thickness={thickness}
                     sizeChosen={sizeChosen}
-                    diameter={sizeVars[sizeChosen]}
+                    diameter={pizzaSizes[sizeChosen]}
                   />
                 </div>
                 <div className='pizza-info__chosen'>
-                  {sizeVars[sizeChosen]} см,{' '}
+                  {pizzaSizes[sizeChosen]} см,{' '}
                   {thickness === 'traditional' ? 'традиционное' : 'тонкое'}{' '}
                   тесто, {pizza.weight[thickness][sizeChosen]} г
                 </div>

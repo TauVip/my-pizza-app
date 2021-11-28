@@ -45,5 +45,3 @@ const articlesSchema = new mongoose.Schema(
 )
 const Articles = mongoose.model('Articles', articlesSchema)
 module.exports = Articles
-
-// BonusActions Component

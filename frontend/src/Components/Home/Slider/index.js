@@ -10,8 +10,6 @@ const Slider = () => {
 
   const [translate, setTranslate] = useState(x)
   const [current, setCurrent] = useState(0)
-  const [showModal, setShowModal] = useState(false)
-  const [articleId, setArticleId] = useState(null)
   const [moveSlide, setMoveSlide] = useState(false)
   const [startPoint, setStartPoint] = useState(null)
   const [startTranslate, setStartTranslate] = useState(null)
@@ -20,6 +18,7 @@ const Slider = () => {
 
   const { city } = useSelector(state => state.getCity)
   const { banners } = useSelector(state => state.bannersList)
+  const { article } = useSelector(state => state.getArticle)
 
   useEffect(() => {
     if (city) dispatch(fetchBannersAction(city._id))
@@ -89,8 +88,6 @@ const Slider = () => {
                   banner={banner}
                   i={i}
                   current={current}
-                  setShowModal={setShowModal}
-                  setArticleId={setArticleId}
                   key={banner._id}
                 />
               ))}
@@ -159,9 +156,7 @@ const Slider = () => {
           </i>
         </div>
       </section>
-      {showModal && (
-        <ModalArticle setShowModal={setShowModal} articleId={articleId} />
-      )}
+      {article && <ModalArticle article={article} />}
     </>
   ) : (
     <section className='products__slider-section'>

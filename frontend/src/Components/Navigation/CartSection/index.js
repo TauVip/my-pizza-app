@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import cartEmpty from '../../../images/cart-empty.svg'
 import { GET_PRODUCTS_CART } from '../../../redux/actions/actionTypes'
+import { pizzaSizes } from '../../../redux/reducers/products/pizzasReducers'
 import { productsCartAction } from '../../../redux/reducers/productsCartReducers'
 import ModalLogin from '../../Modals/ModalLogin'
 import FloatingCartProduct from './FloatingCartProduct'
@@ -9,7 +10,6 @@ import FloatingCartProduct from './FloatingCartProduct'
 const CartSection = props => {
   const dispatch = useDispatch()
 
-  const { sizeVars } = useSelector(state => state.pizzasList)
   const productsCart = useSelector(state => state.productsCart)
   const { userInfo } = useSelector(state => state.login)
 
@@ -162,7 +162,7 @@ const CartSection = props => {
             <div>
               {props.sendingProduct.name}
               {props.sendingProduct.type === 'pizza' &&
-                `, ${sizeVars[props.sendingProduct.sizeChosen]} см`}
+                `, ${pizzaSizes[props.sendingProduct.sizeChosen]} см`}
             </div>
           </div>
         </div>

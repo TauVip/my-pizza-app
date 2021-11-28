@@ -1,11 +1,9 @@
 import { Fragment, useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { pizzaSizes } from '../../../../redux/reducers/products/pizzasReducers'
 import { imagesURL } from '../../../../redux/store'
 import Loading from '../../../Loading'
 
 const ComboProductSection = props => {
-  const { sizeVars } = useSelector(state => state.pizzasList)
-
   const [product, setProduct] = useState(null)
   const [thickness, setThickness] = useState(null)
 
@@ -87,7 +85,7 @@ const ComboProductSection = props => {
         {props.item.category === 'pizzas' && (
           <div className='combo-product__size'>
             {props.size === 'small' ? 'Маленькая' : 'Средняя'}{' '}
-            {sizeVars[props.size]} см,{' '}
+            {pizzaSizes[props.size]} см,{' '}
             {thickness === 'thin' ? 'тонкое' : 'традиционное'} тесто
           </div>
         )}

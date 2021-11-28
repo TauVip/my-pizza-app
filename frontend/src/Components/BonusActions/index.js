@@ -3,8 +3,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import Container from '../../Container'
 import { fetchArticlesAction } from '../../redux/actions/articlesActions'
 import { getPizzaAction } from '../../redux/actions/products/pizzasActions'
-import { getProductAction } from '../../redux/actions/products/productsActions'
+import {
+  clearGetProduct,
+  getProductAction
+} from '../../redux/actions/products/productsActions'
 import { imagesURL } from '../../redux/store'
+import ModalProductCard from '../Modals/ModalProductCard'
+import ModalPizzaCard from '../Modals/ModalProductCard/ModalPizzaCard'
 import './styles.css'
 
 const BonusActions = () => {
@@ -24,9 +29,9 @@ const BonusActions = () => {
   }, [city])
 
   const getArticleProduct = article => {
-    if (article.addInfo.pizzaId)
+    if (article.addInfo?.pizzaId)
       dispatch(getPizzaAction(article.addInfo.pizzaId))
-    else if (article.addInfo.productId)
+    else if (article.addInfo?.productId)
       dispatch(getProductAction(article.addInfo.productId))
   }
 
@@ -56,8 +61,10 @@ const BonusActions = () => {
           </article>
         ))}
       </main>
-      {/*product && <ModalProductCard onClick={() => productItem(product)} />*/}
-      {/*pizza && <ModalPizzaCard productCartAdd={productCartAdd} />*/}
+      {product && <ModalProductCard onClick={() => false} />}
+      {pizza && (
+        <ModalPizzaCard productCartAdd={() => dispatch(clearGetProduct())} />
+      )}
     </Container>
   )
 }
