@@ -1,24 +1,19 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useHistory } from 'react-router'
 import Container from '../../Container'
 import { fetchArticlesAction } from '../../redux/actions/articlesActions'
 import { getPizzaAction } from '../../redux/actions/products/pizzasActions'
-import {
-  clearGetProduct,
-  getProductAction
-} from '../../redux/actions/products/productsActions'
+import { getProductAction } from '../../redux/actions/products/productsActions'
 import { imagesURL } from '../../redux/store'
-import ModalProductCard from '../Modals/ModalProductCard'
-import ModalPizzaCard from '../Modals/ModalProductCard/ModalPizzaCard'
 import './styles.css'
 
 const BonusActions = () => {
   const dispatch = useDispatch()
+  const history = useHistory()
 
   const { articles } = useSelector(state => state.articlesList)
   const { city } = useSelector(state => state.getCity)
-  const { product } = useSelector(state => state.getProduct)
-  const { pizza } = useSelector(state => state.getPizza)
 
   useEffect(() => {
     if (city) {
@@ -29,10 +24,14 @@ const BonusActions = () => {
   }, [city])
 
   const getArticleProduct = article => {
-    if (article.addInfo?.pizzaId)
+    if (article.addInfo?.pizzaId) {
+      history.push(`/${city.link}`)
       dispatch(getPizzaAction(article.addInfo.pizzaId))
-    else if (article.addInfo?.productId)
+    } else if (article.addInfo?.productId) {
+      history.push(`/${city.link}`)
       dispatch(getProductAction(article.addInfo.productId))
+    } else if (article._id === '60d06519a7839b2ed8c19185')
+      history.push(`/${city.link}/#pizzas`)
   }
 
   return (
@@ -61,10 +60,6 @@ const BonusActions = () => {
           </article>
         ))}
       </main>
-      {product && <ModalProductCard onClick={() => false} />}
-      {pizza && (
-        <ModalPizzaCard productCartAdd={() => dispatch(clearGetProduct())} />
-      )}
     </Container>
   )
 }

@@ -1,6 +1,11 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchBannersAction } from '../../../redux/actions/articlesActions'
+import {
+  clearGetArticle,
+  fetchBannersAction
+} from '../../../redux/actions/articlesActions'
+import { getPizzaAction } from '../../../redux/actions/products/pizzasActions'
+import { getProductAction } from '../../../redux/actions/products/productsActions'
 import ModalArticle from '../../Modals/ModalArticle'
 import Banner from './Banner'
 import './styles.css'
@@ -44,6 +49,17 @@ const Slider = () => {
     if (!moveSlide && translate % x) setTranslate((current + 1) * x)
   }, [banners, current, moveSlide, translate, x])
 
+  useEffect(() => {
+    if (article?.addInfo?.pizzaId) {
+      dispatch(clearGetArticle())
+      dispatch(getPizzaAction(article.addInfo.pizzaId))
+    } else if (article?.addInfo?.productId) {
+      dispatch(clearGetArticle())
+      dispatch(getProductAction(article.addInfo.productId))
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [article])
+
   const onMouseMove = e => {
     if (!moveSlide) return
 
@@ -86,7 +102,7 @@ const Slider = () => {
               {banners.map((banner, i) => (
                 <Banner
                   banner={banner}
-                  i={i}
+                  index={i}
                   current={current}
                   key={banner._id}
                 />
@@ -156,7 +172,7 @@ const Slider = () => {
           </i>
         </div>
       </section>
-      {article && <ModalArticle article={article} />}
+      {article && !article.addInfo && <ModalArticle article={article} />}
     </>
   ) : (
     <section className='products__slider-section'>
