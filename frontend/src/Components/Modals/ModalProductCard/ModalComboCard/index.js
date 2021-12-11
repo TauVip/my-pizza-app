@@ -9,7 +9,7 @@ import InformationCircle from '../InformationCircle'
 import ComboProductChoose from './ComboProductChoose'
 import ComboProductSection from './ComboProductSection'
 
-const ModalComboCard = () => {
+const ModalComboCard = props => {
   const dispatch = useDispatch()
   const history = useHistory()
 
@@ -56,6 +56,82 @@ const ModalComboCard = () => {
     return category === 'pizzas'
       ? pizzas.find(findItem)
       : products.find(findItem)
+  }
+
+  const onClick = () => {
+    const sortedProducts = Object.entries(comboProducts).reduce(
+      (sortedProducts, [id, product]) =>
+        product.category
+          ? {
+              ...sortedProducts,
+              products: sortedProducts.products
+                ? [...sortedProducts.products, product]
+                : [product]
+            }
+          : {
+              ...sortedProducts,
+              [`${size}-${thicknessObj[id]}`]: sortedProducts[
+                `${size}-${thicknessObj[id]}`
+              ]
+                ? [...sortedProducts[`${size}-${thicknessObj[id]}`], product]
+                : [product]
+            },
+      {}
+    )
+    const item = {
+      type: 'combo',
+      productId: combo._id,
+      image: imagesURL + combo.image,
+      name: combo.name,
+      description: Object.entries(sortedProducts).map(([key, products]) => {
+        if (key === 'products')
+          return (
+            <div style={{ marginBottom: 8 }}>
+              {products.map(product => product.name).join(', ')}
+            </div>
+          )
+        else {
+          const [size, thickness] = key.split('-')
+          return (
+            <div style={{ marginBottom: 8 }}>
+              {products.map(product => product.name).join(', ')}
+              <div>
+                {(size === 'small'
+                  ? ' - Маленькая '
+                  : size === 'medium'
+                  ? ' - Средняя '
+                  : ' - Большая ') +
+                  pizzaSizes[size] +
+                  ' см, ' +
+                  (thickness === 'traditional' ? 'Традиционное' : 'Тонкое') +
+                  ' тесто'}
+              </div>
+            </div>
+          )
+        }
+      }),
+      price: combo.price,
+      products: Object.entries(comboProducts).map(([id, product]) =>
+        product.category
+          ? {
+              category: product.category,
+              productId: product._id,
+              name: product.name,
+              defaultCount: product.defaultCount
+            }
+          : {
+              category: 'pizza',
+              productId: product._id,
+              name: product.name,
+              sizeChosen: size,
+              thickness: thicknessObj[id]
+            }
+      )
+    }
+    console.log(item, sortedProducts)
+
+    props.productCartAdd(item)
+    dispatch(clearGetProduct())
   }
 
   return pizzas && products ? (
@@ -109,7 +185,9 @@ const ModalComboCard = () => {
                     {fullPrice.toLocaleString()} тг.
                   </div>
                 </div>
-                <button className='add-cart__button'>В корзину</button>
+                <button className='add-cart__button' onClick={onClick}>
+                  В корзину
+                </button>
               </div>
             </div>
             <div className='combo-choose__wrapper'>

@@ -58,6 +58,16 @@ const ModalPizzaCard = props => {
       productId: pizza._id,
       image: imagesURL + pizza.images[thickness][sizeChosen],
       name: pizza.name,
+      description:
+        (sizeChosen === 'small'
+          ? 'Маленькая '
+          : sizeChosen === 'medium'
+          ? 'Средняя '
+          : 'Большая ') +
+        pizzaSizes[sizeChosen] +
+        ' см, ' +
+        (thickness === 'traditional' ? 'Традиционное' : 'Тонкое') +
+        ' тесто',
       sizeChosen,
       thickness,
       checkedSnacks,

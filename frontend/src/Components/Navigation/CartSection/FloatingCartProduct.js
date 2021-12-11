@@ -4,7 +4,6 @@ import {
   DELETE_PRODUCT_CART,
   REDUCE_QUANTITY_CART
 } from '../../../redux/actions/actionTypes'
-import { pizzaSizes } from '../../../redux/reducers/products/pizzasReducers'
 import { productsCartAction } from '../../../redux/reducers/productsCartReducers'
 
 const FloatingCartProduct = props => {
@@ -12,11 +11,33 @@ const FloatingCartProduct = props => {
 
   return (
     <div className='floating-cart__product'>
-      <img
-        className='floating-cart__image'
-        src={props.product.item.image}
-        alt='Product-cart'
-      />
+      {props.product.item.type === 'assemblePizza' ? (
+        <div style={{ display: 'flex', width: 64, marginRight: 8 }}>
+          <div style={{ width: '50%', overflow: 'hidden' }}>
+            <img
+              className='floating-cart__image'
+              src={props.product.item.image.left}
+              alt='Product-cart'
+            />
+          </div>
+          <div
+            style={{ position: 'relative', width: '50%', overflow: 'hidden' }}
+          >
+            <img
+              className='floating-cart__image'
+              src={props.product.item.image.right}
+              alt='Product-cart'
+              style={{ position: 'absolute', right: 0, marginRight: 0 }}
+            />
+          </div>
+        </div>
+      ) : (
+        <img
+          className='floating-cart__image'
+          src={props.product.item.image}
+          alt='Product-cart'
+        />
+      )}
       <div style={{ flex: '1 1 auto', flexFlow: 'column' }}>
         <div style={{ paddingRight: 20, marginBottom: 2 }}>
           {props.product.item.name}
@@ -42,20 +63,7 @@ const FloatingCartProduct = props => {
           </svg>
         </div>
         <div className='cart__product-desc'>
-          {props.product.item.type === 'pizza'
-            ? (props.product.item.sizeChosen === 'small'
-                ? 'Маленькая'
-                : props.product.item.sizeChosen === 'medium'
-                ? 'Средняя'
-                : 'Большая') +
-              ' ' +
-              pizzaSizes[props.product.item.sizeChosen] +
-              ' см ' +
-              (props.product.item.thickness === 'traditional'
-                ? 'традиционное'
-                : 'тонкое') +
-              ' тесто'
-            : props.product.item.description}
+          {console.log(props.product.item.description)}
         </div>
         {props.product.item.type === 'gift' ? (
           <div className='cart__product-gift'>

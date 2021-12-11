@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import cartEmpty from '../../../images/cart-empty.svg'
 import { GET_PRODUCTS_CART } from '../../../redux/actions/actionTypes'
-import { pizzaSizes } from '../../../redux/reducers/products/pizzasReducers'
 import { productsCartAction } from '../../../redux/reducers/productsCartReducers'
 import ModalLogin from '../../Modals/ModalLogin'
 import FloatingCartProduct from './FloatingCartProduct'
@@ -158,11 +157,10 @@ const CartSection = props => {
       {props.sendingProduct && (
         <div className='add-cart__popup'>
           <div className='timing-description' style={{ padding: 18 }}>
-            <div>Добавлено:</div>
+            <div>Добавлено</div>
             <div>
-              {props.sendingProduct.name}
-              {props.sendingProduct.type === 'pizza' &&
-                `, ${pizzaSizes[props.sendingProduct.sizeChosen]} см`}
+              {props.sendingProduct.name + ': '}
+              {props.sendingProduct.description}
             </div>
           </div>
         </div>

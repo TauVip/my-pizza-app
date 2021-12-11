@@ -223,7 +223,9 @@ const Home = () => {
             emptyProducts()
           )}
           {pizza && <ModalPizzaCard productCartAdd={productCartAdd} />}
-          {showAssemblePizza && <ModalAssemblePizza />}
+          {showAssemblePizza && (
+            <ModalAssemblePizza productCartAdd={productCartAdd} />
+          )}
         </section>
         <h1 className='product-title' id='combos'>
           Комбо
@@ -233,7 +235,7 @@ const Home = () => {
             ? combos.map(combo => <CombosShow key={combo._id} combo={combo} />)
             : emptyProducts()}
         </section>
-        {combo && <ModalComboCard />}
+        {combo && <ModalComboCard productCartAdd={productCartAdd} />}
         <h1 className='product-title' id='snacks'>
           Закуски
         </h1>

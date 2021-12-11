@@ -7,7 +7,7 @@ import { imagesURL } from '../../../../redux/store'
 import ChooseHalvePizza from './ChooseHalvePizza'
 import SelectedHalveSection from './SelectedHalveSection'
 
-const ModalAssemblePizza = () => {
+const ModalAssemblePizza = props => {
   const history = useHistory()
   const dispatch = useDispatch()
 
@@ -17,6 +17,8 @@ const ModalAssemblePizza = () => {
   const [leftHalveSelected, setLeftHalveSelected] = useState(null)
   const [rightHalveSelected, setRightHalveSelected] = useState(null)
   const [addCartError, setAddCartError] = useState(false)
+  const [leftRemovedCompose, setLeftRemovedCompose] = useState([])
+  const [rightRemovedCompose, setRightRemovedCompose] = useState([])
 
   useEffect(() => {
     document.body.style.overflow = 'hidden'
@@ -36,6 +38,27 @@ const ModalAssemblePizza = () => {
     if (!leftHalveSelected || !rightHalveSelected) {
       setAddCartError(true)
       setTimeout(() => setAddCartError(false), 2000)
+    } else {
+      const item = {
+        type: 'assemblePizza',
+        productsId: {
+          left: leftHalveSelected._id,
+          right: rightHalveSelected._id
+        },
+        image: {
+          left: imagesURL + leftHalveSelected.images[thickness].big,
+          right: imagesURL + rightHalveSelected.images[thickness].big
+        },
+        name: `Пицца из половинок - ${leftHalveSelected.name} + ${rightHalveSelected.name}`,
+        description: `Большая 35 см, ${
+          thickness === 'traditional' ? 'традиционное' : 'тонкое'
+        } тесто`,
+        thickness,
+        price: leftHalveSelected.price.small + rightHalveSelected.price.small,
+        removedCompose: { left: leftRemovedCompose, right: rightRemovedCompose }
+      }
+      props.productCartAdd(item)
+      dispatch(showAssemblePizzaAction(false))
     }
   }
 
@@ -105,10 +128,14 @@ const ModalAssemblePizza = () => {
                     halveSelected={leftHalveSelected}
                     thickness={thickness}
                     left={true}
+                    removedCompose={leftRemovedCompose}
+                    setRemovedCompose={setLeftRemovedCompose}
                   />
                   <SelectedHalveSection
                     halveSelected={rightHalveSelected}
                     thickness={thickness}
+                    removedCompose={rightRemovedCompose}
+                    setRemovedCompose={setRightRemovedCompose}
                   />
                 </div>
               </div>
