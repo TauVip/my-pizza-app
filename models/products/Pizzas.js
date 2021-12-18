@@ -33,9 +33,13 @@ const pizzasSchema = new mongoose.Schema(
     },
     price: {
       type: {
-        small: { type: Number },
-        medium: { type: Number },
-        big: { type: Number }
+        [String]: {
+          type: {
+            small: { type: Number },
+            medium: { type: Number },
+            big: { type: Number }
+          }
+        }
       },
       required: [true, 'Pizza price is required']
     },

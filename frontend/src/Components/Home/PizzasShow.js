@@ -1,9 +1,11 @@
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { getPizzaAction } from '../../redux/actions/products/pizzasActions'
 import { imagesURL } from '../../redux/store'
 
 const PizzasShow = props => {
   const dispatch = useDispatch()
+
+  const { city } = useSelector(state => state.getCity)
 
   return (
     <article className='menu__meta-product' key={props.pizza._id}>
@@ -24,7 +26,7 @@ const PizzasShow = props => {
       </main>
       <footer className='product-footer'>
         <div className='product-control-price'>
-          от {props.pizza.price.small.toLocaleString()} тг.
+          от {props.pizza.price[city?._id]?.small.toLocaleString()} тг.
         </div>
         <button
           className='product-button'

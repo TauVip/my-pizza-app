@@ -160,7 +160,13 @@ const CartSection = props => {
             <div>Добавлено</div>
             <div>
               {props.sendingProduct.name + ': '}
-              {props.sendingProduct.description}
+              {props.sendingProduct.type === 'combo'
+                ? props.sendingProduct.description.map((desc, i) => (
+                    <div style={{ marginBottom: 8 }} key={i}>
+                      {desc}
+                    </div>
+                  ))
+                : props.sendingProduct.description}
             </div>
           </div>
         </div>

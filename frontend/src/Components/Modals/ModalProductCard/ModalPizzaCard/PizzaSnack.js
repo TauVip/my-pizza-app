@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { imagesURL } from '../../../../redux/store'
 
 const PizzaSnack = props => {
   const [selected, setSelected] = useState(false)
+
+  const { city } = useSelector(state => state.getCity)
 
   const disabled = props.pizzaSnack.disabled.some(
     obj => props.thickness === obj.thickness && obj.size.includes(props.size)
@@ -40,7 +43,7 @@ const PizzaSnack = props => {
       />
       <h2 className='snack-item__title'>{props.pizzaSnack.name}</h2>
       <span style={{ lineHeight: '20px', margin: 4 }}>
-        {props.pizzaSnack.price[props.size]} тг.
+        {props.pizzaSnack.price[city._id][props.size]} тг.
       </span>
       <svg
         width='20'

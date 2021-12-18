@@ -85,28 +85,20 @@ const ModalComboCard = props => {
       name: combo.name,
       description: Object.entries(sortedProducts).map(([key, products]) => {
         if (key === 'products')
-          return (
-            <div style={{ marginBottom: 8 }}>
-              {products.map(product => product.name).join(', ')}
-            </div>
-          )
+          return products.map(product => product.name).join(', ')
         else {
           const [size, thickness] = key.split('-')
           return (
-            <div style={{ marginBottom: 8 }}>
-              {products.map(product => product.name).join(', ')}
-              <div>
-                {(size === 'small'
-                  ? ' - Маленькая '
-                  : size === 'medium'
-                  ? ' - Средняя '
-                  : ' - Большая ') +
-                  pizzaSizes[size] +
-                  ' см, ' +
-                  (thickness === 'traditional' ? 'Традиционное' : 'Тонкое') +
-                  ' тесто'}
-              </div>
-            </div>
+            products.map(product => product.name).join(', ') +
+            (size === 'small'
+              ? ' - Маленькая '
+              : size === 'medium'
+              ? ' - Средняя '
+              : ' - Большая ') +
+            pizzaSizes[size] +
+            ' см, ' +
+            (thickness === 'traditional' ? 'Традиционное' : 'Тонкое') +
+            ' тесто'
           )
         }
       }),
@@ -128,8 +120,6 @@ const ModalComboCard = props => {
             }
       )
     }
-    console.log(item, sortedProducts)
-
     props.productCartAdd(item)
     dispatch(clearGetProduct())
   }

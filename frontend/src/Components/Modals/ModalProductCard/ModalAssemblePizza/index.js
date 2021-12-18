@@ -12,6 +12,7 @@ const ModalAssemblePizza = props => {
   const dispatch = useDispatch()
 
   const { pizzas } = useSelector(state => state.pizzasList)
+  const { city } = useSelector(state => state.getCity)
 
   const [thickness, setThickness] = useState('traditional')
   const [leftHalveSelected, setLeftHalveSelected] = useState(null)
@@ -54,7 +55,9 @@ const ModalAssemblePizza = props => {
           thickness === 'traditional' ? 'традиционное' : 'тонкое'
         } тесто`,
         thickness,
-        price: leftHalveSelected.price.small + rightHalveSelected.price.small,
+        price:
+          leftHalveSelected.price[city._id].small +
+          rightHalveSelected.price[city._id].small,
         removedCompose: { left: leftRemovedCompose, right: rightRemovedCompose }
       }
       props.productCartAdd(item)
@@ -77,7 +80,7 @@ const ModalAssemblePizza = props => {
               </div>
               {pizzas?.map(
                 pizza =>
-                  pizza.price.big && (
+                  pizza.price[city._id].big && (
                     <ChooseHalvePizza
                       pizza={pizza}
                       leftHalveSelected={leftHalveSelected}
@@ -210,8 +213,8 @@ const ModalAssemblePizza = props => {
                   {!leftHalveSelected || !rightHalveSelected
                     ? 'В корзину'
                     : `Добавить в корзину за ${(
-                        leftHalveSelected.price.small +
-                        rightHalveSelected.price.small
+                        leftHalveSelected.price[city._id].small +
+                        rightHalveSelected.price[city._id].small
                       ).toLocaleString()} тг.`}
                 </button>
               </div>

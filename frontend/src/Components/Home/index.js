@@ -79,9 +79,17 @@ const Home = () => {
       pizzas?.length > 0 &&
       products?.length > 0 &&
       combos?.length > 0
-    )
-      timer = setTimeout(moveFn, 500)
-    else if (!title) moveFn()
+    ) {
+      if (
+        title?.getBoundingClientRect().y < 10 &&
+        title?.getBoundingClientRect().y > -10
+      )
+        setMove(false)
+      else timer = setTimeout(moveFn, 500)
+    } else if (!title) {
+      if (document.body.getBoundingClientRect().y > -10) setMove(false)
+      else moveFn()
+    }
 
     return () => clearTimeout(timer)
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -110,11 +118,14 @@ const Home = () => {
     if (sendingProduct) setTimeout(() => setSendingProduct(null), 2000)
   }, [sendingProduct])
 
-  const assembleMinPrice = pizzas => {
+  const assembleMinPrice = () => {
     const sortPizzas = pizzas
       ?.slice()
-      .sort((a, b) => a.price.small - b.price.small)
-    return sortPizzas[0].price.small + sortPizzas[1].price.small
+      .sort((a, b) => a.price[city?._id]?.small - b.price[city?._id]?.small)
+    return (
+      sortPizzas[0].price[city?._id]?.small +
+      sortPizzas[1].price[city?._id]?.small
+    )
   }
 
   const emptyProducts = () =>
@@ -205,7 +216,7 @@ const Home = () => {
                 </main>
                 <footer className='product-footer'>
                   <div className='product-control-price'>
-                    от {assembleMinPrice(pizzas).toLocaleString()} тг.
+                    от {assembleMinPrice().toLocaleString()} тг.
                   </div>
                   <button
                     className='product-button collect-button'

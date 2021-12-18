@@ -5,23 +5,32 @@ const pizzaSnacksSchema = new mongoose.Schema(
     image: {
       type: String,
       unique: true,
-      required: true
+      required: [true, 'Pizza snack image is required']
     },
     name: {
       type: String,
       unique: true,
-      required: true
+      required: [true, 'Pizza snack name is required']
     },
     price: {
       type: {
-        small: { type: Number },
-        medium: { type: Number },
-        big: { type: Number }
+        [String]: {
+          type: {
+            small: { type: Number },
+            medium: { type: Number },
+            big: { type: Number }
+          }
+        }
       },
-      required: true
+      required: [true, 'Pizza snack price is required']
     },
     disabled: {
-      type: [Object]
+      type: [
+        {
+          thickness: { type: String },
+          size: { type: [String] }
+        }
+      ]
     }
   },
   { timestamps: true }

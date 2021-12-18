@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { imagesURL } from '../../../../redux/store'
 
 const ChooseHalvePizza = props => {
+  const { city } = useSelector(state => state.getCity)
+
   const [halveSelected, setHalveSelected] = useState(null)
   const [halveClassName, setHalveClassName] = useState('')
 
@@ -48,7 +51,7 @@ const ChooseHalvePizza = props => {
       <div className='halves__menu-desc'>
         <div>{props.pizza.name}</div>
         <span className='halves__menu-price'>
-          {props.pizza.price.small.toLocaleString()} тг.
+          {props.pizza.price[city?._id].small.toLocaleString()} тг.
         </span>
       </div>
     </div>

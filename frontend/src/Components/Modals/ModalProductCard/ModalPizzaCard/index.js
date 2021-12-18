@@ -16,6 +16,7 @@ const ModalPizzaCard = props => {
   const history = useHistory()
 
   const { pizza, pizzaSnacks } = useSelector(state => state.getPizza)
+  const { city } = useSelector(state => state.getCity)
 
   const [sizeChosen, setSizeChosen] = useState(null)
   const [thickness, setThickness] = useState('traditional')
@@ -38,15 +39,16 @@ const ModalPizzaCard = props => {
   }, [])
 
   useEffect(() => {
-    if (!sizeChosen) setSizeChosen(pizza.price.medium ? 'medium' : 'small')
+    if (!sizeChosen)
+      setSizeChosen(pizza.price[city._id].medium ? 'medium' : 'small')
     else
       setPrice(
         checkedSnacks.reduce(
           (price, snackId) =>
             price +
             pizzaSnacks.filter(pizzaSnack => pizzaSnack._id === snackId)[0]
-              .price[sizeChosen],
-          pizza.price[sizeChosen]
+              .price[city._id][sizeChosen],
+          pizza.price[city._id][sizeChosen]
         )
       )
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -95,7 +97,7 @@ const ModalPizzaCard = props => {
                   src={imagesURL + pizza.images[thickness][sizeChosen]}
                 />
               </div>
-              {pizza.price.medium && (
+              {pizza.price[city._id].medium && (
                 <>
                   {sizeChosen === 'small' && (
                     <i className='medium-border border-icon'>
@@ -180,7 +182,7 @@ const ModalPizzaCard = props => {
                 <div className='pizza-info__size'>
                   <div
                     className={`product-chosen ${sizeChosen}-chosen`}
-                    style={pizza.price.medium && { width: '33.33%' }}
+                    style={pizza.price[city._id].medium && { width: '33.33%' }}
                   />
                   <input
                     type='radio'
@@ -196,7 +198,7 @@ const ModalPizzaCard = props => {
                   <label htmlFor='small-pizza' className='product-size__label'>
                     Маленькая
                   </label>
-                  {pizza.price.medium && (
+                  {pizza.price[city._id].medium && (
                     <>
                       <input
                         type='radio'
@@ -232,7 +234,9 @@ const ModalPizzaCard = props => {
                 <div className='pizza-info__size'>
                   <div
                     className={`product-chosen ${thickness}-chosen`}
-                    style={{ width: pizza.price.medium ? '50%' : '100%' }}
+                    style={{
+                      width: pizza.price[city._id].medium ? '50%' : '100%'
+                    }}
                   />
                   <input
                     type='radio'
@@ -250,7 +254,7 @@ const ModalPizzaCard = props => {
                   >
                     Традиционное
                   </label>
-                  {pizza.price.medium && (
+                  {pizza.price[city._id].medium && (
                     <>
                       <input
                         type='radio'

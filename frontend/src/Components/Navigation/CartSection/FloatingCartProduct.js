@@ -63,7 +63,13 @@ const FloatingCartProduct = props => {
           </svg>
         </div>
         <div className='cart__product-desc'>
-          {console.log(props.product.item.description)}
+          {props.product.item.type === 'combo'
+            ? props.product.item.description.map((desc, i) => (
+                <div style={{ marginBottom: 8 }} key={i}>
+                  {desc}
+                </div>
+              ))
+            : props.product.item.description}
         </div>
         {props.product.item.type === 'gift' ? (
           <div className='cart__product-gift'>
