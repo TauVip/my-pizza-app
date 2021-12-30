@@ -1,4 +1,5 @@
 import { Fragment, useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { pizzaSizes } from '../../../../redux/reducers/products/pizzasReducers'
 import { imagesURL } from '../../../../redux/store'
 import Loading from '../../../Loading'
@@ -7,11 +8,13 @@ const ComboProductSection = props => {
   const [product, setProduct] = useState(null)
   const [thickness, setThickness] = useState(null)
 
+  const { city } = useSelector(state => state.getCity)
+
   useEffect(() => {
     if (!product) {
       props.comboProducts[props.item._id] = props.findItemFunc(
         props.item.category,
-        props.item.default
+        props.item.default[city._id]
       )
       if (props.item.category === 'pizzas') {
         props.thicknessObj[props.item._id] = props.item.thickness

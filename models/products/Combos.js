@@ -4,8 +4,7 @@ const combosSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      unique: true,
-      required: [true, 'Combo products name is required']
+      unique: true
     },
     description: {
       type: String,
@@ -13,7 +12,11 @@ const combosSchema = new mongoose.Schema(
       required: [true, 'Combo products description is required']
     },
     price: {
-      type: Number,
+      type: {
+        [{ type: mongoose.Schema.Types.ObjectId, ref: 'Cities' }]: {
+          type: Number
+        }
+      },
       required: [true, 'Combo products price is required']
     },
     image: {
@@ -25,19 +28,25 @@ const combosSchema = new mongoose.Schema(
       type: [
         {
           productsId: {
-            type: [
-              {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'Pizzas' || 'Products'
-              }
-            ],
+            type: {
+              [{ type: mongoose.Schema.Types.ObjectId, ref: 'Cities' }]: [
+                {
+                  type: mongoose.Schema.Types.ObjectId,
+                  ref: 'Pizzas' || 'Products'
+                }
+              ]
+            },
             required: true,
             validate: [value => value.length > 0, 'No outputs']
           },
           default: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Pizzas' || 'Products',
-            required: true
+            type: {
+              [{ type: mongoose.Schema.Types.ObjectId, ref: 'Cities' }]: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Pizzas' || 'Products',
+                required: true
+              }
+            }
           },
           category: { type: String, required: true },
           size: { type: String },

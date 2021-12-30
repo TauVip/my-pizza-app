@@ -14,7 +14,7 @@ const pizzaSnacksSchema = new mongoose.Schema(
     },
     price: {
       type: {
-        [String]: {
+        [{ type: mongoose.Schema.Types.ObjectId, ref: 'Cities' }]: {
           type: {
             small: { type: Number },
             medium: { type: Number },

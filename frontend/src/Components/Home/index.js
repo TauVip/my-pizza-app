@@ -166,7 +166,7 @@ const Home = () => {
       image: imagesURL + product.image,
       name: product.name,
       description: product.defaultCount,
-      price: product.price
+      price: product.price[city._id]
     }
     productCartAdd(item)
   }

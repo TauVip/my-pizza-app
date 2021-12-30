@@ -11,6 +11,7 @@ const ModalProductCard = props => {
   const history = useHistory()
 
   const { product } = useSelector(state => state.getProduct)
+  const { city } = useSelector(state => state.getCity)
 
   useEffect(() => {
     document.body.style.overflow = 'hidden'
@@ -61,7 +62,8 @@ const ModalProductCard = props => {
                   dispatch(clearGetProduct())
                 }}
               >
-                Добавить в корзину за {product.price.toLocaleString()} тг.
+                Добавить в корзину за{' '}
+                {product.price[city?._id]?.toLocaleString()} тг.
               </button>
             </main>
           </section>

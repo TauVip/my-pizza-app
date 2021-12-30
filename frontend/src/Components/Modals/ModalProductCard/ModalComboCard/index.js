@@ -16,6 +16,7 @@ const ModalComboCard = props => {
   const { combo } = useSelector(state => state.getCombo)
   const { pizzas } = useSelector(state => state.pizzasList)
   const { products } = useSelector(state => state.productsList)
+  const { city } = useSelector(state => state.getCity)
 
   const [comboProducts, setComboProducts] = useState({})
   const [fullPrice, setFullPrice] = useState(0)
@@ -43,8 +44,8 @@ const ModalComboCard = props => {
       Object.values(comboProducts).reduce(
         (count, product) =>
           product?.category
-            ? product.price + count
-            : product?.price[size] + count,
+            ? product.price[city._id] + count
+            : product?.price[city._id][size] + count,
         0
       )
     )
@@ -102,7 +103,7 @@ const ModalComboCard = props => {
           )
         }
       }),
-      price: combo.price,
+      price: combo.price[city._id],
       products: Object.entries(comboProducts).map(([id, product]) =>
         product.category
           ? {
@@ -137,7 +138,7 @@ const ModalComboCard = props => {
               <div className='combo-info__section'>
                 <div className='combo-info__title'>
                   <span style={{ fontSize: 24, lineHeight: '28px' }}>
-                    {combo.name}
+                    {combo.name || `Комбо за ${combo.price[city._id]}`}
                   </span>
                   <InformationCircle
                     comboProducts={comboProducts}
@@ -169,7 +170,7 @@ const ModalComboCard = props => {
                 <div style={{ lineHeight: '16px', marginBottom: 16 }}>
                   Стоимость
                   <div style={{ float: 'right' }}>
-                    {combo.price.toLocaleString()} тг.
+                    {combo.price[city._id].toLocaleString()} тг.
                   </div>
                   <div className='combo-full-price'>
                     {fullPrice.toLocaleString()} тг.
@@ -183,7 +184,7 @@ const ModalComboCard = props => {
             <div className='combo-choose__wrapper'>
               {checkedItem ? (
                 <div className='combo-choose__product'>
-                  {checkedItem.productsId.map(productId => (
+                  {checkedItem.productsId[city._id].map(productId => (
                     <ComboProductChoose
                       product={findItemFunc(checkedItem.category, productId)}
                       selected={comboProductSelected === productId}
