@@ -63,12 +63,14 @@ const pizzasSchema = new mongoose.Schema(
       required: [true, 'Pizza thickness is required']
     },
     snacksId: {
-      type: [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'PizzasSnacks'
-        }
-      ]
+      type: {
+        [{ type: mongoose.Schema.Types.ObjectId, ref: 'Cities' }]: [
+          {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'PizzasSnacks'
+          }
+        ]
+      }
     },
     description: {
       type: {

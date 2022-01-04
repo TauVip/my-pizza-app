@@ -19,7 +19,7 @@ const PizzasShow = props => {
             (props.pizza.images.traditional.medium ||
               props.pizza.images.traditional.small)
           }
-          onClick={() => dispatch(getPizzaAction(props.pizza._id))}
+          onClick={() => dispatch(getPizzaAction(props.pizza._id, city._id))}
         />
         <div className='menu__meta-title'>{props.pizza.name}</div>
         {props.pizza.composition.map(compose => compose.name).join(', ')}
@@ -30,7 +30,7 @@ const PizzasShow = props => {
         </div>
         <button
           className='product-button'
-          onClick={() => dispatch(getPizzaAction(props.pizza._id))}
+          onClick={() => dispatch(getPizzaAction(props.pizza._id, city._id))}
         >
           Выбрать
         </button>

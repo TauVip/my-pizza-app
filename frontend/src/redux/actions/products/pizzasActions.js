@@ -20,11 +20,11 @@ export const fetchPizzasAction = cityId => async dispatch => {
   }
 }
 
-export const getPizzaAction = pizzaId => async dispatch => {
+export const getPizzaAction = (pizzaId, cityId) => async dispatch => {
   try {
     dispatch({ type: GET_PIZZA_REQUEST })
 
-    const { data } = await axios.get(`/pizzas/item/${pizzaId}`)
+    const { data } = await axios.get(`/pizzas/item/${pizzaId}/${cityId}`)
     dispatch({ type: GET_PIZZA_SUCCESS, payload: data })
   } catch (e) {
     dispatch({ type: GET_PIZZA_FAIL, payload: e.message })
