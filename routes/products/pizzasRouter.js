@@ -47,9 +47,11 @@ pizzasRouter.get(
   expressAsyncHandler(async (req, res) => {
     try {
       const pizza = await Pizzas.findById(req.params.pizzaId)
-      const pizzaSnacks = await PizzaSnacks.find({
-        _id: pizza.snacksId[req.params.cityId]
-      })
+      const pizzaSnacks = pizza.snacksId
+        ? await PizzaSnacks.find({
+            _id: pizza.snacksId[req.params.cityId]
+          })
+        : {}
       res.status(200).json({ pizza, pizzaSnacks })
     } catch (e) {
       res.status(500).send({ error: e.message })
