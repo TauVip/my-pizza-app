@@ -52,7 +52,7 @@ const Slider = () => {
   useEffect(() => {
     if (article?.addInfo?.pizzaId) {
       dispatch(clearGetArticle())
-      dispatch(getPizzaAction(article.addInfo.pizzaId))
+      dispatch(getPizzaAction(article.addInfo.pizzaId, city._id))
     } else if (article?.addInfo?.productId) {
       dispatch(clearGetArticle())
       dispatch(getProductAction(article.addInfo.productId))

@@ -26,7 +26,7 @@ const BonusActions = () => {
   const getArticleProduct = article => {
     if (article.addInfo?.pizzaId) {
       history.push(`/${city.link}`)
-      dispatch(getPizzaAction(article.addInfo.pizzaId))
+      dispatch(getPizzaAction(article.addInfo.pizzaId, city._id))
     } else if (article.addInfo?.productId) {
       history.push(`/${city.link}`)
       dispatch(getProductAction(article.addInfo.productId))

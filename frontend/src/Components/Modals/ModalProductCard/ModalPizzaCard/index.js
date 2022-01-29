@@ -16,6 +16,7 @@ const ModalPizzaCard = props => {
   const history = useHistory()
 
   const { pizza, pizzaSnacks } = useSelector(state => state.getPizza)
+  console.log({ pizza, pizzaSnacks })
   const { city } = useSelector(state => state.getCity)
 
   const [sizeChosen, setSizeChosen] = useState(null)
