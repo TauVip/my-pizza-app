@@ -55,16 +55,31 @@ const ModalProductCard = props => {
               <div style={{ marginBottom: 32, flex: '1 1 auto' }}>
                 {product.info}
               </div>
-              <button
-                className='add-cart__button'
-                onClick={() => {
-                  props.onClick()
-                  dispatch(clearGetProduct())
-                }}
-              >
-                Добавить в корзину за{' '}
-                {product.price[city?._id]?.toLocaleString()} тг.
-              </button>
+              {product.price[city?._id] || product.price[city?._id] === null ? (
+                <button
+                  className='add-cart__button'
+                  onClick={() => {
+                    props.onClick()
+                    dispatch(clearGetProduct())
+                  }}
+                >
+                  Добавить в корзину{' '}
+                  {product.price[city?._id]
+                    ? `за ${product.price[city?._id].toLocaleString()} тг.`
+                    : 'бесплатно'}
+                </button>
+              ) : (
+                <button
+                  className='add-cart__button'
+                  style={{
+                    cursor: 'not-allowed',
+                    color: 'rgb(171, 173, 186)',
+                    backgroundColor: 'rgb(226, 226, 233)'
+                  }}
+                >
+                  Будет позже
+                </button>
+              )}
             </main>
           </section>
           <img

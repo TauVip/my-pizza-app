@@ -21,12 +21,33 @@ const ProductsShow = props => {
         {props.product.info || props.product.defaultCount}
       </main>
       <footer className='product-footer'>
-        <div className='product-control-price'>
-          от {props.product.price[city?._id]?.toLocaleString()} тг.
-        </div>
-        <button className='product-button' onClick={props.onClick}>
-          В корзину
-        </button>
+        {props.product.price[city?._id] ||
+        props.product.price[city?._id] === null ? (
+          <>
+            <div className='product-control-price'>
+              {props.product.price[city?._id]
+                ? `от ${props.product.price[city?._id]?.toLocaleString()} тг.`
+                : 'Бесплатно'}
+            </div>
+            <button className='product-button' onClick={props.onClick}>
+              В корзину
+            </button>
+          </>
+        ) : (
+          <>
+            <div className='product-control-price' />
+            <button
+              className='product-button'
+              style={{
+                cursor: 'not-allowed',
+                color: 'rgb(171, 173, 186)',
+                backgroundColor: 'rgb(226, 226, 233)'
+              }}
+            >
+              Будет позже
+            </button>
+          </>
+        )}
       </footer>
     </article>
   )

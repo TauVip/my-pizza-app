@@ -25,15 +25,35 @@ const PizzasShow = props => {
         {props.pizza.composition.map(compose => compose.name).join(', ')}
       </main>
       <footer className='product-footer'>
-        <div className='product-control-price'>
-          от {props.pizza.price[city?._id]?.small.toLocaleString()} тг.
-        </div>
-        <button
-          className='product-button'
-          onClick={() => dispatch(getPizzaAction(props.pizza._id, city._id))}
-        >
-          Выбрать
-        </button>
+        {props.pizza.price[city?._id]?.small ? (
+          <>
+            <div className='product-control-price'>
+              от {props.pizza.price[city?._id]?.small.toLocaleString()} тг.
+            </div>
+            <button
+              className='product-button'
+              onClick={() =>
+                dispatch(getPizzaAction(props.pizza._id, city._id))
+              }
+            >
+              Выбрать
+            </button>
+          </>
+        ) : (
+          <>
+            <div className='product-control-price' />
+            <button
+              className='product-button'
+              style={{
+                cursor: 'not-allowed',
+                color: 'rgb(171, 173, 186)',
+                backgroundColor: 'rgb(226, 226, 233)'
+              }}
+            >
+              Выбрать
+            </button>
+          </>
+        )}
       </footer>
     </article>
   )

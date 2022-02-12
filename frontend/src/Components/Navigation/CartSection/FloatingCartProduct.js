@@ -136,7 +136,11 @@ const FloatingCartProduct = props => {
                 </svg>
               </button>
             </div>
-            <div>{props.product.item.price?.toLocaleString()} тг.</div>
+            <div>
+              {props.product.item.price
+                ? props.product.item.price.toLocaleString() + ' тг.'
+                : 'Бесплатно'}
+            </div>
           </div>
         )}
       </div>

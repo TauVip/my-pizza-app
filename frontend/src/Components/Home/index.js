@@ -120,11 +120,11 @@ const Home = () => {
 
   const assembleMinPrice = () => {
     const sortPizzas = pizzas
-      ?.slice()
-      .sort((a, b) => a.price[city?._id]?.small - b.price[city?._id]?.small)
+      ?.filter(pizza => pizza.price[city._id]?.small)
+      .sort((a, b) => a.price[city._id]?.small - b.price[city._id]?.small)
     return (
-      sortPizzas[0].price[city?._id]?.small +
-      sortPizzas[1].price[city?._id]?.small
+      sortPizzas[0].price[city?._id].small +
+      sortPizzas[1].price[city?._id].small
     )
   }
 
@@ -216,7 +216,7 @@ const Home = () => {
                 </main>
                 <footer className='product-footer'>
                   <div className='product-control-price'>
-                    от {assembleMinPrice().toLocaleString()} тг.
+                    от {city && assembleMinPrice().toLocaleString()} тг.
                   </div>
                   <button
                     className='product-button collect-button'

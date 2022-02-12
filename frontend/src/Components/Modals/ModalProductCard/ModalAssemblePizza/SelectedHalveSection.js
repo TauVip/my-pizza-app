@@ -32,7 +32,7 @@ const SelectedHalveSection = props => (
             <InformationCircle
               pizza={props.halveSelected}
               thickness={props.thickness}
-              sizeChosen='small'
+              sizeChosen='big'
             />
           </div>
           <div className='halve-composition__wrapper'>

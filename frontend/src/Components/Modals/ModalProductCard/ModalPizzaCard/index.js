@@ -16,7 +16,6 @@ const ModalPizzaCard = props => {
   const history = useHistory()
 
   const { pizza, pizzaSnacks } = useSelector(state => state.getPizza)
-  console.log({ pizza, pizzaSnacks })
   const { city } = useSelector(state => state.getCity)
 
   const [sizeChosen, setSizeChosen] = useState(null)
@@ -41,7 +40,9 @@ const ModalPizzaCard = props => {
 
   useEffect(() => {
     if (!sizeChosen)
-      setSizeChosen(pizza.price[city._id].medium ? 'medium' : 'small')
+      setSizeChosen(
+        Number.isInteger(pizza.price[city._id].medium) ? 'medium' : 'small'
+      )
     else
       setPrice(
         checkedSnacks.reduce(
@@ -98,7 +99,7 @@ const ModalPizzaCard = props => {
                   src={imagesURL + pizza.images[thickness][sizeChosen]}
                 />
               </div>
-              {pizza.price[city._id].medium && (
+              {Number.isInteger(pizza.price[city._id].medium) && (
                 <>
                   {sizeChosen === 'small' && (
                     <i className='medium-border border-icon'>
@@ -183,7 +184,11 @@ const ModalPizzaCard = props => {
                 <div className='pizza-info__size'>
                   <div
                     className={`product-chosen ${sizeChosen}-chosen`}
-                    style={pizza.price[city._id].medium && { width: '33.33%' }}
+                    style={{
+                      width:
+                        Number.isInteger(pizza.price[city._id].medium) &&
+                        '33.33%'
+                    }}
                   />
                   <input
                     type='radio'
@@ -199,7 +204,7 @@ const ModalPizzaCard = props => {
                   <label htmlFor='small-pizza' className='product-size__label'>
                     Маленькая
                   </label>
-                  {pizza.price[city._id].medium && (
+                  {Number.isInteger(pizza.price[city._id].medium) && (
                     <>
                       <input
                         type='radio'
@@ -236,7 +241,9 @@ const ModalPizzaCard = props => {
                   <div
                     className={`product-chosen ${thickness}-chosen`}
                     style={{
-                      width: pizza.price[city._id].medium ? '50%' : '100%'
+                      width: Number.isInteger(pizza.price[city._id].medium)
+                        ? '50%'
+                        : '100%'
                     }}
                   />
                   <input
@@ -255,7 +262,7 @@ const ModalPizzaCard = props => {
                   >
                     Традиционное
                   </label>
-                  {pizza.price[city._id].medium && (
+                  {Number.isInteger(pizza.price[city._id].medium) && (
                     <>
                       <input
                         type='radio'
@@ -299,9 +306,22 @@ const ModalPizzaCard = props => {
               </div>
             </div>
             <div style={{ margin: '24px 30px 30px' }}>
-              <button className='add-cart__button' onClick={onClick}>
-                Добавить в корзину за {price.toLocaleString()} тг.
-              </button>
+              {pizza.price[city._id][sizeChosen] ? (
+                <button className='add-cart__button' onClick={onClick}>
+                  Добавить в корзину за {price.toLocaleString()} тг.
+                </button>
+              ) : (
+                <button
+                  className='add-cart__button'
+                  style={{
+                    cursor: 'not-allowed',
+                    color: 'rgb(171, 173, 186)',
+                    backgroundColor: 'rgb(226, 226, 233)'
+                  }}
+                >
+                  Будет позже
+                </button>
+              )}
             </div>
           </div>
           <img

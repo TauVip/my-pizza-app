@@ -78,19 +78,18 @@ const ModalAssemblePizza = props => {
               <div className='choose-halves__title'>
                 Выберите пиццы для левой и правой половинки
               </div>
-              {pizzas?.map(
-                pizza =>
-                  pizza.price[city._id].big && (
-                    <ChooseHalvePizza
-                      pizza={pizza}
-                      leftHalveSelected={leftHalveSelected}
-                      setLeftHalveSelected={setLeftHalveSelected}
-                      rightHalveSelected={rightHalveSelected}
-                      setRightHalveSelected={setRightHalveSelected}
-                      thickness={thickness}
-                      key={pizza._id}
-                    />
-                  )
+              {pizzas?.map(pizza =>
+                pizza.price[city._id].big ? (
+                  <ChooseHalvePizza
+                    pizza={pizza}
+                    leftHalveSelected={leftHalveSelected}
+                    setLeftHalveSelected={setLeftHalveSelected}
+                    rightHalveSelected={rightHalveSelected}
+                    setRightHalveSelected={setRightHalveSelected}
+                    thickness={thickness}
+                    key={pizza._id}
+                  />
+                ) : null
               )}
             </div>
             <div className='choose-halves__selected'>
