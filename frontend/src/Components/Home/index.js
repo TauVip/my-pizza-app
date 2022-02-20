@@ -123,8 +123,8 @@ const Home = () => {
       ?.filter(pizza => pizza.price[city._id]?.small)
       .sort((a, b) => a.price[city._id]?.small - b.price[city._id]?.small)
     return (
-      sortPizzas[0].price[city?._id].small +
-      sortPizzas[1].price[city?._id].small
+      sortPizzas[0]?.price[city?._id].small +
+      sortPizzas[1]?.price[city?._id].small
     )
   }
 
